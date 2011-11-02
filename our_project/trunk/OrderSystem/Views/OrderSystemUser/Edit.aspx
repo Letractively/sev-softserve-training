@@ -5,8 +5,8 @@
 
 </script>
 <html>
-<head runat="server">
-    <title>Register</title>
+<head id="Head1" runat="server">
+    <title>Edit</title>
 </head>
 <body style="width: 749px; padding-left: 20px;">
     <form id="form1" runat="server" 
@@ -17,10 +17,10 @@
     </div>
     <div style="font-size: 36px">
         
-        Create New User
+        Edit User
     </div>
     <p>
-        This page is appointed for creating new user for particular role</p>
+        This page is appointed for editing user for particular role</p>
     <p>
         Login Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <asp:TextBox ID="TextBox1" runat="server" Height="19px" MaxLength="100" 
@@ -75,7 +75,7 @@
     <p>
         &nbsp;</p>
     <p>
-        <asp:Button ID="Button1" runat="server" Text="Create" Width="60px" style="margin-right: 10px;"/>
+        <asp:Button ID="Button1" runat="server" Text="Update" Width="60px" style="margin-right: 10px;"/>
         <asp:Button ID="Button2" runat="server" Text="Cancel" 
             Width="60px" style="margin-right: 10px;" />
         <asp:Button ID="Button3" runat="server" Text="Refresh" Width="60px" style="margin-right: 10px;" />
