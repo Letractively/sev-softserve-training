@@ -17,6 +17,5 @@ namespace OrderSystem.Controllers
             ViewData["CountOfUsers"] = 1;
             return View();
         }
-
     }
 }
