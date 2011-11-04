@@ -17,5 +17,12 @@ namespace OrderSystem.Controllers
             ViewData["CountOfUsers"] = 1;
             return View();
         }
+        [HttpPost]
+        public ActionResult Index(string userInfo,string filtrationOption,string filtrationText)
+        {
+            
+            //TODO Filter Database and return model to view
+            return View();
+        }
     }
 }
