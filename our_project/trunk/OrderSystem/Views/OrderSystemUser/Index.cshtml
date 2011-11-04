@@ -6,29 +6,31 @@
 <h1>@Html.ActionLink("Create New User","CreateUser")</h1>
 <p></p>
 <p>Number of Found Users: @ViewData["CountOfUsers"].ToString()</p>
+@using (Html.BeginForm())
+{
 <fieldset>
 <legend>Search by</legend>
 <p>Field Filter</p>
-<select name="User">
-  <option>user Name</option>
+<select id="UserInfo" name="UserInfo">
+  <option>User Name</option>
   <option>User FirstName</option>
   <option>User LastName</option>
   <option>User Email</option>
   <option>User Region</option>
 </select>
 
-<select>
+<select id="FiltrationOption" name="FiltrationOption">
 <option>Starts with</option>
 <option>Ends with</option>
 <option>Contains</option>
 </select>
 
-<input type=text />
+<input type=text id="FiltrationText" name="FiltrationText" />
 
 <p></p>
 <input type=submit value="Search" />
 </fieldset>
-
+}
 <p></p>
 @{
     //TODO Get Users List From Model And Render Grid
