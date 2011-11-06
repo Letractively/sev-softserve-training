@@ -1,0 +1,106 @@
+﻿@model OrderSystem.Models.OrderSystemUser
+@{
+    ViewBag.Title = "Create New User";
+    ViewBag.Message = "This page is appointed for creating new user for particular role"; 
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<SelectListItem> regions = new List<SelectListItem>();
+    SelectListItem northRegion = new SelectListItem();
+    northRegion.Text = "North";
+    northRegion.Value = "North";
+    regions.Add(northRegion);
+    SelectListItem southRegion = new SelectListItem();
+    southRegion.Text = "South";
+    southRegion.Value = "South";
+    regions.Add(southRegion);
+    SelectListItem westRegion = new SelectListItem();
+    westRegion.Text = "West";
+    westRegion.Value = "West";
+    regions.Add(westRegion);
+    SelectListItem eastRegion = new SelectListItem();
+    eastRegion.Text = "East";
+    eastRegion.Value = "East";
+    regions.Add(eastRegion);
+}
+
+<h2>@ViewBag.Title</h2>
+<p>@ViewBag.Message</p>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true);
+    <fieldset>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LoginName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LoginName)
+            @Html.ValidationMessageFor(model => model.LoginName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.FirstName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.FirstName)
+            @Html.ValidationMessageFor(model => model.FirstName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LastName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LastName)
+            @Html.ValidationMessageFor(model => model.LastName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Password)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Password)
+            @Html.ValidationMessageFor(model => model.Password)
+            
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ConfirmPassword)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ConfirmPassword)
+            @Html.ValidationMessageFor(model => model.ConfirmPassword)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Email)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Email)
+            @Html.ValidationMessageFor(model => model.Email)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Region)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.Region, regions)
+        </div>
+        
+        <div class="radio-button-list-label">
+            @Html.LabelFor(model => model.Role)
+        </div>
+        <div class="radio-button-list">                     
+            @Html.RadioButtonFor(model => model.Role, "Administrator") Administrator <br />
+            @Html.RadioButtonFor(model => model.Role, "Merchandiser") Merchandiser <br />
+            @Html.RadioButtonFor(model => model.Role, "Supervisor") Supervisor <br />
+            @Html.RadioButtonFor(model => model.Role, "Customer", new {Checked = "checked"}) Customer
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+            <button type="submit" value="Cancel">Cancel</button>
+            <button type="submit" value="Refresh">Refresh</button>
+        </p>
+    </fieldset>
+       
+    @Html.ValidationSummary(true);
+}
