@@ -1,9 +1,9 @@
-﻿@model OrderSystem.Models.OrderSystemUser
+﻿@model IEnumerable<OrderSystem.Models.OrderSystemUser>
 @{
     ViewBag.Title = "User List";
 }
 <p>This page is apained for creating new and managing existing users</p>
-<h1>@Html.ActionLink("Create New User","Register")</h1>
+<h4>@Html.ActionLink("Create New User","Register")</h4>
 <p></p>
 <p>Number of Found Users: @ViewData["CountOfUsers"].ToString()</p>
 @using (Html.BeginForm())
@@ -12,17 +12,17 @@
 <legend>Search by</legend>
 <p>Field Filter</p>
 <select id="UserInfo" name="UserInfo">
-  <option>User Name</option>
-  <option>User FirstName</option>
-  <option>User LastName</option>
-  <option>User Email</option>
-  <option>User Region</option>
+  <option>UserName</option>
+  <option>FirstName</option>
+  <option>LastName</option>
+  <option>Email</option>
+  <option>Region</option>
 </select>
 
 <select id="FiltrationOption" name="FiltrationOption">
-<option>Starts with</option>
-<option>Ends with</option>
-<option>Contains</option>
+<option>Start's with</option>
+<option>End's with</option>
+<option>Contain's</option>
 </select>
 
 <input type=text id="FiltrationText" name="FiltrationText" />
@@ -32,7 +32,14 @@
 </fieldset>
 }
 <p></p>
+<div>
 @{
     //TODO Get Users List From Model And Render Grid
-    WebGrid usersGrid = new WebGrid();
-}
+    WebGrid usersGrid = new WebGrid(Model,canPage:true,canSort: true, rowsPerPage: 10);
+ }
+@usersGrid.GetHtml(tableStyle: "table",mode:WebGridPagerModes.All,firstText:"First",lastText:"Last",previousText:"Previous",nextText:"Next",numericLinksCount:5, columns: usersGrid.Columns(usersGrid.Column("LoginName", "User Name"), usersGrid.Column("FirstName"), usersGrid.Column("LastName"), usersGrid.Column("Role"), usersGrid.Column("Email"), usersGrid.Column("Region"),
+usersGrid.Column("Edit",canSort:false,format: (item) => Html.ActionLink("Edit", "Edit", new { item }, new { style = "background: url('../../Content/Images/edit-user.png') no-repeat center right;display:block; height:22px; width:22px;margin-top:-2px;text-decoration:none;font-size:0em;" })),
+        usersGrid.Column("Remove",canSort:false,format: (item) => Html.ActionLink("Remove", "Remove", new { item }, new { style = "background: url('../../Content/Images/remove-user.png') no-repeat center right;display:block; height:22px; width:22px;margin-top:-2px;text-decoration:none;font-size:0em;color: #000;text-decoration: none;" })),
+        usersGrid.Column("Duplicate",canSort:false,format: (item) => Html.ActionLink("Duplicate", "Duplicate", new { item }, new { style = "background: url('../../Content/Images/duplicate.png') no-repeat center right;display:block; height:22px; width:22px;margin-top:-2px;text-decoration:none;font-size:0em;color: #000;text-decoration: none;" }))))
+
+</div>
