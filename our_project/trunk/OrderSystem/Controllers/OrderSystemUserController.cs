@@ -16,15 +16,123 @@ namespace OrderSystem.Controllers
         OrderSystemEntities database=new OrderSystemEntities();
         public ActionResult Index()
         {
-            //TODO Get Users Count From EntityModel
             ViewData["CountOfUsers"] = database.Users.Count();
             return View(database.Users.ToList());
         }
         [HttpPost]
         public ActionResult Index(string userInfo,string filtrationOption,string filtrationText)
         {
+            List<Users> filterList = database.Users.ToList();
+            #region FilterUsers
+            if (userInfo=="UserName")
+            {
+                switch (filtrationOption)
+                {
+                    case "End's with":
+                        filterList = filterList.Where(u => u.Login.EndsWith(filtrationText)).ToList();
+                        break;
+                    case "Start's with":
+                        filterList = filterList.Where(u => u.Login.StartsWith(filtrationText)).ToList();
+                        break;
+                    default:
+                        filterList = filterList.Where(u => u.Login.Contains(filtrationText)).ToList();
+                        break;
+                }
+            }
+            else
+            {
+                if(userInfo=="FirstName")
+                {
+                    switch (filtrationOption)
+                    {
+                        case "End's with":
+                            filterList = filterList.Where(u => u.UserFName.EndsWith(filtrationText)).ToList();
+                            break;
+                        case "Start's with":
+                            filterList = filterList.Where(u => u.UserFName.StartsWith(filtrationText)).ToList();
+                            break;
+                        default:
+                            filterList = filterList.Where(u => u.UserFName.Contains(filtrationText)).ToList();
+                            break;
+                    }
+                }
+                else
+                {
+                    if(userInfo=="LastName")
+                    {
+                        switch (filtrationOption)
+                        {
+                            case "End's with":
+                                filterList = filterList.Where(u => u.UserLName.EndsWith(filtrationText)).ToList();
+                                break;
+                            case "Start's with":
+                                filterList = filterList.Where(u => u.UserLName.StartsWith(filtrationText)).ToList();
+                                break;
+                            default:
+                                filterList = filterList.Where(u => u.UserLName.Contains(filtrationText)).ToList();
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        if(userInfo=="Mail")
+                        {
+                            switch (filtrationOption)
+                            {
+                                case "End's with":
+                                    filterList = filterList.Where(u => u.Mail.EndsWith(filtrationText)).ToList();
+                                    break;
+                                case "Start's with":
+                                    filterList = filterList.Where(u => u.Mail.StartsWith(filtrationText)).ToList();
+                                    break;
+                                default:
+                                    filterList = filterList.Where(u => u.Mail.Contains(filtrationText)).ToList();
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            if(userInfo=="Role")
+                            {
+                                switch (filtrationOption)
+                                {
+                                    case "End's with":
+                                        filterList = filterList.Where(u => u.Role.EndsWith(filtrationText)).ToList();
+                                        break;
+                                    case "Start's with":
+                                        filterList = filterList.Where(u => u.Role.StartsWith(filtrationText)).ToList();
+                                        break;
+                                    default:
+                                        filterList = filterList.Where(u => u.Role.Contains(filtrationText)).ToList();
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                if(userInfo=="Region")
+                                {
+                                    switch (filtrationOption)
+                                    {
+                                        case "End's with":
+                                            filterList = filterList.Where(u => u.Region.EndsWith(filtrationText)).ToList();
+                                            break;
+                                        case "Start's with":
+                                            filterList = filterList.Where(u => u.Region.StartsWith(filtrationText)).ToList();
+                                            break;
+                                        default:
+                                            filterList = filterList.Where(u => u.Region.Contains(filtrationText)).ToList();
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            #endregion
             //TODO Filter Database and return model to view
-            return View(database.Users.ToList());
+            ViewData["CountOfUsers"] = filterList.Count;
+            return View(filterList);
         }
 
         // GET: /OrderSystemUser/Register.cshtml
@@ -89,5 +197,22 @@ namespace OrderSystem.Controllers
             return this.View();
         }
 
+        public ActionResult Delete(int id)
+        {
+            Users user = database.Users.Single(u => u.UserID == id);
+            return View(user);
+        }
+
+        //
+        // POST: /Default1/Delete/5
+        [HttpPost, ActionName("Delete")]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            //TODO
+            Users user = database.Users.Single(u => u.UserID == id);
+            database.Users.DeleteObject(user);
+            database.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }
