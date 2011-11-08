@@ -13,18 +13,18 @@ namespace OrderSystem.Controllers
         //
         // GET: /OrderSystemUser/
         //TODO Implement OrderSystemUserController
+        OrderSystemEntities database=new OrderSystemEntities();
         public ActionResult Index()
         {
             //TODO Get Users Count From EntityModel
-            ViewData["CountOfUsers"] = 1;
-            return View();
+            ViewData["CountOfUsers"] = database.Users.Count();
+            return View(database.Users.ToList());
         }
         [HttpPost]
         public ActionResult Index(string userInfo,string filtrationOption,string filtrationText)
         {
-            
             //TODO Filter Database and return model to view
-            return View();
+            return View(database.Users.ToList());
         }
 
         // GET: /OrderSystemUser/Register.cshtml
