@@ -160,9 +160,14 @@ namespace OrderSystem.Controllers
                     crypt.Append(value.ToString("x2"));
                 if (currentUser.Login.Equals(user.LoginName) &&
                     currentUser.Password.Equals(crypt.ToString()))
+                switch (currentUser.Role)
                 {
-                    return this.RedirectToAction("Index");
+                    case "Administrator": /* Add link */ break;
+                    case "Merchandiser": /* Add link */ break;
+                    case "Supervisor": /* Add link */ break;
+                    case "Costumer": /* Add link */ break;
                 }
+                return this.RedirectToAction("Index");
             }
             // Increment counter
             Session["LoginCounter"] = (int)Session["LoginCounter"] + 1;
