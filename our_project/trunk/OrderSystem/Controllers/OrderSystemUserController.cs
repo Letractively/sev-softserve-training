@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-
 using OrderSystem.Models;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace OrderSystem.Controllers
 {
@@ -133,6 +133,41 @@ namespace OrderSystem.Controllers
             //TODO Filter Database and return model to view
             ViewData["CountOfUsers"] = filterList.Count;
             return View(filterList);
+        }
+
+
+        // GET: /OrderSystemUser/Login.cshtml
+        public ActionResult Login()
+        {
+            if (Session["LoginCounter"] == null)
+            {
+                Session.Add("LoginCounter", 0);
+                Session.Timeout = 5;
+            }
+            return this.View();
+        }
+
+        // POST: /OrderSystemUser/Login.cshtml
+        [HttpPost]
+        public ActionResult Login(OrderSystemUser user)
+        {
+            foreach (Users currentUser in database.Users)
+            {
+                MD5 md5Hasher = MD5.Create();
+                byte[] data = md5Hasher.ComputeHash(Encoding.Default.GetBytes(user.Password));
+                StringBuilder crypt = new StringBuilder();
+                foreach (byte value in data)
+                    crypt.Append(value.ToString("x2"));
+                if (currentUser.Login.Equals(user.LoginName) &&
+                    currentUser.Password.Equals(crypt.ToString()))
+                {
+                    return this.RedirectToAction("Index");
+                }
+            }
+            // Increment counter
+            Session["LoginCounter"] = (int)Session["LoginCounter"] + 1;
+            Response.Write(Session["LoginCounter"]);
+            return this.View();
         }
 
         // GET: /OrderSystemUser/Register.cshtml
