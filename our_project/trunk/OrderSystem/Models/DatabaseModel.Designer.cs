@@ -1289,13 +1289,15 @@ namespace OrderSystem.Models
         /// <summary>
         /// Create a new Rank object.
         /// </summary>
+        /// <param name="rankID">Initial value of the RankID property.</param>
         /// <param name="rankTreshold">Initial value of the RankTreshold property.</param>
         /// <param name="rankName">Initial value of the RankName property.</param>
         /// <param name="iconName">Initial value of the IconName property.</param>
         /// <param name="percents">Initial value of the Percents property.</param>
-        public static Rank CreateRank(global::System.Decimal rankTreshold, global::System.String rankName, global::System.String iconName, global::System.Double percents)
+        public static Rank CreateRank(global::System.Int32 rankID, global::System.Decimal rankTreshold, global::System.String rankName, global::System.String iconName, global::System.Double percents)
         {
             Rank rank = new Rank();
+            rank.RankID = rankID;
             rank.RankTreshold = rankTreshold;
             rank.RankName = rankName;
             rank.IconName = iconName;
@@ -1311,6 +1313,33 @@ namespace OrderSystem.Models
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
+        public global::System.Int32 RankID
+        {
+            get
+            {
+                return _RankID;
+            }
+            set
+            {
+                if (_RankID != value)
+                {
+                    OnRankIDChanging(value);
+                    ReportPropertyChanging("RankID");
+                    _RankID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("RankID");
+                    OnRankIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _RankID;
+        partial void OnRankIDChanging(global::System.Int32 value);
+        partial void OnRankIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
         public global::System.Decimal RankTreshold
         {
             get
@@ -1319,14 +1348,11 @@ namespace OrderSystem.Models
             }
             set
             {
-                if (_RankTreshold != value)
-                {
-                    OnRankTresholdChanging(value);
-                    ReportPropertyChanging("RankTreshold");
-                    _RankTreshold = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("RankTreshold");
-                    OnRankTresholdChanged();
-                }
+                OnRankTresholdChanging(value);
+                ReportPropertyChanging("RankTreshold");
+                _RankTreshold = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("RankTreshold");
+                OnRankTresholdChanged();
             }
         }
         private global::System.Decimal _RankTreshold;
@@ -1456,8 +1482,9 @@ namespace OrderSystem.Models
         /// <param name="region">Initial value of the Region property.</param>
         /// <param name="role">Initial value of the Role property.</param>
         /// <param name="rank">Initial value of the Rank property.</param>
+        /// <param name="rankType">Initial value of the RankType property.</param>
         /// <param name="balance">Initial value of the Balance property.</param>
-        public static Users CreateUsers(global::System.Int32 userID, global::System.String login, global::System.String password, global::System.String userFName, global::System.String userLName, global::System.String mail, global::System.String region, global::System.String role, global::System.Decimal rank, global::System.Double balance)
+        public static Users CreateUsers(global::System.Int32 userID, global::System.String login, global::System.String password, global::System.String userFName, global::System.String userLName, global::System.String mail, global::System.String region, global::System.String role, global::System.Decimal rank, global::System.Int32 rankType, global::System.Double balance)
         {
             Users users = new Users();
             users.UserID = userID;
@@ -1469,6 +1496,7 @@ namespace OrderSystem.Models
             users.Region = region;
             users.Role = role;
             users.Rank = rank;
+            users.RankType = rankType;
             users.Balance = balance;
             return users;
         }
@@ -1694,6 +1722,30 @@ namespace OrderSystem.Models
         private global::System.Decimal _Rank;
         partial void OnRankChanging(global::System.Decimal value);
         partial void OnRankChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 RankType
+        {
+            get
+            {
+                return _RankType;
+            }
+            set
+            {
+                OnRankTypeChanging(value);
+                ReportPropertyChanging("RankType");
+                _RankType = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("RankType");
+                OnRankTypeChanged();
+            }
+        }
+        private global::System.Int32 _RankType;
+        partial void OnRankTypeChanging(global::System.Int32 value);
+        partial void OnRankTypeChanged();
     
         /// <summary>
         /// No Metadata Documentation available.

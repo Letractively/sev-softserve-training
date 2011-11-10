@@ -37,7 +37,7 @@
           <Key>
             <PropertyRef Name="CardID" />
           </Key>
-          <Property Name="CardID" Type="int" Nullable="false" />
+          <Property Name="CardID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="CardNumber" Type="char" Nullable="false" MaxLength="16" />
           <Property Name="CardType" Type="varchar" Nullable="false" MaxLength="15" />
           <Property Name="CVV2Code" Type="char" Nullable="false" MaxLength="3" />
@@ -69,7 +69,7 @@
           <Key>
             <PropertyRef Name="OrderID" />
           </Key>
-          <Property Name="OrderID" Type="int" Nullable="false" />
+          <Property Name="OrderID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="Status" Type="bit" Nullable="false" />
           <Property Name="CardID" Type="int" Nullable="false" />
@@ -83,8 +83,9 @@
         </EntityType>
         <EntityType Name="Rank">
           <Key>
-            <PropertyRef Name="RankTreshold" />
+            <PropertyRef Name="RankID" />
           </Key>
+          <Property Name="RankID" Type="int" Nullable="false" />
           <Property Name="RankTreshold" Type="numeric" Nullable="false" />
           <Property Name="RankName" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="IconName" Type="varchar" Nullable="false" MaxLength="60" />
@@ -103,6 +104,7 @@
           <Property Name="Region" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="Role" Type="varchar" Nullable="false" MaxLength="15" />
           <Property Name="Rank" Type="numeric" Nullable="false" />
+          <Property Name="RankType" Type="int" Nullable="false" />
           <Property Name="Balance" Type="float" Nullable="false" />
         </EntityType>
         <Association Name="FK_ItemsOrder_Items">
@@ -158,10 +160,10 @@
           <End Role="Users" Type="OrderSystemModel.Store.Users" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Rank">
-              <PropertyRef Name="RankTreshold" />
+              <PropertyRef Name="RankID" />
             </Principal>
             <Dependent Role="Users">
-              <PropertyRef Name="Rank" />
+              <PropertyRef Name="RankType" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -202,7 +204,7 @@
           <Key>
             <PropertyRef Name="CardID" />
           </Key>
-          <Property Name="CardID" Type="Int32" Nullable="false" />
+          <Property Name="CardID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CardNumber" Type="String" Nullable="false" MaxLength="16" Unicode="false" FixedLength="true" />
           <Property Name="CardType" Type="String" Nullable="false" MaxLength="15" Unicode="false" FixedLength="false" />
           <Property Name="CVV2Code" Type="String" Nullable="false" MaxLength="3" Unicode="false" FixedLength="true" />
@@ -238,7 +240,7 @@
           <Key>
             <PropertyRef Name="OrderID" />
           </Key>
-          <Property Name="OrderID" Type="Int32" Nullable="false" />
+          <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="Status" Type="Boolean" Nullable="false" />
           <Property Name="CardID" Type="Int32" Nullable="false" />
@@ -255,8 +257,9 @@
         </EntityType>
         <EntityType Name="Rank">
           <Key>
-            <PropertyRef Name="RankTreshold" />
+            <PropertyRef Name="RankID" />
           </Key>
+          <Property Name="RankID" Type="Int32" Nullable="false" />
           <Property Name="RankTreshold" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <Property Name="RankName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="IconName" Type="String" Nullable="false" MaxLength="60" Unicode="false" FixedLength="false" />
@@ -276,6 +279,7 @@
           <Property Name="Region" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="Role" Type="String" Nullable="false" MaxLength="15" Unicode="false" FixedLength="false" />
           <Property Name="Rank" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="RankType" Type="Int32" Nullable="false" />
           <Property Name="Balance" Type="Double" Nullable="false" />
           <NavigationProperty Name="Orders" Relationship="OrderSystemModel.FK_Orders_Users" FromRole="Users" ToRole="Orders" />
           <NavigationProperty Name="Rank1" Relationship="OrderSystemModel.FK_Users_Rank" FromRole="Users" ToRole="Rank" />
@@ -333,10 +337,10 @@
           <End Role="Users" Type="OrderSystemModel.Users" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Rank">
-              <PropertyRef Name="RankTreshold" />
+              <PropertyRef Name="RankID" />
             </Principal>
             <Dependent Role="Users">
-              <PropertyRef Name="Rank" />
+              <PropertyRef Name="RankType" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -382,6 +386,7 @@
             <ScalarProperty Name="IsGift" ColumnName="IsGift" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="Rank"><EntityTypeMapping TypeName="OrderSystemModel.Rank"><MappingFragment StoreEntitySet="Rank">
+            <ScalarProperty Name="RankID" ColumnName="RankID" />
             <ScalarProperty Name="RankTreshold" ColumnName="RankTreshold" />
             <ScalarProperty Name="RankName" ColumnName="RankName" />
             <ScalarProperty Name="IconName" ColumnName="IconName" />
@@ -397,6 +402,7 @@
             <ScalarProperty Name="Region" ColumnName="Region" />
             <ScalarProperty Name="Role" ColumnName="Role" />
             <ScalarProperty Name="Rank" ColumnName="Rank" />
+            <ScalarProperty Name="RankType" ColumnName="RankType" />
             <ScalarProperty Name="Balance" ColumnName="Balance" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
         </EntityContainerMapping>
@@ -423,9 +429,9 @@
         <EntityTypeShape EntityType="OrderSystemModel.Card" Width="1.5" PointX="3" PointY="5.5" Height="2.2496956380208335" IsExpanded="true" />
         <EntityTypeShape EntityType="OrderSystemModel.Items" Width="1.5" PointX="5.25" PointY="5.625" Height="1.9210009765624996" IsExpanded="true" />
         <EntityTypeShape EntityType="OrderSystemModel.ItemsOrder" Width="1.5" PointX="7.5" PointY="1.625" Height="1.9210009765624996" IsExpanded="true" />
-        <EntityTypeShape EntityType="OrderSystemModel.Orders" Width="1.5" PointX="5.25" PointY="1" Height="3.2357796223958335" IsExpanded="true" />
-        <EntityTypeShape EntityType="OrderSystemModel.Rank" Width="1.5" PointX="0.75" PointY="1.75" Height="1.7566536458333335" IsExpanded="true" />
-        <EntityTypeShape EntityType="OrderSystemModel.Users" Width="1.5" PointX="3" PointY="1.125" Height="2.9070849609374991" IsExpanded="true" />
+        <EntityTypeShape EntityType="OrderSystemModel.Orders" Width="1.5" PointX="5.25" PointY="1" Height="3.2357796223958339" IsExpanded="true" />
+        <EntityTypeShape EntityType="OrderSystemModel.Rank" Width="1.5" PointX="0.75" PointY="1.625" Height="1.9210009765624996" IsExpanded="true" />
+        <EntityTypeShape EntityType="OrderSystemModel.Users" Width="1.5" PointX="3" PointY="1.125" Height="3.0714322916666665" IsExpanded="true" />
         <AssociationConnector Association="OrderSystemModel.FK_Orders_Card" ManuallyRouted="false">
           <ConnectorPoint PointX="4.5" PointY="5.5" />
           <ConnectorPoint PointX="4.875" PointY="5.125" />
@@ -442,12 +448,14 @@
           <ConnectorPoint PointX="7.5" PointY="2.58550048828125" />
         </AssociationConnector>
         <AssociationConnector Association="OrderSystemModel.FK_Orders_Users" ManuallyRouted="false">
-          <ConnectorPoint PointX="4.5" PointY="1.8089449055989584" />
-          <ConnectorPoint PointX="5.25" PointY="1.8089449055989584" />
+          <ConnectorPoint PointX="4.5" PointY="3.4696610514322916" />
+          <ConnectorPoint PointX="4.791666666666667" PointY="3.4696610514322912" />
+          <ConnectorPoint PointX="4.958333333333333" PointY="3.4696610514322916" />
+          <ConnectorPoint PointX="5.25" PointY="3.4696610514322916" />
         </AssociationConnector>
         <AssociationConnector Association="OrderSystemModel.FK_Users_Rank" ManuallyRouted="false">
-          <ConnectorPoint PointX="2.25" PointY="2.6283268229166667" />
-          <ConnectorPoint PointX="3" PointY="2.6283268229166667" />
+          <ConnectorPoint PointX="2.25" PointY="2.58550048828125" />
+          <ConnectorPoint PointX="3" PointY="2.58550048828125" />
         </AssociationConnector>
       </Diagram>
     </Diagrams>
