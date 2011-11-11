@@ -1,0 +1,155 @@
+﻿@using OrderSystem.Models
+@model IEnumerable<OrderedItemsInfo>
+@{
+    ViewBag.Title = "Analysing orders";
+    TotalOrderInfo info = ViewBag.OrderInfo[0];
+}
+<link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css"/>
+@using (Html.BeginForm())
+{
+    <p>
+        This page is appointed for analysing costumer orders and perform ordering
+    </p>
+    <fieldset>
+        <legend align="left" style="font-weight: bold;">Items Selection </legend>
+        <div align="right">
+            <select id="Select1">
+                <option>show 10 lines</option>
+                <option>show 20 lines</option>
+                <option>show 30 lines</option>
+            </select>
+        </div>
+        <div>
+            @{
+    WebGrid itemsGrid = new WebGrid
+    (
+       Model,
+       canPage: true,
+       canSort: true,
+       rowsPerPage: 10
+    );
+            }
+            @itemsGrid.GetHtml(columns: itemsGrid.Columns(
+                                itemsGrid.Column("ItemNumber", "Item Number"),
+                                itemsGrid.Column("ItemName", "Item Name"),
+                                itemsGrid.Column("ItemDescription", "Item Description"),
+                                itemsGrid.Column("Dimension"),
+                                itemsGrid.Column("Price"),
+                                itemsGrid.Column("Quantity"),
+                                itemsGrid.Column("PricePerLine", "Price per Line")
+                              ),
+                              headerStyle: "wg_hdr",
+                              tableStyle: "wg_tbl",
+                              footerStyle: "wg_foot",
+                              rowStyle: "wg_row",
+                              alternatingRowStyle: "wg_row_alt"
+                              )
+        </div>
+    </fieldset>
+    <div align="center">
+        <input id="Button1" type="button" value="First" />
+        <input id="Button2" type="button" value="Backward" />
+        <input id="Button3" type="button" value="Forward" />
+        <input id="Button4" type="button" value="Last" />
+    </div>
+    <fieldset>
+        <legend align="left" style="font-weight: bold;">Totals </legend>
+        <table cellspacing="20" align="left">
+            <tr>
+                <td>
+                    Costumer Name:
+                </td>
+                <td>
+                    @info.CostumerName
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Costumer Type:
+                </td>
+                <td>
+                    @info.CostumerType
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Order Number:
+                </td>
+                <td>
+                    @info.OrderNumber
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Total Price:
+                </td>
+                <td>
+                    @info.TotalPrice
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Total Number of Items:
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Assignee:
+                </td>
+                <td>
+                    @info.Assignee
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Date of Ordering:
+                </td>
+                <td>
+                    @info.DateOfOrdering.ToShortDateString()
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Preferable Delivery Date:
+                </td>
+                <td>
+                    @info.PreferableDeliveryDate.ToShortDateString()
+                </td>
+            </tr>
+        </table>
+        <table cellspacing="20" align="right">
+            <tr>
+                <td>
+                  <u> Status: </u>
+                </td>
+                <td>
+                    <input id="Ordered" type="checkbox" />
+                    Ordered
+                    <input id="Delivered" type="checkbox" />
+                    Delivered
+                </td>
+            </tr>
+            <tr>
+                <td>
+                   <u> Delivery Date: </u>
+                </td>
+                <td>
+                    <input id="Text1" type="text" value="@DateTime.Today.ToShortDateString()" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    <input id="Gift" type="checkbox" />
+                    Gift
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+    <div align="right">
+        <input id="Submit1" type="submit" value="Save" />
+        <input id="Submit1" type="submit" value="Order" />
+        <input id="Submit1" type="submit" value="Cancel" />
+    </div>
+}
