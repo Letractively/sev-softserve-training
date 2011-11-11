@@ -82,3 +82,37 @@ textarea
 {
     display: none;
 }
+
+/* Styles for WebGrid
+-----------------------------------------------------------*/
+.wg_tbl
+{
+    border: 1px solid #c0c0c0;
+    width: 100%;
+    margin-top: 10px;
+}
+.wg_hdr, .wg_foot
+{
+    font-family: Calibri, Verdana, Arial;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: #000000;
+    background-color: #aaa0a0;
+}
+.wg_row
+{
+    font-family: Calibri, Verdana, Arial;
+    text-align: center;
+    font-size: 14px;
+    color: #606060;
+    background-color: #d0d0d0;
+}
+.wg_row_alt
+{
+    font-family: Calibri, Verdana, Arial;
+    text-align: center;
+    font-size: 14px;
+    color: #606060;
+    background-color: #f0f0f0;
+}
