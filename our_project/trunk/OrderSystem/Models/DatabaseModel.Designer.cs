@@ -1879,6 +1879,43 @@ namespace OrderSystem.Models
         #endregion
     }
 
+
+
     #endregion
-    
+
+    public class OrderedItemsInfo
+    {
+        public int ItemNumber { get; set; }
+
+        public string ItemName { get; set; }
+
+        public string ItemDescription { get; set; }
+
+        public string Dimension { get; set; }
+
+        public double Price { get; set; }
+
+        public int Quantity { get; set; }
+
+        public double PricePerLine { get; set; }
+
+    }
+
+    public class TotalOrderInfo
+    {
+        public string CostumerName { get; set; }
+
+        public string CostumerType { get; set; }
+
+        public int OrderNumber { get; set; }
+
+        public double TotalPrice { get; set; }
+
+        public string Assignee { get; set; }
+
+        public DateTime DateOfOrdering { get; set; }
+
+        public DateTime PreferableDeliveryDate { get; set; }
+
+    }
 }

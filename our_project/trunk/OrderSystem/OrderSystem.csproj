@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\ContainSpacesAttribute.cs" />
+    <Compile Include="Controllers\DisplayOrdersController.cs" />
     <Compile Include="Controllers\OrderSystemUserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -187,6 +188,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\OrderSystemUser\UserDetails.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\DisplayOrder\AnalyzeOrders.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
