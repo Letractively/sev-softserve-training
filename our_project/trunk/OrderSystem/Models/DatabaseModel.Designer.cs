@@ -14,6 +14,12 @@ using System.Data.EntityClient;
 using System.ComponentModel;
 using System.Xml.Serialization;
 using System.Runtime.Serialization;
+using System.ComponentModel.DataAnnotations;
+using System.Web.UI.WebControls;
+using System.Web.Security;
+using System.Web.Mvc;
+using OrderSystem.Resources.Shared;
+using OrderSystem.Attributes;
 
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
@@ -1536,6 +1542,10 @@ namespace OrderSystem.Models
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
+        [Display(Name = "Login", ResourceType = typeof(OrderSystemUserRes))]
+        [Required(ErrorMessageResourceName = "FieldIsRequired", ErrorMessageResourceType = typeof(ErrorRes))]
+        [StringLength(20, ErrorMessageResourceName = "FieldIsTooLong", ErrorMessageResourceType = typeof(ErrorRes))]
+        [ContainSpaces(ErrorMessageResourceName = "FieldContainSpaces", ErrorMessageResourceType = typeof(ErrorRes))]
         public global::System.String Login
         {
             get
@@ -1560,6 +1570,12 @@ namespace OrderSystem.Models
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
+        [Display(Name = "Password", ResourceType = typeof(OrderSystemUserRes))]
+        [Required(ErrorMessageResourceName = "FieldIsRequired", ErrorMessageResourceType = typeof(ErrorRes))]
+        [StringLength(10, MinimumLength = 4, ErrorMessageResourceName = "FieldIsLimited", ErrorMessageResourceType = typeof(ErrorRes))]
+        [RegularExpression(@"^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+|\~\-\=\\/\" + "\"" + @":\;\'\<\>?\,.]).{4,}$", ErrorMessageResourceName = "PasswordIsWeak", ErrorMessageResourceType = typeof(ErrorRes))]
+        [ContainSpaces(ErrorMessageResourceName = "FieldContainSpaces", ErrorMessageResourceType = typeof(ErrorRes))]
+        [DataType(DataType.Password)]
         public global::System.String Password
         {
             get
@@ -1578,12 +1594,28 @@ namespace OrderSystem.Models
         private global::System.String _Password;
         partial void OnPasswordChanging(global::System.String value);
         partial void OnPasswordChanged();
-    
+
+        /// <summary>
+        /// For validating only
+        /// </summary>
+        [Display(Name = "ConfirmPassword", ResourceType = typeof(OrderSystemUserRes))]
+        [Compare("Password", ErrorMessageResourceName = "ConfirmPasswordIsNotEqual", ErrorMessageResourceType = typeof(ErrorRes))]
+        [DataType(DataType.Password)]
+        public global::System.String ConfirmPassword
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
+        [Display(Name = "UserFName", ResourceType = typeof(OrderSystemUserRes))]
+        [Required(ErrorMessageResourceName = "FieldIsRequired", ErrorMessageResourceType = typeof(ErrorRes))]
+        [StringLength(50, ErrorMessageResourceName = "FieldIsTooLong", ErrorMessageResourceType = typeof(ErrorRes))]
+        [RegularExpression(@"(\D)+", ErrorMessageResourceName = "FieldContainNumbers", ErrorMessageResourceType = typeof(ErrorRes))]
         public global::System.String UserFName
         {
             get
@@ -1608,6 +1640,10 @@ namespace OrderSystem.Models
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
+        [Display(Name = "UserLName", ResourceType = typeof(OrderSystemUserRes))]
+        [Required(ErrorMessageResourceName = "FieldIsRequired", ErrorMessageResourceType = typeof(ErrorRes))]
+        [StringLength(50, ErrorMessageResourceName = "FieldIsTooLong", ErrorMessageResourceType = typeof(ErrorRes))]
+        [RegularExpression(@"(\D)+", ErrorMessageResourceName = "FieldContainNumbers", ErrorMessageResourceType = typeof(ErrorRes))]
         public global::System.String UserLName
         {
             get
@@ -1632,6 +1668,9 @@ namespace OrderSystem.Models
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
+        [Display(Name = "Mail", ResourceType = typeof(OrderSystemUserRes))]
+        [Required(ErrorMessageResourceName = "IncorrectFormatOfField", ErrorMessageResourceType = typeof(ErrorRes))]
+        [RegularExpression(@"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", ErrorMessageResourceName = "IncorrectFormatOfField", ErrorMessageResourceType = typeof(ErrorRes))]
         public global::System.String Mail
         {
             get
@@ -1656,6 +1695,7 @@ namespace OrderSystem.Models
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
+        [Display(Name = "Region", ResourceType = typeof(OrderSystemUserRes))]
         public global::System.String Region
         {
             get
@@ -1680,6 +1720,7 @@ namespace OrderSystem.Models
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
+        [Display(Name = "Role", ResourceType = typeof(OrderSystemUserRes))]
         public global::System.String Role
         {
             get

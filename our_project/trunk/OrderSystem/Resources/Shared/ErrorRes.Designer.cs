@@ -22,7 +22,7 @@ namespace OrderSystem.Resources.Shared {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class ErrorRes {
+    internal class ErrorRes {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -120,6 +120,15 @@ namespace OrderSystem.Resources.Shared {
         internal static string IncorrectFormatOfField {
             get {
                 return ResourceManager.GetString("IncorrectFormatOfField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Login Name already exists.
+        /// </summary>
+        internal static string LoginExistsInDB {
+            get {
+                return ResourceManager.GetString("LoginExistsInDB", resourceCulture);
             }
         }
         

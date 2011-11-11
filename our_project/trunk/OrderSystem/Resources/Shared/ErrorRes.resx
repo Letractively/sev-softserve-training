@@ -145,6 +145,10 @@
     <value>Incorrect format of {0}</value>
     <comment>Неверный формат поля</comment>
   </data>
+  <data name="LoginExistsInDB" xml:space="preserve">
+    <value>Login Name already exists</value>
+    <comment>Пользователь с таким логином уже есть в базе</comment>
+  </data>
   <data name="PasswordIsWeak" xml:space="preserve">
     <value>The value provided for the password does not meet required complexity</value>
     <comment>Слабый пароль</comment>

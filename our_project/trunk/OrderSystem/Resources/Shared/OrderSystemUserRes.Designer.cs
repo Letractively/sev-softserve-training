@@ -22,7 +22,8 @@ namespace OrderSystem.Resources.Shared {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class OrderSystemUserRes {
+    public class OrderSystemUserRes
+    {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -71,41 +72,22 @@ namespace OrderSystem.Resources.Shared {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Email Address.
-        /// </summary>
-        public static string Email
-        {
-            get {
-                return ResourceManager.GetString("Email", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на First Name.
-        /// </summary>
-        public static string FirstName
-        {
-            get {
-                return ResourceManager.GetString("FirstName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Last Name.
-        /// </summary>
-        public static string LastName
-        {
-            get {
-                return ResourceManager.GetString("LastName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на Login Name.
         /// </summary>
-        public static string LoginName {
+        public static string Login
+        {
             get {
-                return ResourceManager.GetString("LoginName", resourceCulture);
+                return ResourceManager.GetString("Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Email Address.
+        /// </summary>
+        public static string Mail
+        {
+            get {
+                return ResourceManager.GetString("Mail", resourceCulture);
             }
         }
         
@@ -136,6 +118,26 @@ namespace OrderSystem.Resources.Shared {
         {
             get {
                 return ResourceManager.GetString("Role", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на First Name.
+        /// </summary>
+        public static string UserFName
+        {
+            get {
+                return ResourceManager.GetString("UserFName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Last Name.
+        /// </summary>
+        public static string UserLName
+        {
+            get {
+                return ResourceManager.GetString("UserLName", resourceCulture);
             }
         }
     }
