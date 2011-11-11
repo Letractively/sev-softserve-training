@@ -1,4 +1,4 @@
-﻿@model OrderSystem.Models.OrderSystemUser
+﻿@model OrderSystem.Models.Users
 @{
     ViewBag.Title = "Create New User";
     ViewBag.Message = "This page is appointed for creating new user for particular role"; 
@@ -27,30 +27,29 @@
 
 @using (Html.BeginForm())
 {
-    @Html.ValidationSummary(true);
     <fieldset>
         <div class="editor-label">
-            @Html.LabelFor(model => model.LoginName)
+            @Html.LabelFor(model => model.Login)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.LoginName)
-            @Html.ValidationMessageFor(model => model.LoginName)
+            @Html.EditorFor(model => model.Login)
+            @Html.ValidationMessageFor(model => model.Login)
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.FirstName)
+            @Html.LabelFor(model => model.UserFName)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.FirstName)
-            @Html.ValidationMessageFor(model => model.FirstName)
+            @Html.EditorFor(model => model.UserFName)
+            @Html.ValidationMessageFor(model => model.UserFName)
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.LastName)
+            @Html.LabelFor(model => model.UserLName)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.LastName)
-            @Html.ValidationMessageFor(model => model.LastName)
+            @Html.EditorFor(model => model.UserLName)
+            @Html.ValidationMessageFor(model => model.UserLName)
         </div>
 
         <div class="editor-label">
@@ -71,11 +70,11 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.Email)
+            @Html.LabelFor(model => model.Mail)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Email)
-            @Html.ValidationMessageFor(model => model.Email)
+            @Html.EditorFor(model => model.Mail)
+            @Html.ValidationMessageFor(model => model.Mail)
         </div>
 
         <div class="editor-label">
@@ -97,10 +96,8 @@
 
         <p>
             <input type="submit" value="Create" />
-            <button type="submit" value="Cancel">Cancel</button>
-            <button type="submit" value="Refresh">Refresh</button>
+            <input type="button" onclick = "document.location.href = '@Url.Action("Index", "OrderSystemUser")'" value="Cancel" class="cancel" />
+            <button type="reset" value="Refresh">Refresh</button>
         </p>
     </fieldset>
-       
-    @Html.ValidationSummary(true);
 }

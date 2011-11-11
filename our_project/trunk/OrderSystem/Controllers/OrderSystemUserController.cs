@@ -149,7 +149,7 @@ namespace OrderSystem.Controllers
 
         // POST: /OrderSystemUser/Login.cshtml
         [HttpPost]
-        public ActionResult Login(OrderSystemUser user)
+        public ActionResult Login(Users user)
         {
             foreach (Users currentUser in database.Users)
             {
@@ -158,7 +158,7 @@ namespace OrderSystem.Controllers
                 StringBuilder crypt = new StringBuilder();
                 foreach (byte value in data)
                     crypt.Append(value.ToString("x2"));
-                if (currentUser.Login.Equals(user.LoginName) &&
+                if (currentUser.Login.Equals(user.Login) &&
                     currentUser.Password.Equals(crypt.ToString()))
                 switch (currentUser.Role)
                 {
@@ -183,55 +183,91 @@ namespace OrderSystem.Controllers
 
         // POST: /OrderSystemUser/Register.cshtml
         [HttpPost]
-        public ActionResult Register(OrderSystemUser user)
+        public ActionResult Register(Users user)
         {
+            user.Login = user.Login.ToLower();
             if (ModelState.IsValid)
             {
-                // TODO: Add server-side validation
-                // TODO: Add user to DB
-                return this.RedirectToAction("Index");
+                if (isLoginExists(user.Login))
+                {
+                    ModelState.AddModelError("Login", Resources.Shared.ErrorRes.LoginExistsInDB);
+                    return this.View();
+                }
+                else
+                {
+                    user.Rank = 1;
+                    user.RankType = 1;
+                    database.Users.AddObject(user);
+                    database.SaveChanges();
+                    return this.RedirectToAction("Index");
+                }
             }
 
             return this.View();
         }
 
-        // GET: /OrderSystemUser/Edit.aspx
-        public ActionResult Edit()
+        // GET: /OrderSystemUser/Edit.cshtml
+        public ActionResult Edit( int id )
         {
-            // TODO: Parameter - user to Edit
-            return this.View(new OrderSystemUser());
+            Users user = database.Users.Single(u => u.UserID == id);
+            user.ConfirmPassword = user.Password;
+            return this.View(user);
         }
 
         // POST: /OrderSystemUser/Edit.cshtml
         [HttpPost]
-        public ActionResult Edit(OrderSystemUser user)
+        public ActionResult Edit(Users user)
         {
+            user.Login = user.Login.ToLower();
             if (ModelState.IsValid)
             {
-                // TODO: Add server-side validation
-                // TODO: Edit user in DB
-                return this.RedirectToAction("Index");
+                if (isLoginExists(user.Login) && 
+                    (user.Login != database.Users.Single(u => u.UserID == user.UserID).Login))
+                {
+                    ModelState.AddModelError("Login", Resources.Shared.ErrorRes.LoginExistsInDB);
+                    return this.View();
+                }
+                else
+                {
+                    database.Users.Attach(database.Users.Single(u => u.UserID == user.UserID));
+                    database.ApplyCurrentValues("Users", user);
+                    database.SaveChanges();
+                    return this.RedirectToAction("Index");
+                }
             }
 
             return this.View();
         }
 
-        // GET: /OrderSystemUser/Duplicate.aspx
-        public ActionResult Duplicate()
+        // GET: /OrderSystemUser/Duplicate.cshtml
+        public ActionResult Duplicate(int id)
         {
-            // TODO: Parameter - user to Duplicate
-            return this.View(new OrderSystemUser());
+            Users user = database.Users.Single(u => u.UserID == id);
+            user.Password = "";
+            user.Login = "";
+            return this.View(user);
         }
 
         // POST: /OrderSystemUser/Duplicate.cshtml
         [HttpPost]
-        public ActionResult Duplicate(OrderSystemUser user)
+        public ActionResult Duplicate(Users user)
         {
+            user.Login = user.Login.ToLower();
             if (ModelState.IsValid)
             {
-                // TODO: Add server-side validation
-                // TODO: Duplicate user in DB
-                return this.RedirectToAction("Index");
+                if (isLoginExists(user.Login))
+                {
+                    ModelState.AddModelError("Login", Resources.Shared.ErrorRes.LoginExistsInDB);
+                    return this.View();
+                }
+                else
+                {
+                    user.Rank = 1;
+                    user.RankType = 1;
+                    database.Users.AddObject(user);
+                    database.SaveChanges();
+                    return this.RedirectToAction("Index");
+                }
             }
 
             return this.View();
@@ -253,6 +289,24 @@ namespace OrderSystem.Controllers
             database.Users.DeleteObject(user);
             database.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Checks is user with input login is already exists in database
+        /// </summary>
+        /// <param name="user">Inputed login</param>
+        /// <returns>true - user with input login exists in database</returns>
+        private bool isLoginExists(string login)
+        {
+            try
+            {
+                database.Users.First(u => u.Login == login);
+                return true;
+            } 
+            catch ( Exception )
+            {
+                return false;
+            }
         }
     }
 }

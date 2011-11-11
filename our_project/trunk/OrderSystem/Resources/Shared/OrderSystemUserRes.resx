@@ -120,17 +120,11 @@
   <data name="ConfirmPassword" xml:space="preserve">
     <value>Confirm Password</value>
   </data>
-  <data name="Email" xml:space="preserve">
-    <value>Email Address</value>
-  </data>
-  <data name="FirstName" xml:space="preserve">
-    <value>First Name</value>
-  </data>
-  <data name="LastName" xml:space="preserve">
-    <value>Last Name</value>
-  </data>
-  <data name="LoginName" xml:space="preserve">
+  <data name="Login" xml:space="preserve">
     <value>Login Name</value>
+  </data>
+  <data name="Mail" xml:space="preserve">
+    <value>Email Address</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Password</value>
@@ -140,5 +134,11 @@
   </data>
   <data name="Role" xml:space="preserve">
     <value>Role</value>
+  </data>
+  <data name="UserFName" xml:space="preserve">
+    <value>First Name</value>
+  </data>
+  <data name="UserLName" xml:space="preserve">
+    <value>Last Name</value>
   </data>
 </root>
