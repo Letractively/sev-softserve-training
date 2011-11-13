@@ -20,8 +20,11 @@ namespace OrderSystem.Controllers
             return View(database.Users.ToList());
         }
         [HttpPost]
-        public ActionResult Index(string userInfo,string filtrationOption,string filtrationText)
+        public ActionResult Index(string UserInfo,string FiltrationOption,string FiltrationText)
         {
+            string userInfo = UserInfo.ToLower();
+            string filtrationOption = FiltrationOption.ToLower();
+            string filtrationText = FiltrationText.ToLower();
             List<Users> filterList = database.Users.ToList();
             #region FilterUsers
             if (userInfo=="UserName")
@@ -211,7 +214,7 @@ namespace OrderSystem.Controllers
         public ActionResult Edit( int id )
         {
             Users user = database.Users.Single(u => u.UserID == id);
-            user.ConfirmPassword = user.Password;
+            //user.ConfirmPassword = user.Password;
             return this.View(user);
         }
 
