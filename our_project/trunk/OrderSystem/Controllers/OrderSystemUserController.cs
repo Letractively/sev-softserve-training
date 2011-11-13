@@ -199,8 +199,16 @@ namespace OrderSystem.Controllers
                 }
                 else
                 {
-                    user.Rank = 1;
-                    user.RankType = 1;
+                    if (user.Role == "Customer")
+                    {
+                        user.Rank = 1;
+                        user.RankType = 1;
+                    }
+                    else
+                    {
+                        user.Rank = 0;
+                        user.RankType = 0;
+                    }
                     database.Users.AddObject(user);
                     database.SaveChanges();
                     return this.RedirectToAction("Index");
@@ -268,8 +276,16 @@ namespace OrderSystem.Controllers
                 }
                 else
                 {
-                    user.Rank = 1;
-                    user.RankType = 1;
+                    if (user.Role == "Customer")
+                    {
+                        user.Rank = 1;
+                        user.RankType = 1;
+                    }
+                    else
+                    {
+                        user.Rank = 0;
+                        user.RankType = 0;
+                    }
                     database.Users.AddObject(user);
                     database.SaveChanges();
                     return this.RedirectToAction("Index");
