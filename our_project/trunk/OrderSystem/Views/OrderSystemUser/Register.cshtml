@@ -25,6 +25,27 @@
 <h2>@ViewBag.Title</h2>
 <p>@ViewBag.Message</p>
 
+<script src="../../Scripts/jquery-1.5.1.min.js"></script>
+<script src="../../Scripts/jquery-ui-1.8.11.min.js"></script>
+
+<script language="javascript" type="text/javascript">
+    $(document).ready(function () {
+        $("button.cancel").click(function () {
+            $("#dialog").dialog({
+                buttons: {
+                    "Yes": function () {
+                        document.location.href='@Url.Action("Index", "OrderSystemUser")';
+                    },
+                    "No": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+
+        });
+
+    });
+</script>
 @using (Html.BeginForm())
 {
     <fieldset>
@@ -43,7 +64,6 @@
             @Html.EditorFor(model => model.UserFName)
             @Html.ValidationMessageFor(model => model.UserFName)
         </div>
-
         <div class="editor-label">
             @Html.LabelFor(model => model.UserLName)
         </div>
@@ -91,13 +111,18 @@
             @Html.RadioButtonFor(model => model.Role, "Administrator") Administrator <br />
             @Html.RadioButtonFor(model => model.Role, "Merchandiser") Merchandiser <br />
             @Html.RadioButtonFor(model => model.Role, "Supervisor") Supervisor <br />
-            @Html.RadioButtonFor(model => model.Role, "Customer", new {Checked = "checked"}) Customer
+            @Html.RadioButtonFor(model => model.Role, "Customer", new { Checked = "checked" }) Customer
         </div>
 
         <p>
             <input type="submit" value="Create" />
-            <input type="button" onclick = "document.location.href = '@Url.Action("Index", "OrderSystemUser")'" value="Cancel" class="cancel" />
+            <button type="button" value="Cancel" class="cancel">Cancel</button>
             <button type="reset" value="Refresh">Refresh</button>
         </p>
+        <div style="visibility:hidden">
+            <div id="dialog" title="Warning" >
+                Are you sure you want to cancel operation?<br />All data will be lost.
+            </div>
+        </div>
     </fieldset>
 }

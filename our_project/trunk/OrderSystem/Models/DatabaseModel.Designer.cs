@@ -1670,7 +1670,7 @@ namespace OrderSystem.Models
         [DataMemberAttribute()]
         [Display(Name = "Mail", ResourceType = typeof(OrderSystemUserRes))]
         [Required(ErrorMessageResourceName = "IncorrectFormatOfField", ErrorMessageResourceType = typeof(ErrorRes))]
-        [RegularExpression(@"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", ErrorMessageResourceName = "IncorrectFormatOfField", ErrorMessageResourceType = typeof(ErrorRes))]
+        [RegularExpression(@"[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?", ErrorMessageResourceName = "IncorrectFormatOfField", ErrorMessageResourceType = typeof(ErrorRes))]
         public global::System.String Mail
         {
             get
