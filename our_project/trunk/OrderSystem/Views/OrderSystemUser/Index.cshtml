@@ -2,6 +2,15 @@
 @{
     ViewBag.Title = "User List";
 }
+<script language="javascript" type="text/javascript">
+    function Reset()
+    {
+                        document.location.href = '@Url.Action("Index", "OrderSystemUser")';
+    }
+</script>
+
+
+
 <p>This page is apained for creating new and managing existing users</p>
 <h4>@Html.ActionLink("Create New User","Register")</h4>
 <p></p>
@@ -30,6 +39,7 @@
 
 <p></p>
 <input type=submit value="Search" />
+<button type=reset value="reset" onclick="Reset()">Reset</button>
 </fieldset>
 }
 <p></p>
