@@ -1,35 +1,38 @@
 ﻿@using OrderSystem.Models
 @model IEnumerable<OrderedItemsInfo>
+           
 @{
     ViewBag.Title = "Analysing orders";
     TotalOrderInfo info = ViewBag.OrderInfo[0];
+    
+    WebGrid itemsGrid = new WebGrid
+    (
+       Model,
+       canPage: true,
+       canSort: true,
+       rowsPerPage: ViewBag.rowsCount
+    );
 }
-<link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css"/>
+
 @using (Html.BeginForm())
 {
     <p>
         This page is appointed for analysing costumer orders and perform ordering
     </p>
     <fieldset>
-        <legend align="left" style="font-weight: bold;">Items Selection </legend>
+        <legend align="left" style="font-weight: bold">Items Selection </legend>
         <div align="right">
-            <select id="Select1">
-                <option>show 10 lines</option>
+            <select id="RowsPerPage">
+                <option>show 5 lines
+                 </option>
+                <option>show 10 lines </option>
                 <option>show 20 lines</option>
-                <option>show 30 lines</option>
             </select>
         </div>
-        <div>
-            @{
-    WebGrid itemsGrid = new WebGrid
-    (
-       Model,
-       canPage: true,
-       canSort: true,
-       rowsPerPage: 10
-    );
-            }
-            @itemsGrid.GetHtml(columns: itemsGrid.Columns(
+
+        <div align="center">
+            <p>
+                @itemsGrid.GetHtml(columns: itemsGrid.Columns(
                                 itemsGrid.Column("ItemNumber", "Item Number"),
                                 itemsGrid.Column("ItemName", "Item Name"),
                                 itemsGrid.Column("ItemDescription", "Item Description"),
@@ -38,20 +41,16 @@
                                 itemsGrid.Column("Quantity"),
                                 itemsGrid.Column("PricePerLine", "Price per Line")
                               ),
-                              headerStyle: "wg_hdr",
-                              tableStyle: "wg_tbl",
-                              footerStyle: "wg_foot",
-                              rowStyle: "wg_row",
-                              alternatingRowStyle: "wg_row_alt"
-                              )
+                              tableStyle: "webgrid",
+                              headerStyle: "webgrid-header",
+                              footerStyle: "webgrid-footer",
+                              alternatingRowStyle: "webgrid-alternating-row",
+                              selectedRowStyle: "webgrid-selected-row",
+                              rowStyle: "webgrid-row-style"
+                             )
+            </p>
         </div>
     </fieldset>
-    <div align="center">
-        <input id="Button1" type="button" value="First" />
-        <input id="Button2" type="button" value="Backward" />
-        <input id="Button3" type="button" value="Forward" />
-        <input id="Button4" type="button" value="Last" />
-    </div>
     <fieldset>
         <legend align="left" style="font-weight: bold;">Totals </legend>
         <table cellspacing="20" align="left">
@@ -120,36 +119,43 @@
         <table cellspacing="20" align="right">
             <tr>
                 <td>
-                  <u> Status: </u>
+                    <u>Status: </u>
                 </td>
                 <td>
-                    <input id="Ordered" type="checkbox" />
+                    <input id="Ordered" name="Ordered" value="true" type="checkbox" />
                     Ordered
-                    <input id="Delivered" type="checkbox" />
+                    <input id="Delivered" name="Delivered" value="true" type="checkbox" />
                     Delivered
                 </td>
             </tr>
             <tr>
                 <td>
-                   <u> Delivery Date: </u>
+                    <u> Delivery Date: </u>
                 </td>
                 <td>
-                    <input id="Text1" type="text" value="@DateTime.Today.ToShortDateString()" />
+                    <input id="Date" name="DeliveryDate" type="text" value="@DateTime.Today.ToShortDateString()" />
                 </td>
             </tr>
             <tr>
                 <td>
                 </td>
                 <td>
-                    <input id="Gift" type="checkbox" />
+                    <input id="Gift" name="Gift" value="true" type="checkbox" />
                     Gift
                 </td>
             </tr>
         </table>
     </fieldset>
     <div align="right">
-        <input id="Submit1" type="submit" value="Save" />
-        <input id="Submit1" type="submit" value="Order" />
-        <input id="Submit1" type="submit" value="Cancel" />
+        <input id="Save" type="submit" value="Save" />
+        <input id="Order" type="submit" value="Order" />
+        <input id="Cancel" type="submit" value="Cancel" />
     </div>
+    
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#Date').datepicker({ firstDay: 1, dateFormat: 'dd.mm.yy' });
+            $('.datePicker').datepicker({ firstDay: 1, dateFormat: 'dd.mm.yy' });
+        });
+    </script>
 }

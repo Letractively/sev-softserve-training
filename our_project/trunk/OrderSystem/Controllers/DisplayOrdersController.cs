@@ -7,13 +7,13 @@ namespace OrderSystem.Controllers
 {
     public class DisplayOrderController : Controller
     {
-        readonly OrderSystemEntities _database = new OrderSystemEntities();
+        OrderSystemEntities database = new OrderSystemEntities();
 
         public ActionResult AnalyzeOrders(int orderNumb = 1)
         {
             IEnumerable<OrderedItemsInfo> orderedItems = (
-            from item in _database.Items
-            join order in _database.ItemsOrder
+            from item in database.Items
+            join order in database.ItemsOrder
             on item.ItemID equals order.ItemID
             where order.OrderID == orderNumb
             select new OrderedItemsInfo()
@@ -28,10 +28,10 @@ namespace OrderSystem.Controllers
             });
 
             TotalOrderInfo[] orderInfo = (
-            from user in _database.Users
-            join order in _database.Orders
+            from user in database.Users
+            join order in database.Orders
             on user.UserID equals order.UserID
-            join rank in _database.Rank
+            join rank in database.Rank
             on user.RankType equals rank.RankID
             where order.OrderID == orderNumb
             select new TotalOrderInfo()
@@ -46,7 +46,7 @@ namespace OrderSystem.Controllers
             }).ToArray();
 
             ViewBag.OrderInfo = orderInfo;
-
+            ViewBag.rowsCount = 5;
             return View(orderedItems);
         }
 
