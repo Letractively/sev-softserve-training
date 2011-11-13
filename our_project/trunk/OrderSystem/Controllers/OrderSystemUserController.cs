@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using OrderSystem.Models;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace OrderSystem.Controllers
 {
@@ -14,6 +12,7 @@ namespace OrderSystem.Controllers
         // GET: /OrderSystemUser/
         //TODO Implement OrderSystemUserController
         OrderSystemEntities database=new OrderSystemEntities();
+
         public ActionResult Index()
         {
             ViewData["CountOfUsers"] = database.Users.Count();
@@ -138,45 +137,12 @@ namespace OrderSystem.Controllers
             return View(filterList);
         }
 
-
-        // GET: /OrderSystemUser/Login.cshtml
-        public ActionResult Login()
+        // GET: /OrderSystemUser/UserDetails.cshtml
+        public ActionResult UserDetails()
         {
-            if (Session["LoginCounter"] == null)
-            {
-                Session.Add("LoginCounter", 0);
-                Session.Timeout = 5;
-            }
             return this.View();
         }
 
-        // POST: /OrderSystemUser/Login.cshtml
-        [HttpPost]
-        public ActionResult Login(Users user)
-        {
-            foreach (Users currentUser in database.Users)
-            {
-                MD5 md5Hasher = MD5.Create();
-                byte[] data = md5Hasher.ComputeHash(Encoding.Default.GetBytes(user.Password));
-                StringBuilder crypt = new StringBuilder();
-                foreach (byte value in data)
-                    crypt.Append(value.ToString("x2"));
-                if (currentUser.Login.Equals(user.Login) &&
-                    currentUser.Password.Equals(crypt.ToString()))
-                switch (currentUser.Role)
-                {
-                    case "Administrator": /* Add link */ break;
-                    case "Merchandiser": /* Add link */ break;
-                    case "Supervisor": /* Add link */ break;
-                    case "Costumer": /* Add link */ break;
-                }
-                return this.RedirectToAction("Index");
-            }
-            // Increment counter
-            Session["LoginCounter"] = (int)Session["LoginCounter"] + 1;
-            Response.Write(Session["LoginCounter"]);
-            return this.View();
-        }
 
         // GET: /OrderSystemUser/Register.cshtml
         public ActionResult Register()

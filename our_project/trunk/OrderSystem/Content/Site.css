@@ -85,34 +85,71 @@ textarea
 
 /* Styles for WebGrid
 -----------------------------------------------------------*/
-.wg_tbl
+
+.webgrid
 {
-    border: 1px solid #c0c0c0;
     width: 100%;
-    margin-top: 10px;
+    border: 0px;
+    border-collapse: collapse;
 }
-.wg_hdr, .wg_foot
+
+
+.webgrid a
 {
-    font-family: Calibri, Verdana, Arial;
+    color: #000;
+}
+
+
+.webgrid-header
+{
+    padding: 6px 5px;
     text-align: center;
-    font-size: 14px;
+    background-color: #e8eef4;
+    border-bottom: 2px solid #3966A2;
+    height: 40px;
+    border-top: 2px solid #D6E8FF;
+    border-left: 2px solid #D6E8FF;
+    border-right: 2px solid #D6E8FF;
+}
+
+
+.webgrid-footer
+{
+    padding: 6px 5px;
+    text-align: center;
+    background-color: #e8eef4;
+    border-top: 2px solid #3966A2;
+    height: 30px;
+    border-bottom: 2px solid #D6E8FF;
+    border-left: 2px solid #D6E8FF;
+    border-right: 2px solid #D6E8FF;
+}
+
+
+
+.webgrid-alternating-row
+{
+    height: 30px;
+    text-align: center;
+    background-color: #f2f2f2;
+    border-bottom: 1px solid #d2d2d2;
+    border-left: 2px solid #D6E8FF;
+    border-right: 2px solid #D6E8FF;
+}
+
+
+
+.webgrid-row-style
+{
+    height: 30px;
+    text-align: center;
+    border-bottom: 1px solid #d2d2d2;
+    border-left: 2px solid #D6E8FF;
+    border-right: 2px solid #D6E8FF;
+}
+
+
+.webgrid-selected-row
+{
     font-weight: bold;
-    color: #000000;
-    background-color: #aaa0a0;
-}
-.wg_row
-{
-    font-family: Calibri, Verdana, Arial;
-    text-align: center;
-    font-size: 14px;
-    color: #606060;
-    background-color: #d0d0d0;
-}
-.wg_row_alt
-{
-    font-family: Calibri, Verdana, Arial;
-    text-align: center;
-    font-size: 14px;
-    color: #606060;
-    background-color: #f0f0f0;
 }

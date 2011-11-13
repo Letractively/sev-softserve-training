@@ -1918,4 +1918,12 @@ namespace OrderSystem.Models
         public DateTime PreferableDeliveryDate { get; set; }
 
     }
+
+    public class Logon
+    {
+        [Required(ErrorMessage = "Enter Password")]
+        public string UserLogin { get; set; }
+        [Required(ErrorMessage = "Enter Password")]
+        public string UserPassword { get; set; }
+    }
 }
