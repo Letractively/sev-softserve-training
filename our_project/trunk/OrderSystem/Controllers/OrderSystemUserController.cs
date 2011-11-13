@@ -1,4 +1,4 @@
-﻿using System;
+ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -6,7 +6,6 @@ using OrderSystem.Models;
 
 namespace OrderSystem.Controllers
 {
-    
     public class OrderSystemUserController : Controller
     {
         //
@@ -20,8 +19,11 @@ namespace OrderSystem.Controllers
             return View(database.Users.ToList());
         }
         [HttpPost]
-        public ActionResult Index(string userInfo,string filtrationOption,string filtrationText)
+        public ActionResult Index(string UserInfo,string FiltrationOption,string FiltrationText)
         {
+            string userInfo = UserInfo.ToLower();
+            string filtrationOption = FiltrationOption.ToLower();
+            string filtrationText = FiltrationText.ToLower();
             List<Users> filterList = database.Users.ToList();
             #region FilterUsers
             if (userInfo=="UserName")
@@ -198,7 +200,7 @@ namespace OrderSystem.Controllers
             user.UserLName = user.UserLName.Trim();
             if (ModelState.IsValid)
             {
-                if (isLoginExists(user.Login) && 
+                if (isLoginExists(user.Login) &&
                     (user.Login != database.Users.Single(u => u.UserID == user.UserID).Login))
                 {
                     ModelState.AddModelError("Login", Resources.Shared.ErrorRes.LoginExistsInDB);
@@ -270,15 +272,11 @@ namespace OrderSystem.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
+            //TODO
             Users user = database.Users.Single(u => u.UserID == id);
-            if(Session[user.Login]!=null && (bool)Session[user.Login])
-            {
-                ModelState.AddModelError("Online","User is obline!");
-                return this.View();
-            }
             database.Users.DeleteObject(user);
             database.SaveChanges();
-            return RedirectToAction("Index");    
+            return RedirectToAction("Index");
         }
 
         /// <summary>
@@ -292,7 +290,7 @@ namespace OrderSystem.Controllers
             {
                 database.Users.First(u => u.Login.ToLower() == login.ToLower());
                 return true;
-            } 
+            }
             catch ( Exception )
             {
                 return false;
@@ -300,3 +298,5 @@ namespace OrderSystem.Controllers
         }
     }
 }
+
+
