@@ -25,6 +25,29 @@
 <h2>@ViewBag.Title</h2>
 <p>@ViewBag.Message</p>
 
+
+<script src="../../Scripts/jquery-1.5.1.min.js"></script>
+<script src="../../Scripts/jquery-ui-1.8.11.min.js"></script>
+
+<script language="javascript" type="text/javascript">
+    $(document).ready(function () {
+        $("button.cancel").click(function () {
+            $("#dialog").dialog({
+                buttons: {
+                    "Yes": function () {
+                        document.location.href = '@Url.Action("Index", "OrderSystemUser")';
+                    },
+                    "No": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+
+        });
+
+    });
+</script>
+
 @using (Html.BeginForm())
 {
     <fieldset>
@@ -96,9 +119,14 @@
 
         <p>
             <input type="submit" value="Duplicate" />
-            <input type="button" onclick = "document.location.href = '@Url.Action("Index", "OrderSystemUser")'" value="Cancel" class="cancel" />
+            <button type="button" value="Cancel" class="cancel">Cancel</button>
             <button type="reset" value="Refresh">Refresh</button>
         </p>
+        <div style="visibility:hidden">
+            <div id="dialog" title="Warning" >
+                Are you sure you want to cancel operation?<br />All data will be lost.
+            </div>
+        </div>
     </fieldset>
        
 }

@@ -185,7 +185,8 @@ namespace OrderSystem.Controllers
         [HttpPost]
         public ActionResult Register(Users user)
         {
-            user.Login = user.Login.ToLower();
+            user.UserFName = user.UserFName.Trim();
+            user.UserLName = user.UserLName.Trim();
             if (ModelState.IsValid)
             {
                 if (isLoginExists(user.Login))
@@ -218,7 +219,8 @@ namespace OrderSystem.Controllers
         [HttpPost]
         public ActionResult Edit(Users user)
         {
-            user.Login = user.Login.ToLower();
+            user.UserFName = user.UserFName.Trim();
+            user.UserLName = user.UserLName.Trim();
             if (ModelState.IsValid)
             {
                 if (isLoginExists(user.Login) && 
@@ -252,7 +254,8 @@ namespace OrderSystem.Controllers
         [HttpPost]
         public ActionResult Duplicate(Users user)
         {
-            user.Login = user.Login.ToLower();
+            user.UserFName = user.UserFName.Trim();
+            user.UserLName = user.UserLName.Trim();
             if (ModelState.IsValid)
             {
                 if (isLoginExists(user.Login))
@@ -300,7 +303,7 @@ namespace OrderSystem.Controllers
         {
             try
             {
-                database.Users.First(u => u.Login == login);
+                database.Users.First(u => u.Login.ToLower() == login.ToLower());
                 return true;
             } 
             catch ( Exception )
