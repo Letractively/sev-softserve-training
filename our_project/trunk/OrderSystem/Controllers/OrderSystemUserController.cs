@@ -6,6 +6,7 @@ using OrderSystem.Models;
 
 namespace OrderSystem.Controllers
 {
+    
     public class OrderSystemUserController : Controller
     {
         //
@@ -19,11 +20,8 @@ namespace OrderSystem.Controllers
             return View(database.Users.ToList());
         }
         [HttpPost]
-        public ActionResult Index(string UserInfo,string FiltrationOption,string FiltrationText)
+        public ActionResult Index(string userInfo,string filtrationOption,string filtrationText)
         {
-            string userInfo = UserInfo.ToLower();
-            string filtrationOption = FiltrationOption.ToLower();
-            string filtrationText = FiltrationText.ToLower();
             List<Users> filterList = database.Users.ToList();
             #region FilterUsers
             if (userInfo=="UserName")
@@ -272,11 +270,15 @@ namespace OrderSystem.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            //TODO
             Users user = database.Users.Single(u => u.UserID == id);
+            if(Session[user.Login]!=null && (bool)Session[user.Login])
+            {
+                ModelState.AddModelError("Online","User is obline!");
+                return this.View();
+            }
             database.Users.DeleteObject(user);
             database.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index");    
         }
 
         /// <summary>
