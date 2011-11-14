@@ -1,7 +1,8 @@
  using System;
-using System.Collections.Generic;
+ using System.Collections;
+ using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
+ using System.Web.Mvc;
 using OrderSystem.Models;
 
 namespace OrderSystem.Controllers
@@ -19,11 +20,8 @@ namespace OrderSystem.Controllers
             return View(database.Users.ToList());
         }
         [HttpPost]
-        public ActionResult Index(string UserInfo,string FiltrationOption,string FiltrationText)
+        public ActionResult Index(string userInfo,string filtrationOption,string filtrationText)
         {
-            string userInfo = UserInfo.ToLower();
-            string filtrationOption = FiltrationOption.ToLower();
-            string filtrationText = FiltrationText.ToLower();
             List<Users> filterList = database.Users.ToList();
             #region FilterUsers
             if (userInfo=="UserName")
@@ -272,8 +270,14 @@ namespace OrderSystem.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            //TODO
             Users user = database.Users.Single(u => u.UserID == id);
+            //Проверяем онлайн ли пользователь, если онлайн даем ошибку в представление
+            if(((Hashtable)HttpContext.Application["OnlineUsers"]).ContainsValue(user.Login))
+            {
+                
+                ModelState.AddModelError("Online",@"User is online!");
+                return this.View();
+            }
             database.Users.DeleteObject(user);
             database.SaveChanges();
             return RedirectToAction("Index");
