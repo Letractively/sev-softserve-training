@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System.Collections;
+using System.Security.Cryptography;
 using System.Text;
 using System.Web.Mvc;
 using OrderSystem.Models;
@@ -36,9 +37,18 @@ namespace OrderSystem.Controllers
                         currentUser.Password.Equals(user.UserPassword))
                         switch (currentUser.Role)
                         {
-                            case "Administrator": Session["User"] = currentUser.Login;
+                            case "Administrator":
+                                {
+                                    Session["User"] = currentUser.Login;
+                                    //Добавляем юзера в список онлайн
+                                    ((Hashtable) HttpContext.Application["OnlineUsers"]).Add(Session.SessionID,currentUser.Login);
+                                }
                                 return RedirectToAction("Index", "OrderSystemUser");
-                            case "Merchandiser": Session["User"] = currentUser.Login;
+                            case "Merchandiser": 
+                                { 
+                                    Session["User"] = currentUser.Login; 
+                                    ((Hashtable)HttpContext.Application["OnlineUsers"]).Add(Session.SessionID, currentUser.Login); 
+                                }
                                 return RedirectToAction("AnalyzeOrders", "DisplayOrder");
                             case "Supervisor": /* Add link */ break;
                             case "Costumer": /* Add link */ break;

@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Collections;
+using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace OrderSystem
@@ -20,16 +22,33 @@ namespace OrderSystem
             routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
-                new { controller = "OrderSystemUser", action = "Index", id = UrlParameter.Optional } // Parameter defaults
+                new { controller = "UserLogin", action = "Login", id = UrlParameter.Optional } // Parameter defaults
             );
         }
 
         protected void Application_Start()
         {
+            Application["OnlineUsers"] = new Hashtable();
             AreaRegistration.RegisterAllAreas();
-
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+        }
+
+        /*При окончании сессии проверяем есть ли с таким SessionID User в Application["OnlineUsers"],
+         * и если есть удаляем его.
+         */
+        protected void Session_Start(object sender,EventArgs e)
+        {
+            
+        }
+        protected void Session_End(object sender,EventArgs e)
+        {
+            Application.Lock();
+                if (((Hashtable)Application["OnlineUsers"]).ContainsKey(Session.SessionID))
+                {
+                    ((Hashtable)Application["OnlineUsers"]).Remove(Session.SessionID);
+                }
+            Application.UnLock();
         }
     }
 }
