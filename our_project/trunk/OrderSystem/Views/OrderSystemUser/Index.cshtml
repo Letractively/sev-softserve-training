@@ -49,9 +49,22 @@
     WebGrid usersGrid = new WebGrid(Model,canPage:true,canSort: true, rowsPerPage: 10);
     
  }
-@usersGrid.GetHtml(tableStyle: "table",mode:WebGridPagerModes.All,firstText:"First",lastText:"Last",previousText:"Previous",nextText:"Next",numericLinksCount:5, columns: usersGrid.Columns(usersGrid.Column("Login", "User Name"), usersGrid.Column("UserFName","First Name"), usersGrid.Column("UserLName","Last Name"), usersGrid.Column("Role"), usersGrid.Column("Mail"), usersGrid.Column("Region"),
-usersGrid.Column("Edit",canSort:false,format: (item) => Html.ActionLink("Edit", "Edit", new {id=item.UserID }, new { style = "background: url('../../Content/Images/edit-user.png') no-repeat center right;display:block; height:22px; width:22px;margin-top:-2px;text-decoration:none;font-size:0em;" })),
-        usersGrid.Column("Remove",canSort:false,format:(item)=>Html.ActionLink("Delete", "Delete" ,new {id=item.UserID}, new { style = "background: url('../../Content/Images/remove-user.png') no-repeat center right;display:block; height:22px; width:22px;margin-top:-2px;text-decoration:none;font-size:0em;color: #000;text-decoration: none;" })),
-        usersGrid.Column("Duplicate",canSort:false,format: (item) => Html.ActionLink("Duplicate", "Duplicate", new {id=item.UserID }, new { style = "background: url('../../Content/Images/duplicate.png') no-repeat center right;display:block; height:22px; width:22px;margin-top:-2px;text-decoration:none;font-size:0em;color: #000;text-decoration: none;" }))))
+@usersGrid.GetHtml(tableStyle: "webgrid",
+                              mode: WebGridPagerModes.All, 
+                              firstText: "First", 
+                              lastText: "Last", 
+                              previousText: "Previous", 
+                              nextText: "Next", 
+                              numericLinksCount: 5, 
+                              columns: 
+                              usersGrid.Columns(usersGrid.Column("Login", "User Name"), 
+                              usersGrid.Column("UserFName", "First Name"), 
+                              usersGrid.Column("UserLName", "Last Name"), 
+                              usersGrid.Column("Role"), 
+                              usersGrid.Column("Mail"), 
+                              usersGrid.Column("Region"),
+                              usersGrid.Column("Edit",canSort:false,format: (item) => Html.ActionLink("Edit", "Edit", new {id=item.UserID }, new { style = "background: url('../../Content/Images/edit-user.png') no-repeat center right;display:block; height:22px; width:22px;margin-top:-2px;text-decoration:none;font-size:0em;" })),
+                              usersGrid.Column("Remove",canSort:false,format:(item)=>Html.ActionLink("Delete", "Delete" ,new {id=item.UserID}, new { style = "background: url('../../Content/Images/remove-user.png') no-repeat center right;display:block; height:22px; width:22px;margin-top:-2px;text-decoration:none;font-size:0em;color: #000;text-decoration: none;" })),
+                              usersGrid.Column("Duplicate",canSort:false,format: (item) => Html.ActionLink("Duplicate", "Duplicate", new {id=item.UserID }, new { style = "background: url('../../Content/Images/duplicate.png') no-repeat center right;display:block; height:22px; width:22px;margin-top:-2px;text-decoration:none;font-size:0em;color: #000;text-decoration: none;" }))))
 
 </div>

@@ -41,12 +41,14 @@ namespace OrderSystem.Controllers
                                 {
                                     Session["User"] = currentUser.Login;
                                     //Добавляем юзера в список онлайн
+                                    if (!((Hashtable)HttpContext.Application["OnlineUsers"]).Contains(Session.SessionID))
                                     ((Hashtable) HttpContext.Application["OnlineUsers"]).Add(Session.SessionID,currentUser.Login);
                                 }
                                 return RedirectToAction("Index", "OrderSystemUser");
                             case "Merchandiser": 
                                 { 
-                                    Session["User"] = currentUser.Login; 
+                                    Session["User"] = currentUser.Login;
+                                    if (!((Hashtable)HttpContext.Application["OnlineUsers"]).Contains(Session.SessionID))
                                     ((Hashtable)HttpContext.Application["OnlineUsers"]).Add(Session.SessionID, currentUser.Login); 
                                 }
                                 return RedirectToAction("AnalyzeOrders", "DisplayOrder");
