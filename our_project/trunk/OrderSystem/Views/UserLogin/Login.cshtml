@@ -21,7 +21,7 @@
                             @Html.LabelFor(m => m.UserLogin, "Name: ")
                         </td>
                         <td colspan="2">
-                            @Html.TextBoxFor(m => m.UserLogin, new { size = "70" })
+                            @Html.TextBoxFor(m => m.UserLogin, new { size = "70", Value = ViewBag.Name})
                         </td>
                     </tr>
                     <tr>
@@ -69,7 +69,7 @@
                     switch ((int)ViewBag.Error)
                     {
                         case 1: error = "System allows only 50 users to be logged in. Please, try again late. Sorry for the inconvenience."; break;
-                        case 2: error = "The user is already logged into the system under other browser. Please use another session or log out and try to log in again."; break;
+                        case 2: error = "This user is already logged into the system under other browser. Please use another session or log out and try to log in again."; break;
                         default: error = "User credentials were entered incorrectly. Page is locked fo 10 minutes. Please try again later."; break;
                     }
                 }

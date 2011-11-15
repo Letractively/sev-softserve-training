@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections;
-using System.Net.Mime;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
-using System.Windows.Forms;
 using OrderSystem.Models;
 
 namespace OrderSystem.Controllers
@@ -17,12 +14,9 @@ namespace OrderSystem.Controllers
 
         public ActionResult Login()
         {
+            if (Request.Cookies["Login"] != null)
+            ViewBag.Name = Request.Cookies["Login"].Value;
             GetOnlineUsers().Remove(Session.SessionID);
-            if (Session["LoginCounter"] == null)
-            {
-                Session.Add("LoginCounter", 0);
-                Session.Timeout = 5;
-            }
             ViewBag.Error = 0;
             return this.View();
         }
@@ -32,6 +26,14 @@ namespace OrderSystem.Controllers
         public ActionResult Login(Logon user)
         {
             ViewBag.Error = 0;
+            if (user.RememberMe)
+            {
+                HttpCookie cookie = new HttpCookie("Login", user.UserLogin);
+                DateTime dateTime = DateTime.Now;
+                TimeSpan span = new TimeSpan(48, 0, 0);
+                cookie.Expires = dateTime.Add(span);
+                Response.AppendCookie(cookie);
+            }
             if (ModelState.IsValid)
             {
                 foreach (Users currentUser in database.Users)
