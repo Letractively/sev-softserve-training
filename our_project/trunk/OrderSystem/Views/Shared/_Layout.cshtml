@@ -15,15 +15,12 @@
 
     function openUserInfo() 
     {
-        window.open("@Url.Action("UserDetails", "OrderSystemUser")", "WindowPopup", "width=400px, height=400px, resizable");
-        
-        
+        window.open("@Url.Action("UserDetails", "OrderSystemUser")", "WindowPopup", "width=400px, height=400px, resizable");    
     } 
-    
     </script>
-    
+
     <div align="right">
-        <b>Logged user: &nbsp; @Session["User"] &nbsp; </b><a href="" onclick="openUserInfo()"
+        <b>Logged user: &nbsp; < @Session["User"] > &nbsp; </b><a href="" onclick="openUserInfo()"
             style="color: white" title="User info">
             <img src="@Url.Content("~/Content/Images/login.png")" />
         </a><a href="@Url.Action("Login", "UserLogin")" style="color: white" title="Logout">

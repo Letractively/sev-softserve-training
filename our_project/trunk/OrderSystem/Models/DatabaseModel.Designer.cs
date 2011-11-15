@@ -1921,9 +1921,10 @@ namespace OrderSystem.Models
 
     public class Logon
     {
-        [Required(ErrorMessage = "Enter Password")]
+        [Required(ErrorMessage = "Please enter user name")]
         public string UserLogin { get; set; }
-        [Required(ErrorMessage = "Enter Password")]
+        [Required(ErrorMessage = "Please enter password")]
         public string UserPassword { get; set; }
+        public bool RememberMe { get; set; }
     }
 }

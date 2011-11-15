@@ -1,64 +1,81 @@
 ﻿@model OrderSystem.Models.Logon
-
 @{ 
-   ViewBag.Title = "Login Page";
-   Layout = null;
- }
-
+    ViewBag.Title = "Login Page";
+    Layout = null;
+}
+<link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
 <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
-
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true)
-    <fieldset style="width:480px; position: absolute; left: 30%; top: 30%;"> 
-    @{
-        if ((int) Session["LoginCounter"] < 5)
+
+    <fieldset style="position: absolute; left: 30%; top: 30%;">
+        @if (ViewBag.Error == 0 && (int) Session["LoginCounter"] < 5)
         {
-            <legend align="left" style="font-weight: bold;"> Order Management System </legend>
-            <p> 
+            <legend align="left" style="font-weight: bold;">Order Management System </legend>
+            <p>
                 <table>
                     <tr>
-                        <td align="right"> @Html.LabelFor(m => m.UserLogin, "Name: ") </td> 
-                        <td colspan="2"> 
-                            @Html.TextBoxFor(m => m.UserLogin, new {size = "60"})
+                        <td align="right">
+                            @Html.LabelFor(m => m.UserLogin, "Name: ")
+                        </td>
+                        <td colspan="2">
+                            @Html.TextBoxFor(m => m.UserLogin, new { size = "70" })
                         </td>
                     </tr>
                     <tr>
                         <td />
-                        <td colspan="2" height="20">
+                        <td colspan="2" height="30" style="font-size: small">
                             @Html.ValidationMessageFor(m => m.UserLogin)
+                            @Html.ValidationMessage("Login", "Such user does not exist in the system - please try again")
                         </td>
                     </tr>
                     <tr>
-                        <td align="right"> @Html.LabelFor(m => m.UserPassword, "Password: ") </td> 
-                        <td colspan="2"> 
-                            @Html.PasswordFor(m => m.UserPassword, new {size = "60"})
+                        <td align="right">
+                            @Html.LabelFor(m => m.UserPassword, "Password: ")
+                        </td>
+                        <td colspan="2" height="30">
+                            @Html.PasswordFor(m => m.UserPassword, new { size = "70" })
                         </td>
                     </tr>
                     <tr>
                         <td />
-                        <td colspan="2" height="20">
+                        <td colspan="2" height="30" style="font-size: small">
                             @Html.ValidationMessageFor(m => m.UserPassword)
+                            @Html.ValidationMessage("Password", @"Password is incorrect - please try again")
                         </td>
                     </tr>
                     <tr>
                         <td />
-                        <td> <input id="UserCheckBox" type="checkbox" /> Remember user name </td> 
-                        
-                        <td align="right"> <input type="submit" value="Login" /> </td>
+                        <td>
+                            @Html.CheckBoxFor(m => m.RememberMe)
+                            Remember user name
+                        </td>
+                        <td align="right">
+                            <input type="submit" value="Login" />
+                        </td>
                     </tr>
                 </table>
             </p>
         }
         else
         {
-            <legend align="left" style="font-weight: bold;"> Warning Message </legend>
-            <p> 
-            User credentials were entered incorrectly. Page is locked for 10 minutes.
-            <br/> Please try again leater.
+            <legend align="left" style="font-weight: bold;">Warning Message </legend>
+            <p>
+                @{
+                    string error;
+                    
+                    switch ((int)ViewBag.Error)
+                    {
+                        case 1: error = "System allows only 50 users to be logged in. Please, try again late. Sorry for the inconvenience."; break;
+                        case 2: error = "The user is already logged into the system under other browser. Please use another session or log out and try to log in again."; break;
+                        default: error = "User credentials were entered incorrectly. Page is locked fo 10 minutes. Please try again later."; break;
+                    }
+                }
+                @error
             </p>
         }
-    }
     </fieldset>
+            
 }
