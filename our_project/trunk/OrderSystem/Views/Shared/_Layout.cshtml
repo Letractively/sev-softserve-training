@@ -18,14 +18,22 @@
         window.open("@Url.Action("UserDetails", "OrderSystemUser")", "WindowPopup", "width=400px, height=400px, resizable");    
     } 
     </script>
-
     <div align="right">
-        <b>Logged user: &nbsp; < @Session["User"] > &nbsp; </b><a href="" onclick="openUserInfo()"
-            style="color: white" title="User info">
-            <img src="@Url.Content("~/Content/Images/login.png")" />
-        </a><a href="@Url.Action("Login", "UserLogin")" style="color: white" title="Logout">
-            <img src="@Url.Content("~/Content/Images/logout.png")" />
-        </a>
+        <table>
+            <tr>
+                <td>
+                    <b>Logged user: &nbsp; < @Session["User"] > &nbsp; </b>
+                </td>
+                <td>
+                    <a href="" onclick="openUserInfo()" style="color: white" title="User info">
+                        <img src="@Url.Content("~/Content/Images/login.png")" />
+                    </a>
+                    <a href="@Url.Action("Login", "UserLogin")" style="color: white" title="Logout">
+                        <img src="@Url.Content("~/Content/Images/logout.png")" />
+                    </a>
+                </td>
+            </tr>
+        </table>
         <hr />
     </div>
     @RenderBody()
