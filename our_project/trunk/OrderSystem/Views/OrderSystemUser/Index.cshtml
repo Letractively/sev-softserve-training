@@ -50,12 +50,17 @@
     
  }
 @usersGrid.GetHtml(tableStyle: "webgrid",
+                              headerStyle: "webgrid-header",
+                              footerStyle: "webgrid-footer",
+                              alternatingRowStyle: "webgrid-alternating-row",
+                              selectedRowStyle: "webgrid-selected-row",
+                              rowStyle: "webgrid-row-style",
                               mode: WebGridPagerModes.All, 
                               firstText: "First", 
                               lastText: "Last", 
                               previousText: "Previous", 
                               nextText: "Next", 
-                              numericLinksCount: 5, 
+                              numericLinksCount: 5,
                               columns: 
                               usersGrid.Columns(usersGrid.Column("Login", "User Name"), 
                               usersGrid.Column("UserFName", "First Name"), 
