@@ -153,3 +153,28 @@ textarea
 {
     font-weight: bold;
 }
+
+a.webridUserEdit
+{
+    background: url(../../Content/Images/edit-user.png) no-repeat center center;
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    text-indent: -9999px; /* hides the link text */
+}
+a.webridUserRemove
+{
+    background: url(../../Content/Images/remove-user.png) no-repeat center center;
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    text-indent: -9999px;
+}
+a.webridUserDuplicate
+{
+     background: url(../../Content/Images/duplicate.png) no-repeat center center;
+     display:inline-block;
+     width: 22px;
+     height: 22px;
+     text-indent: -9999px; /* hides the link text */
+}
