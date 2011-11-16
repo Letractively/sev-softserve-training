@@ -142,15 +142,14 @@ namespace OrderSystem.Controllers
             {
                 if (user.Login == (string)Session["User"])
                 {
-
                     var maxTresholdRank = (from r in database.Rank
                                            orderby r.RankTreshold descending
                                            select r).First();
-                    double moneyToNextRank = Double.Parse(maxTresholdRank.RankTreshold.ToString()) - user.Balance;
+                    Decimal moneyToNextRank = Decimal.Parse(maxTresholdRank.RankTreshold.ToString()) - (Decimal)user.Balance;
                     string nextRankName = maxTresholdRank.RankName;
                     foreach (Rank rank in database.Rank)
                     {
-                        double curTreshold = Double.Parse(rank.RankTreshold.ToString());
+                        decimal curTreshold = Decimal.Parse(rank.RankTreshold.ToString());
                         if (curTreshold > user.Balance && curTreshold < moneyToNextRank)
                         {
                             moneyToNextRank = curTreshold;
@@ -159,7 +158,7 @@ namespace OrderSystem.Controllers
                     }
 
                     NextRankInfo rankInfo = new NextRankInfo();
-                    rankInfo.MoneyToNextRank = moneyToNextRank;
+                    rankInfo.MoneyToNextRank = (double)moneyToNextRank;
                     rankInfo.NextRankName = nextRankName;
                     ViewBag.NextRankInfo = rankInfo;
 
@@ -195,13 +194,12 @@ namespace OrderSystem.Controllers
                 {
                     if (user.Role == "Customer")
                     {
-                        user.Rank = 1;
-                        user.RankType = 1;
+                        user.Rank = 0;
+                        user.Balance = 0;
                     }
                     else
                     {
-                        user.Rank = 0;
-                        user.RankType = 0;
+                        user.Rank = null;
                     }
                     database.Users.AddObject(user);
                     database.SaveChanges();

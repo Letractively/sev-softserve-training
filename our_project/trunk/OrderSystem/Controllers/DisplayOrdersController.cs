@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using OrderSystem.Models;
 using System.Collections.Generic;
-
+using System;
 namespace OrderSystem.Controllers
 {
     public class DisplayOrderController : Controller
@@ -20,7 +20,7 @@ namespace OrderSystem.Controllers
             {
                 ItemNumber = item.ItemID,
                 ItemName = item.ItemName,
-                ItemDescription = item.ItemDiscription,
+                ItemDescription = item.ItemDescriprion,
                 Dimension = order.Dimension,
                 Price = item.Price,
                 Quantity = order.Quantity,
@@ -42,7 +42,7 @@ namespace OrderSystem.Controllers
                 TotalPrice = order.TotalPrice,
                 Assignee = order.Assignee,
                 DateOfOrdering = order.OrderingDate,
-                PreferableDeliveryDate = order.PreferableDeliveryDate
+                PreferableDeliveryDate = (DateTime)order.PreferableDeliveryDate
             }).ToArray();
 
             ViewBag.OrderInfo = orderInfo;
