@@ -4,6 +4,7 @@
     ViewBag.Title = "User Info";
     NextRankInfo info = new NextRankInfo();
     info = ViewBag.NextRankInfo;
+    string isVisible = Model.Role == "Customer" ? "visible" : "hidden";
 }
 
 <h2>@ViewBag.Title</h2>
@@ -11,10 +12,10 @@
 <fieldset>
     <div class="display-label">User Name: @Html.DisplayFor(model => model.UserFName)</div>
     <div class="display-label">Role: @Html.DisplayFor(model => model.Role)</div>
-    <div class="display-label">Rank: @Html.DisplayFor(model => model.Rank1.RankName)</div>
-    <div class="display-label">Balance: @Html.DisplayFor(model => model.Balance)</div>
+    <div class="display-label" style="visibility:@isVisible">Rank: @Html.DisplayFor(model => model.Rank1.RankName)</div>
+    <div class="display-label" style="visibility:@isVisible">Balance: @Html.DisplayFor(model => model.Balance)</div>
 </fieldset>
-<fieldset>
+<fieldset style="visibility:@isVisible">
     <br />
     <br />
     <br />
