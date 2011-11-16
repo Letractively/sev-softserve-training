@@ -1927,4 +1927,10 @@ namespace OrderSystem.Models
         public string UserPassword { get; set; }
         public bool RememberMe { get; set; }
     }
+
+    public class NextRankInfo
+    {
+        public double MoneyToNextRank { get; set; }
+        public string NextRankName { get; set; }
+    }
 }

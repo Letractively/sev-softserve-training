@@ -1,21 +1,23 @@
+@using OrderSystem.Models
 @model OrderSystem.Models.Users
 @{
     ViewBag.Title = "User Info";
-    ViewBag.Message = "This page displays user's details"; 
-    Layout = null;
+    NextRankInfo info = new NextRankInfo();
+    info = ViewBag.NextRankInfo;
 }
 
 <h2>@ViewBag.Title</h2>
-<p>@ViewBag.Message</p>
 
 <fieldset>
-    <legend>User Info</legend>
-    <div class="display-label">Login:@Html.DisplayFor(model => model.Login)</div>
-    <div class="display-label">UserFName:@Html.DisplayFor(model => model.UserFName)</div>
-    <div class="display-label">UserLName:@Html.DisplayFor(model => model.UserLName)</div>
-    <div class="display-label">Mail: @Html.DisplayFor(model => model.Mail)</div>
-    <div class="display-label">Region:@Html.DisplayFor(model => model.Region)</div>
-    <div class="display-label">Role:@Html.DisplayFor(model => model.Role)</div>
-    <div class="display-label">Rank:@Html.DisplayFor(model => model.Rank)</div>
-    <div class="display-label">Balance:@Html.DisplayFor(model => model.Balance)</div>
+    <div class="display-label">User Name: @Html.DisplayFor(model => model.UserFName)</div>
+    <div class="display-label">Role: @Html.DisplayFor(model => model.Role)</div>
+    <div class="display-label">Rank: @Html.DisplayFor(model => model.Rank1.RankName)</div>
+    <div class="display-label">Balance: @Html.DisplayFor(model => model.Balance)</div>
+</fieldset>
+<fieldset>
+    <br />
+    <br />
+    <br />
+    <br />
+    <div class="display-label">* Need to spend @info.MoneyToNextRank$ to become a @info.NextRankName customer</div>
 </fieldset>
