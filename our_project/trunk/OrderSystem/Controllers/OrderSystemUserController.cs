@@ -138,7 +138,37 @@ namespace OrderSystem.Controllers
         // GET: /OrderSystemUser/UserDetails.cshtml
         public ActionResult UserDetails()
         {
+            foreach (Users user in database.Users)
+            {
+                if (user.Login == (string)Session["User"])
+                {
+
+                    var maxTresholdRank = (from r in database.Rank
+                                           orderby r.RankTreshold descending
+                                           select r).First();
+                    double moneyToNextRank = Double.Parse(maxTresholdRank.RankTreshold.ToString()) - user.Balance;
+                    string nextRankName = maxTresholdRank.RankName;
+                    foreach (Rank rank in database.Rank)
+                    {
+                        double curTreshold = Double.Parse(rank.RankTreshold.ToString());
+                        if (curTreshold > user.Balance && curTreshold < moneyToNextRank)
+                        {
+                            moneyToNextRank = curTreshold;
+                            nextRankName = rank.RankName;
+                        }
+                    }
+
+                    NextRankInfo rankInfo = new NextRankInfo();
+                    rankInfo.MoneyToNextRank = moneyToNextRank;
+                    rankInfo.NextRankName = nextRankName;
+                    ViewBag.NextRankInfo = rankInfo;
+
+                    return this.View(user);
+                }
+            }
+
             return this.View();
+
         }
 
 
