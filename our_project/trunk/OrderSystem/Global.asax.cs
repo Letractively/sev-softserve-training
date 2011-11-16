@@ -23,7 +23,7 @@ namespace OrderSystem
             routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
-                new {controller = "UserLogin", action = "Login", id = UrlParameter.Optional} // Parameter defaults
+                new {controller = "OrderSystemUser", action = "Index", id = UrlParameter.Optional} // Parameter defaults
                 );
         }
 

@@ -13,20 +13,6 @@ INSERT INTO [OrderSystem].[dbo].[Rank]
      VALUES
            (0
            ,0
-           ,'NotCustomer'
-           ,'Icon'
-           ,0)
-GO
-
-INSERT INTO [OrderSystem].[dbo].[Rank]
-           ([RankID]
-           ,[RankTreshold]
-           ,[RankName]
-           ,[IconName]
-           ,[Percents])
-     VALUES
-           (1
-           ,0
            ,'Standart'
            ,'Icon'
            ,0)
@@ -39,12 +25,28 @@ INSERT INTO [OrderSystem].[dbo].[Rank]
            ,[IconName]
            ,[Percents])
      VALUES
-           (2
+           (1
            ,1000
            ,'Silver'
            ,'Icon'
            ,0)
 GO
+
+
+INSERT INTO [OrderSystem].[dbo].[Rank]
+           ([RankID]
+           ,[RankTreshold]
+           ,[RankName]
+           ,[IconName]
+           ,[Percents])
+     VALUES
+           (2
+           ,3000
+           ,'Gold'
+           ,'Icon'
+           ,0)
+GO
+
 
 INSERT INTO [OrderSystem].[dbo].[Rank]
            ([RankID]
@@ -54,25 +56,14 @@ INSERT INTO [OrderSystem].[dbo].[Rank]
            ,[Percents])
      VALUES
            (3
-           ,3000
-           ,'Gold'
-           ,'Icon'
-           ,0)
-GO
-
-INSERT INTO [OrderSystem].[dbo].[Rank]
-           ([RankID]
-           ,[RankTreshold]
-           ,[RankName]
-           ,[IconName]
-           ,[Percents])
-     VALUES
-           (4
            ,10000
            ,'Platinum'
            ,'Icon'
            ,0)
 GO
+
+
+
 
 INSERT INTO [OrderSystem].[dbo].[Users]
            ([Login]
@@ -93,9 +84,9 @@ INSERT INTO [OrderSystem].[dbo].[Users]
            ,'Merch1@mail.com'
            ,'North'
            ,'Merchandiser'
+           ,NULL
            ,0
-           ,0
-           ,0)
+           ,NULL)
 GO
 
 INSERT INTO [OrderSystem].[dbo].[Users]
@@ -117,9 +108,9 @@ INSERT INTO [OrderSystem].[dbo].[Users]
            ,'Merch2@mail.com'
            ,'West'
            ,'Merchandiser'
+           ,NULL
            ,0
-           ,0
-           ,0)
+           ,NULL)
 GO
 
 INSERT INTO [OrderSystem].[dbo].[Users]
@@ -141,9 +132,9 @@ INSERT INTO [OrderSystem].[dbo].[Users]
            ,'Merch3@mail.com'
            ,'South'
            ,'Merchandiser'
+           ,NULL
            ,0
-           ,0
-           ,0)
+           ,NULL)
 GO
 
 INSERT INTO [OrderSystem].[dbo].[Users]
@@ -165,9 +156,9 @@ INSERT INTO [OrderSystem].[dbo].[Users]
            ,'Superv1@mail.com'
            ,'East'
            ,'Supervisor'
+           ,NULL
            ,0
-           ,0
-           ,0)
+           ,NULL)
 GO
 
 INSERT INTO [OrderSystem].[dbo].[Users]
@@ -189,9 +180,9 @@ INSERT INTO [OrderSystem].[dbo].[Users]
            ,'Superv2@mail.com'
            ,'West'
            ,'Supervisor'
+           ,NULL
            ,0
-           ,0
-           ,0)
+           ,NULL)
 GO
 
 INSERT INTO [OrderSystem].[dbo].[Users]
@@ -213,9 +204,9 @@ INSERT INTO [OrderSystem].[dbo].[Users]
            ,'Superv3@mail.com'
            ,'West'
            ,'Supervisor'
+           ,NULL
            ,0
-           ,0
-           ,0)
+           ,NULL)
 GO
 
 INSERT INTO [OrderSystem].[dbo].[Users]
@@ -237,8 +228,8 @@ INSERT INTO [OrderSystem].[dbo].[Users]
            ,'Custom1@mail.com'
            ,'West'
            ,'Customer'
-           ,1
-           ,1
+           ,0
+           ,0
            ,0)
 GO
 
@@ -261,8 +252,8 @@ INSERT INTO [OrderSystem].[dbo].[Users]
            ,'Custom2@mail.com'
            ,'North'
            ,'Customer'
-           ,2
-           ,2
+           ,1
+           ,1
            ,1500)
 GO
 
@@ -285,8 +276,8 @@ INSERT INTO [OrderSystem].[dbo].[Users]
            ,'Custom3@mail.com'
            ,'West'
            ,'Customer'
-           ,3
-           ,3
+           ,2
+           ,2
            ,5000)
 GO
 
@@ -309,8 +300,8 @@ INSERT INTO [OrderSystem].[dbo].[Users]
            ,'Custom4@mail.com'
            ,'North'
            ,'Customer'
-           ,4
-           ,4
+           ,3
+           ,3
            ,12000)
 GO
 
@@ -333,9 +324,9 @@ INSERT INTO [OrderSystem].[dbo].[Users]
            ,'Admin1@mail.com'
            ,'West'
            ,'Administrator'
+           ,NULL
            ,0
-           ,0
-           ,0)
+           ,NULL)
 GO
       
       
@@ -358,9 +349,9 @@ INSERT INTO [OrderSystem].[dbo].[Users]
            ,'Admin2@mail.com'
            ,'North'
            ,'Administrator'
+           ,NULL
            ,0
-           ,0
-           ,0)
+           ,NULL)
 GO
 
      
@@ -383,7 +374,7 @@ INSERT INTO [OrderSystem].[dbo].[Users]
            ,'Admin3@mail.com'
            ,'North'
            ,'Administrator'
+           ,NULL
            ,0
-           ,0
-           ,0)
+           ,NULL)
 GO
