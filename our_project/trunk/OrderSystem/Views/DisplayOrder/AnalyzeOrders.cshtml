@@ -1,19 +1,17 @@
-﻿@using OrderSystem.Models
-@model IEnumerable<OrderedItemsInfo>
-           
+﻿@model OrderSystem.Controllers.ViewModel 
 @{
     ViewBag.Title = "Analysing orders";
-    TotalOrderInfo info = ViewBag.OrderInfo[0];
-    
+
+    bool empty = Model.OrderInfo == null ? true : false;
+
     WebGrid itemsGrid = new WebGrid
     (
-       Model,
+       Model.OrderedItems,
        canPage: true,
        canSort: true,
-       rowsPerPage: ViewBag.rowsCount
+       rowsPerPage: 5
     );
 }
-
 @using (Html.BeginForm())
 {
     <p>
@@ -23,13 +21,11 @@
         <legend align="left" style="font-weight: bold">Items Selection </legend>
         <div align="right">
             <select id="RowsPerPage">
-                <option>show 5 lines
-                 </option>
+                <option>show 5 lines </option>
                 <option>show 10 lines </option>
                 <option>show 20 lines</option>
             </select>
         </div>
-
         <div align="center">
             <p>
                 @itemsGrid.GetHtml(columns: itemsGrid.Columns(
@@ -59,7 +55,7 @@
                     Costumer Name:
                 </td>
                 <td>
-                    @info.CostumerName
+                    @Html.Label(empty ? "" : Model.OrderInfo.CustomerName)
                 </td>
             </tr>
             <tr>
@@ -67,7 +63,7 @@
                     Costumer Type:
                 </td>
                 <td>
-                    @info.CostumerType
+                    @Html.Label(empty ? "" : Model.OrderInfo.CustomerType)
                 </td>
             </tr>
             <tr>
@@ -75,7 +71,7 @@
                     Order Number:
                 </td>
                 <td>
-                    @info.OrderNumber
+                    @Html.Label(empty ? "" : Model.OrderInfo.OrderNumber.ToString())
                 </td>
             </tr>
             <tr>
@@ -83,7 +79,7 @@
                     Total Price:
                 </td>
                 <td>
-                    @info.TotalPrice
+                    @Html.Label(empty ? "" : Model.OrderInfo.TotalPrice.ToString())
                 </td>
             </tr>
             <tr>
@@ -96,7 +92,7 @@
                     Assignee:
                 </td>
                 <td>
-                    @info.Assignee
+                    @Html.Label(empty ? "" : Model.OrderInfo.Assignee)
                 </td>
             </tr>
             <tr>
@@ -104,7 +100,7 @@
                     Date of Ordering:
                 </td>
                 <td>
-                    @info.DateOfOrdering.ToShortDateString()
+                    @Html.Label(empty ? "" : Model.OrderInfo.DateOfOrdering.ToShortDateString())
                 </td>
             </tr>
             <tr>
@@ -112,7 +108,7 @@
                     Preferable Delivery Date:
                 </td>
                 <td>
-                    @info.PreferableDeliveryDate.ToShortDateString()
+                    @Html.Label(empty ? "" : Model.OrderInfo.PreferableDeliveryDate.ToString())
                 </td>
             </tr>
         </table>
@@ -130,7 +126,7 @@
             </tr>
             <tr>
                 <td>
-                    <u> Delivery Date: </u>
+                    <u>Delivery Date: </u>
                 </td>
                 <td>
                     <input id="Date" name="DeliveryDate" type="text" value="@DateTime.Today.ToShortDateString()" />
@@ -147,7 +143,7 @@
         </table>
     </fieldset>
     <div align="right">
-        <input id="Save" type="submit" value="Save" />
+        <input id="Save" type="submit" value="Save" onclick="checkEnableSubmit(@ViewBag.Bool)" />
         <input id="Order" type="submit" value="Order" />
         <input id="Cancel" type="submit" value="Cancel" />
     </div>
