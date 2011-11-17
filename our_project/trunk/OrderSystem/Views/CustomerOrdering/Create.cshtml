@@ -1,0 +1,225 @@
+﻿@model OrderSystem.Models.Orders
+@{
+    ViewBag.Title = "Create Order #"+Model.OrderNumber;
+    ViewBag.Message = "This page is appointed for selecting and buying products";
+
+    List<SelectListItem> showLines = new List<SelectListItem>();
+    SelectListItem lines10 = new SelectListItem();
+    lines10.Text = "show 10 lines";
+    lines10.Value = "10";
+    showLines.Add(lines10);
+    SelectListItem lines25 = new SelectListItem();
+    lines25.Text = "show 25 lines";
+    lines25.Value = "25";
+    showLines.Add(lines25);
+
+    List<SelectListItem> assignies = new List<SelectListItem>();
+
+    foreach (string user in Model.Merchandisers)
+    {
+        SelectListItem merch = new SelectListItem();
+        merch.Text = user;
+        merch.Value = user;
+        assignies.Add(merch);
+    }
+
+    List<SelectListItem> cardTypes = new List<SelectListItem>();
+    SelectListItem visa = new SelectListItem();
+    visa.Text = "Visa";
+    visa.Value = "Visa";
+    cardTypes.Add(visa);
+    SelectListItem masterCard = new SelectListItem();
+    masterCard.Text = "MasterCard";
+    masterCard.Value = "MasterCard";
+    cardTypes.Add(masterCard);
+    SelectListItem americanExpress = new SelectListItem();
+    americanExpress.Text = "American Express";
+    americanExpress.Value = "American Express";
+    cardTypes.Add(americanExpress);
+    SelectListItem maestro = new SelectListItem();
+    maestro.Text = "Maestro";
+    maestro.Value = "Maestro";
+    cardTypes.Add(maestro);
+
+    WebGrid itemsGrid = new WebGrid(Model.ItemsOrder, canPage: true, canSort: true, rowsPerPage: 10);
+}
+<h2>@ViewBag.Title</h2>
+<p>@ViewBag.Message</p>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#PreferableDate').datepicker({ firstDay: 1, dateFormat: 'dd.mm.yy' });
+        $('.datePicker').datepicker({ firstDay: 1, dateFormat: 'dd.mm.yy' });
+    });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#ExpiryDate').datepicker({ firstDay: 1, dateFormat: 'dd.mm.yy' });
+            $('.datePicker').datepicker({ firstDay: 1, dateFormat: 'dd.mm.yy' });
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#StartDate').datepicker({ firstDay: 1, dateFormat: 'dd.mm.yy' });
+            $('.datePicker').datepicker({ firstDay: 1, dateFormat: 'dd.mm.yy' });
+        });
+    </script>
+    <script src="../../Scripts/jquery-1.5.1.min.js"></script>
+<script src="../../Scripts/jquery-ui-1.8.11.min.js"></script>
+
+<script language="javascript" type="text/javascript">
+    $(document).ready(function () {
+        $("button.cancel").click(function () {
+            $("#dialog").dialog({
+                buttons: {
+                    "Yes": function () {
+                        document.location.href = '@Url.Action("Index", "OrderSystemUser")';
+                    },
+                    "No": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+
+        });
+
+    });
+</script>
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <legend>Items Selection</legend>
+        <div class="add-item-button">
+            <button>Add Item</button>
+        </div>
+        <div class="show-lines-list">
+            @Html.DropDownList("showLines", showLines)
+        </div>
+        <div class="items-grid">
+            @itemsGrid.GetHtml(tableStyle: "webgrid",
+                              headerStyle: "webgrid-header",
+                              footerStyle: "webgrid-footer",
+                              alternatingRowStyle: "webgrid-alternating-row",
+                              selectedRowStyle: "webgrid-selected-row",
+                              rowStyle: "webgrid-row-style",
+                              mode: WebGridPagerModes.All,
+                              firstText: "First",
+                              lastText: "Last",
+                              previousText: "Backward",
+                              nextText: "Forward",
+                              numericLinksCount: 5,
+                              columns:
+                           itemsGrid.Columns(itemsGrid.Column("Login", "User Name"),
+                           itemsGrid.Column("UserFName", "First Name"),
+                           itemsGrid.Column("UserLName", "Last Name"),
+                           itemsGrid.Column("Dimension"),
+                           itemsGrid.Column("Price"),
+                           itemsGrid.Column("Quantity"),
+                           itemsGrid.Column("PricePerLine", "Price per Line"),
+                           itemsGrid.Column("Edit"),
+                           itemsGrid.Column("Delete")))
+        </div>
+    </fieldset>
+    <fieldset class="totals">
+        <legend>Totals</legend>
+        <div class="editor-label1">
+            @Html.LabelFor(model => model.OrderNumber)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.OrderNumber)
+        </div>
+        <div class="editor-label1">
+            @Html.LabelFor(model => model.Status)
+        </div>
+        <div class="display-text">
+            @Html.DisplayTextFor(model => model.Status)
+        </div>
+        <div class="editor-label1">
+            @Html.LabelFor(model => model.TotalPrice)
+        </div>
+        <div class="display-text">
+            @Html.DisplayTextFor(model => model.TotalPrice)
+        </div>
+        <div class="editor-label1">
+            @Html.LabelFor(model => model.ItemsOrder.Count)
+        </div>
+        <div class="display-text">
+            @Html.DisplayTextFor(model => model.ItemsOrder.Count)
+        </div>
+        <div class="editor-label1">
+            @Html.LabelFor(model => model.OrderingDate)
+        </div>
+        <div class="display-text">
+            @Model.OrderingDate.ToShortDateString()
+        </div>
+        <div class="editor-label1">
+            @Html.LabelFor(model => model.PreferableDeliveryDate)
+        </div>
+        <div class="editor-field">
+            <input id="PreferableDate" name="" type="text" value="  /  /" />
+        </div>
+        <div class="editor-label1">
+            @Html.LabelFor(model => model.DeliveryDate)
+        </div>
+        <div class="display-text">
+            //
+        </div>
+        <div class="editor-label1">
+            @Html.LabelFor(model => model.Assignee)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.Assignee, assignies)
+        </div>
+    </fieldset>
+    <fieldset class="card">
+        <legend>Card Info</legend>
+        <div class="editor-label1">
+            @Html.LabelFor(model => model.Card.CardType)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.Card.CardType, cardTypes)
+        </div>
+        <div class="editor-label1">
+            @Html.LabelFor(model => model.Card.CardNumber)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Card.CardNumber)
+        </div>
+        <div class="editor-label1">
+            @Html.LabelFor(model => model.Card.CVV2Code)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Card.CVV2Code)
+        </div>
+        <div class="editor-label1">
+            @Html.LabelFor(model => model.Card.ExpiredDate)
+        </div>
+        <div class="editor-field">
+            <input id="ExpiryDate" name="" type="text" value="  /  /" />
+        </div>
+        <div class="editor-label1">
+            @Html.LabelFor(model => model.Card.MakeDate)
+        </div>
+        <div class="editor-field">
+            <input id="StartDate" name="" type="text" value="  /  /" />
+        </div>
+        <div class="editor-label1">
+            @Html.LabelFor(model => model.Card.IssueNumber)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Card.IssueNumber)
+        </div>
+        <div class="mandatory-message">
+            * fields are mandatory
+        </div>
+    </fieldset>
+    <div class="order-create-buttons">
+            <input type="submit" value="Save" />
+            <input type="submit" value="Order" />
+            <button type="button" value="Cancel" class="cancel">Cancel</button>
+    </div>
+    <div style="visibility:hidden">
+            <div id="dialog" title="Warning" >
+                Are you sure you want to cancel operation?<br />All data will be lost.
+            </div>
+        </div>
+}
