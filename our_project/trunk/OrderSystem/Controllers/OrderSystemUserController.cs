@@ -181,8 +181,14 @@ namespace OrderSystem.Controllers
         [HttpPost]
         public ActionResult Register(Users user)
         {
-            user.UserFName = user.UserFName.Trim();
-            user.UserLName = user.UserLName.Trim();
+            if (user.UserFName != null)
+            {
+                user.UserFName = user.UserFName.Trim();
+            }
+            if (user.UserLName != null)
+            {
+                user.UserLName = user.UserLName.Trim();
+            }
             if (ModelState.IsValid)
             {
                 if (isLoginExists(user.Login))
@@ -195,11 +201,14 @@ namespace OrderSystem.Controllers
                     if (user.Role == "Customer")
                     {
                         user.Rank = 0;
+                        user.RankType = 0;
                         user.Balance = 0;
                     }
                     else
                     {
                         user.Rank = null;
+                        user.RankType = null;
+                        user.Balance = null;
                     }
                     database.Users.AddObject(user);
                     database.SaveChanges();
@@ -222,8 +231,15 @@ namespace OrderSystem.Controllers
         [HttpPost]
         public ActionResult Edit(Users user)
         {
-            user.UserFName = user.UserFName.Trim();
-            user.UserLName = user.UserLName.Trim();
+            if (user.UserFName != null)
+            {
+                user.UserFName = user.UserFName.Trim();
+            }
+            if (user.UserLName != null)
+            {
+                user.UserLName = user.UserLName.Trim();
+            }
+            List<Orders> a = user.Orders.ToList();
             if (ModelState.IsValid)
             {
                 if (isLoginExists(user.Login) &&
@@ -234,6 +250,21 @@ namespace OrderSystem.Controllers
                 }
                 else
                 {
+                    if (user.Role == "Customer")
+                    {
+                        if (user.Rank == null)
+                        {
+                            user.Rank = 0;
+                        }
+                        if (user.RankType == null)
+                        {
+                            user.RankType = 0;
+                        }
+                        if (user.Balance == null)
+                        {
+                            user.Balance = 0;
+                        }
+                    }
                     database.Users.Attach(database.Users.Single(u => u.UserID == user.UserID));
                     database.ApplyCurrentValues("Users", user);
                     database.SaveChanges();
@@ -257,8 +288,14 @@ namespace OrderSystem.Controllers
         [HttpPost]
         public ActionResult Duplicate(Users user)
         {
-            user.UserFName = user.UserFName.Trim();
-            user.UserLName = user.UserLName.Trim();
+            if (user.UserFName != null)
+            {
+                user.UserFName = user.UserFName.Trim();
+            }
+            if (user.UserLName != null)
+            {
+                user.UserLName = user.UserLName.Trim();
+            }
             if (ModelState.IsValid)
             {
                 if (isLoginExists(user.Login))
@@ -270,13 +307,15 @@ namespace OrderSystem.Controllers
                 {
                     if (user.Role == "Customer")
                     {
-                        user.Rank = 1;
-                        user.RankType = 1;
+                        user.Rank = 0;
+                        user.RankType = 0;
+                        user.Balance = 0;
                     }
                     else
                     {
-                        user.Rank = 0;
-                        user.RankType = 0;
+                        user.Rank = null;
+                        user.RankType = null;
+                        user.Balance = null;
                     }
                     database.Users.AddObject(user);
                     database.SaveChanges();
