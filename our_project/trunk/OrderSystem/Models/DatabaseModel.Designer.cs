@@ -1948,9 +1948,9 @@ namespace OrderSystem.Models
 
     public class TotalOrderInfo
     {
-        public string CostumerName { get; set; }
+        public string CustomerName { get; set; }
 
-        public string CostumerType { get; set; }
+        public string CustomerType { get; set; }
 
         public int OrderNumber { get; set; }
 
@@ -1960,7 +1960,7 @@ namespace OrderSystem.Models
 
         public DateTime DateOfOrdering { get; set; }
 
-        public DateTime PreferableDeliveryDate { get; set; }
+        public DateTime? PreferableDeliveryDate { get; set; }
 
     }
 

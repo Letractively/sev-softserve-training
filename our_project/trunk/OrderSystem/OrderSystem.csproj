@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\ContainSpacesAttribute.cs" />
+    <Compile Include="Attributes\MultiButtonAttribute.cs" />
     <Compile Include="Controllers\CustomerOrderingController.cs" />
     <Compile Include="Controllers\DisplayOrdersController.cs" />
     <Compile Include="Controllers\OrderSystemUserController.cs" />
