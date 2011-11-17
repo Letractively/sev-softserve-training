@@ -55,7 +55,6 @@
         @Html.HiddenFor(model => model.Rank)
         @Html.HiddenFor(model => model.RankType)
         @Html.HiddenFor(model => model.Balance)
-        @Html.HiddenFor(model => model.Orders)
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Login)
@@ -112,15 +111,13 @@
             @Html.DropDownListFor(model => model.Region, regions)
         </div>
         
-        <div class="radio-button-list-label">
-            @Html.LabelFor(model => model.Role)
-        </div>
-        <div class="radio-button-list">                     
+        <fieldset class="radio-button-list">   
+            <legend>@Html.LabelFor(model => model.Role)</legend>                  
             @Html.RadioButtonFor(model => model.Role, "Administrator") Administrator <br />
             @Html.RadioButtonFor(model => model.Role, "Merchandiser") Merchandiser <br />
             @Html.RadioButtonFor(model => model.Role, "Supervisor") Supervisor <br />
             @Html.RadioButtonFor(model => model.Role, "Customer") Customer
-        </div>
+        </fieldset>
 
         <p>
             <input type="submit" value="Update" name="submit" />
