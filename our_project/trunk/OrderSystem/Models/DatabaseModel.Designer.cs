@@ -932,6 +932,13 @@ namespace OrderSystem.Models
         #endregion
         #region Свойства-примитивы
     
+        // For DropDownList
+        public global::System.Collections.Generic.List<global::System.String> Merchandisers
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Нет доступной документации по метаданным.
         /// </summary>
