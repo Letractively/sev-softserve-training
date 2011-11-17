@@ -39,11 +39,34 @@ textarea
     margin: 1.5em 0 0 0;
     float: left;
     width: 120px;
+    clear: both;
+}
+
+.add-item-button
+{
+    float:left;
+}
+.show-lines-list
+{
+    float:right;
+}
+
+.editor-label1 
+{
+    margin: 1.5em 0 0 0;
+    float: left;
+    width: 170px;
+    clear: both;
 }
 
 .editor-field 
 {
     margin:1.4em 0 0 0;
+}
+
+.display-text
+{
+    margin:1.4em 0 0 0;   
 }
 
 .radio-button-list-label
@@ -52,8 +75,30 @@ textarea
     width: 120px;
 }
 
+.totals
+{
+    float: left;
+    width: 40%;
+}
 
+.card
+{
+    width: 50%;
+    float: right;
+    padding-bottom: 3.8em;
+}
 
+.mandatory-message
+{
+    float: right;
+    margin-right: 1.4em;
+    color: Red;
+}
+
+.order-create-buttons
+{
+    float:right;
+}
 /* Styles for validation helpers
 -----------------------------------------------------------*/
 .field-validation-error
