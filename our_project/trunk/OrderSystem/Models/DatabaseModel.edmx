@@ -37,7 +37,7 @@
           <Key>
             <PropertyRef Name="CardID" />
           </Key>
-          <Property Name="CardID" Type="int" Nullable="false" />
+          <Property Name="CardID" Type="int" Nullable="false" StoreGeneratedPattern="Identity"  />
           <Property Name="CardNumber" Type="char" Nullable="false" MaxLength="16" />
           <Property Name="CardType" Type="varchar" Nullable="false" MaxLength="30" />
           <Property Name="CVV2Code" Type="char" Nullable="false" MaxLength="3" />
@@ -49,7 +49,7 @@
           <Key>
             <PropertyRef Name="ItemID" />
           </Key>
-          <Property Name="ItemID" Type="int" Nullable="false" />
+          <Property Name="ItemID" Type="int" Nullable="false" StoreGeneratedPattern="Identity"  />
           <Property Name="ItemName" Type="varchar" Nullable="false" MaxLength="30" />
           <Property Name="ItemDescriprion" Type="varchar" Nullable="false" MaxLength="100" />
           <Property Name="Price" Type="smallmoney" Nullable="false" />
@@ -59,7 +59,7 @@
           <Key>
             <PropertyRef Name="ItemID" />
           </Key>
-          <Property Name="ItemID" Type="int" Nullable="false" />
+          <Property Name="ItemID" Type="int" Nullable="false" StoreGeneratedPattern="Identity"  />
           <Property Name="ItemInfoID" Type="int" Nullable="false" />
           <Property Name="OrderID" Type="int" Nullable="false" />
           <Property Name="Quantity" Type="int" Nullable="false" />
@@ -69,7 +69,7 @@
           <Key>
             <PropertyRef Name="OrderID" />
           </Key>
-          <Property Name="OrderID" Type="int" Nullable="false" />
+          <Property Name="OrderID" Type="int" Nullable="false" StoreGeneratedPattern="Identity"  />
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="CardID" Type="int" />
           <Property Name="OrderNumber" Type="varchar" Nullable="false" MaxLength="50" />
@@ -86,7 +86,7 @@
           <Key>
             <PropertyRef Name="RankID" />
           </Key>
-          <Property Name="RankID" Type="int" Nullable="false" />
+          <Property Name="RankID" Type="int" Nullable="false" StoreGeneratedPattern="Identity"  />
           <Property Name="RankTreshold" Type="smallmoney" Nullable="false" />
           <Property Name="RankName" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="IconName" Type="varchar" Nullable="false" MaxLength="50" />
@@ -205,7 +205,7 @@
           <Key>
             <PropertyRef Name="CardID" />
           </Key>
-          <Property Name="CardID" Type="Int32" Nullable="false" />
+          <Property Name="CardID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CardNumber" Type="String" Nullable="false" MaxLength="16" Unicode="false" FixedLength="true" />
           <Property Name="CardType" Type="String" Nullable="false" MaxLength="30" Unicode="false" FixedLength="false" />
           <Property Name="CVV2Code" Type="String" Nullable="false" MaxLength="3" Unicode="false" FixedLength="true" />
@@ -218,7 +218,7 @@
           <Key>
             <PropertyRef Name="ItemID" />
           </Key>
-          <Property Name="ItemID" Type="Int32" Nullable="false" />
+          <Property Name="ItemID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ItemName" Type="String" Nullable="false" MaxLength="30" Unicode="false" FixedLength="false" />
           <Property Name="ItemDescriprion" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
           <Property Name="Price" Type="Decimal" Nullable="false" Precision="10" Scale="4" />
@@ -229,7 +229,7 @@
           <Key>
             <PropertyRef Name="ItemID" />
           </Key>
-          <Property Name="ItemID" Type="Int32" Nullable="false" />
+          <Property Name="ItemID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ItemInfoID" Type="Int32" Nullable="false" />
           <Property Name="OrderID" Type="Int32" Nullable="false" />
           <Property Name="Quantity" Type="Int32" Nullable="false" />
@@ -241,7 +241,7 @@
           <Key>
             <PropertyRef Name="OrderID" />
           </Key>
-          <Property Name="OrderID" Type="Int32" Nullable="false" />
+          <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="CardID" Type="Int32" />
           <Property Name="OrderNumber" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
@@ -261,7 +261,7 @@
           <Key>
             <PropertyRef Name="RankID" />
           </Key>
-          <Property Name="RankID" Type="Int32" Nullable="false" />
+          <Property Name="RankID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RankTreshold" Type="Decimal" Nullable="false" Precision="10" Scale="4" />
           <Property Name="RankName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="IconName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
