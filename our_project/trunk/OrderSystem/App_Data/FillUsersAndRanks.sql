@@ -5,28 +5,24 @@ DELETE FROM [OrderSystem].[dbo].[Rank]
 GO
 
 INSERT INTO [OrderSystem].[dbo].[Rank]
-           ([RankID]
-           ,[RankTreshold]
+           ([RankTreshold]
            ,[RankName]
            ,[IconName]
            ,[Percents])
      VALUES
            (0
-           ,0
            ,'Standart'
            ,'Icon'
            ,0)
 GO
 
 INSERT INTO [OrderSystem].[dbo].[Rank]
-           ([RankID]
-           ,[RankTreshold]
+           ([RankTreshold]
            ,[RankName]
            ,[IconName]
            ,[Percents])
      VALUES
-           (1
-           ,1000
+           (1000
            ,'Silver'
            ,'Icon'
            ,0)
@@ -34,14 +30,12 @@ GO
 
 
 INSERT INTO [OrderSystem].[dbo].[Rank]
-           ([RankID]
-           ,[RankTreshold]
+           ([RankTreshold]
            ,[RankName]
            ,[IconName]
            ,[Percents])
      VALUES
-           (2
-           ,3000
+           (3000
            ,'Gold'
            ,'Icon'
            ,0)
@@ -49,14 +43,12 @@ GO
 
 
 INSERT INTO [OrderSystem].[dbo].[Rank]
-           ([RankID]
-           ,[RankTreshold]
+           ([RankTreshold]
            ,[RankName]
            ,[IconName]
            ,[Percents])
      VALUES
-           (3
-           ,10000
+           (10000
            ,'Platinum'
            ,'Icon'
            ,0)
@@ -85,7 +77,7 @@ INSERT INTO [OrderSystem].[dbo].[Users]
            ,'North'
            ,'Merchandiser'
            ,NULL
-           ,0
+           ,NULL
            ,NULL)
 GO
 
@@ -109,7 +101,7 @@ INSERT INTO [OrderSystem].[dbo].[Users]
            ,'West'
            ,'Merchandiser'
            ,NULL
-           ,0
+           ,NULL
            ,NULL)
 GO
 
@@ -133,7 +125,7 @@ INSERT INTO [OrderSystem].[dbo].[Users]
            ,'South'
            ,'Merchandiser'
            ,NULL
-           ,0
+           ,NULL
            ,NULL)
 GO
 
@@ -157,7 +149,7 @@ INSERT INTO [OrderSystem].[dbo].[Users]
            ,'East'
            ,'Supervisor'
            ,NULL
-           ,0
+           ,NULL
            ,NULL)
 GO
 
@@ -181,7 +173,7 @@ INSERT INTO [OrderSystem].[dbo].[Users]
            ,'West'
            ,'Supervisor'
            ,NULL
-           ,0
+           ,NULL
            ,NULL)
 GO
 
@@ -205,7 +197,7 @@ INSERT INTO [OrderSystem].[dbo].[Users]
            ,'West'
            ,'Supervisor'
            ,NULL
-           ,0
+           ,NULL
            ,NULL)
 GO
 
@@ -228,8 +220,8 @@ INSERT INTO [OrderSystem].[dbo].[Users]
            ,'Custom1@mail.com'
            ,'West'
            ,'Customer'
-           ,0
-           ,0
+           ,1
+           ,1
            ,0)
 GO
 
@@ -252,8 +244,8 @@ INSERT INTO [OrderSystem].[dbo].[Users]
            ,'Custom2@mail.com'
            ,'North'
            ,'Customer'
-           ,1
-           ,1
+           ,2
+           ,2
            ,1500)
 GO
 
@@ -276,8 +268,8 @@ INSERT INTO [OrderSystem].[dbo].[Users]
            ,'Custom3@mail.com'
            ,'West'
            ,'Customer'
-           ,2
-           ,2
+           ,3
+           ,3
            ,5000)
 GO
 
@@ -300,8 +292,8 @@ INSERT INTO [OrderSystem].[dbo].[Users]
            ,'Custom4@mail.com'
            ,'North'
            ,'Customer'
-           ,3
-           ,3
+           ,4
+           ,4
            ,12000)
 GO
 
@@ -325,7 +317,7 @@ INSERT INTO [OrderSystem].[dbo].[Users]
            ,'West'
            ,'Administrator'
            ,NULL
-           ,0
+           ,NULL
            ,NULL)
 GO
       
@@ -350,7 +342,7 @@ INSERT INTO [OrderSystem].[dbo].[Users]
            ,'North'
            ,'Administrator'
            ,NULL
-           ,0
+           ,NULL
            ,NULL)
 GO
 
@@ -375,6 +367,6 @@ INSERT INTO [OrderSystem].[dbo].[Users]
            ,'North'
            ,'Administrator'
            ,NULL
-           ,0
+           ,NULL
            ,NULL)
 GO

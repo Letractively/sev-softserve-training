@@ -71,11 +71,11 @@
           </Key>
           <Property Name="OrderID" Type="int" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
-          <Property Name="CardID" Type="int" Nullable="false" />
+          <Property Name="CardID" Type="int" />
           <Property Name="OrderNumber" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="Status" Type="varchar" Nullable="false" MaxLength="20" />
           <Property Name="OrderingDate" Type="date" Nullable="false" />
-          <Property Name="DeliveryDate" Type="date" Nullable="false" />
+          <Property Name="DeliveryDate" Type="date" />
           <Property Name="PreferableDeliveryDate" Type="date" />
           <Property Name="Assignee" Type="varchar" Nullable="false" MaxLength="20" />
           <Property Name="TotalPrice" Type="smallmoney" Nullable="false" />
@@ -133,7 +133,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Orders_Card">
-          <End Role="Card" Type="OrderSystemModel.Store.Card" Multiplicity="1" />
+          <End Role="Card" Type="OrderSystemModel.Store.Card" Multiplicity="0..1" />
           <End Role="Orders" Type="OrderSystemModel.Store.Orders" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Card">
@@ -243,11 +243,11 @@
           </Key>
           <Property Name="OrderID" Type="Int32" Nullable="false" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="CardID" Type="Int32" Nullable="false" />
+          <Property Name="CardID" Type="Int32" />
           <Property Name="OrderNumber" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
           <Property Name="OrderingDate" Type="DateTime" Nullable="false" />
-          <Property Name="DeliveryDate" Type="DateTime" Nullable="false" />
+          <Property Name="DeliveryDate" Type="DateTime" />
           <Property Name="PreferableDeliveryDate" Type="DateTime" />
           <Property Name="Assignee" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
           <Property Name="TotalPrice" Type="Decimal" Nullable="false" Precision="10" Scale="4" />
@@ -287,7 +287,7 @@
           <NavigationProperty Name="Rank1" Relationship="OrderSystemModel.FK_Users_Rank" FromRole="Users" ToRole="Rank" />
         </EntityType>
         <Association Name="FK_Orders_Card">
-          <End Role="Card" Type="OrderSystemModel.Card" Multiplicity="1" />
+          <End Role="Card" Type="OrderSystemModel.Card" Multiplicity="0..1" />
           <End Role="Orders" Type="OrderSystemModel.Orders" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Card">

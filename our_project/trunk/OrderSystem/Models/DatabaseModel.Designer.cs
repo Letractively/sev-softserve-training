@@ -20,10 +20,11 @@ using System.Web.Security;
 using System.Web.Mvc;
 using OrderSystem.Resources.Shared;
 using OrderSystem.Attributes;
+
 [assembly: EdmSchemaAttribute()]
 #region Метаданные связи EDM
 
-[assembly: EdmRelationshipAttribute("OrderSystemModel", "FK_Orders_Card", "Card", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OrderSystem.Models.Card), "Orders", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OrderSystem.Models.Orders), true)]
+[assembly: EdmRelationshipAttribute("OrderSystemModel", "FK_Orders_Card", "Card", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(OrderSystem.Models.Card), "Orders", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OrderSystem.Models.Orders), true)]
 [assembly: EdmRelationshipAttribute("OrderSystemModel", "FK_ItemsOrder_Items", "Items", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OrderSystem.Models.Items), "ItemsOrder", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OrderSystem.Models.ItemsOrder), true)]
 [assembly: EdmRelationshipAttribute("OrderSystemModel", "FK_ItemsOrder_Order", "Orders", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OrderSystem.Models.Orders), "ItemsOrder", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OrderSystem.Models.ItemsOrder), true)]
 [assembly: EdmRelationshipAttribute("OrderSystemModel", "FK_Orders_Users", "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(OrderSystem.Models.Users), "Orders", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(OrderSystem.Models.Orders), true)]
@@ -903,25 +904,21 @@ namespace OrderSystem.Models
         /// </summary>
         /// <param name="orderID">Исходное значение свойства OrderID.</param>
         /// <param name="userID">Исходное значение свойства UserID.</param>
-        /// <param name="cardID">Исходное значение свойства CardID.</param>
         /// <param name="orderNumber">Исходное значение свойства OrderNumber.</param>
         /// <param name="status">Исходное значение свойства Status.</param>
         /// <param name="orderingDate">Исходное значение свойства OrderingDate.</param>
-        /// <param name="deliveryDate">Исходное значение свойства DeliveryDate.</param>
         /// <param name="assignee">Исходное значение свойства Assignee.</param>
         /// <param name="totalPrice">Исходное значение свойства TotalPrice.</param>
         /// <param name="discount">Исходное значение свойства Discount.</param>
         /// <param name="isGift">Исходное значение свойства IsGift.</param>
-        public static Orders CreateOrders(global::System.Int32 orderID, global::System.Int32 userID, global::System.Int32 cardID, global::System.String orderNumber, global::System.String status, global::System.DateTime orderingDate, global::System.DateTime deliveryDate, global::System.String assignee, global::System.Decimal totalPrice, global::System.Double discount, global::System.Boolean isGift)
+        public static Orders CreateOrders(global::System.Int32 orderID, global::System.Int32 userID, global::System.String orderNumber, global::System.String status, global::System.DateTime orderingDate, global::System.String assignee, global::System.Decimal totalPrice, global::System.Double discount, global::System.Boolean isGift)
         {
             Orders orders = new Orders();
             orders.OrderID = orderID;
             orders.UserID = userID;
-            orders.CardID = cardID;
             orders.OrderNumber = orderNumber;
             orders.Status = status;
             orders.OrderingDate = orderingDate;
-            orders.DeliveryDate = deliveryDate;
             orders.Assignee = assignee;
             orders.TotalPrice = totalPrice;
             orders.Discount = discount;
@@ -932,13 +929,6 @@ namespace OrderSystem.Models
         #endregion
         #region Свойства-примитивы
     
-        // For DropDownList
-        public global::System.Collections.Generic.List<global::System.String> Merchandisers
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// Нет доступной документации по метаданным.
         /// </summary>
@@ -993,9 +983,9 @@ namespace OrderSystem.Models
         /// <summary>
         /// Нет доступной документации по метаданным.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.Int32 CardID
+        public Nullable<global::System.Int32> CardID
         {
             get
             {
@@ -1010,8 +1000,8 @@ namespace OrderSystem.Models
                 OnCardIDChanged();
             }
         }
-        private global::System.Int32 _CardID;
-        partial void OnCardIDChanging(global::System.Int32 value);
+        private Nullable<global::System.Int32> _CardID;
+        partial void OnCardIDChanging(Nullable<global::System.Int32> value);
         partial void OnCardIDChanged();
     
         /// <summary>
@@ -1089,9 +1079,9 @@ namespace OrderSystem.Models
         /// <summary>
         /// Нет доступной документации по метаданным.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.DateTime DeliveryDate
+        public Nullable<global::System.DateTime> DeliveryDate
         {
             get
             {
@@ -1106,8 +1096,8 @@ namespace OrderSystem.Models
                 OnDeliveryDateChanged();
             }
         }
-        private global::System.DateTime _DeliveryDate;
-        partial void OnDeliveryDateChanging(global::System.DateTime value);
+        private Nullable<global::System.DateTime> _DeliveryDate;
+        partial void OnDeliveryDateChanging(Nullable<global::System.DateTime> value);
         partial void OnDeliveryDateChanged();
     
         /// <summary>
@@ -1616,13 +1606,13 @@ namespace OrderSystem.Models
         /// Нет доступной документации по метаданным.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
         [Display(Name = "Password", ResourceType = typeof(OrderSystemUserRes))]
         [Required(ErrorMessageResourceName = "FieldIsRequired", ErrorMessageResourceType = typeof(ErrorRes))]
         [StringLength(10, MinimumLength = 4, ErrorMessageResourceName = "FieldIsLimited", ErrorMessageResourceType = typeof(ErrorRes))]
         [RegularExpression(@"^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+|\~\-\=\\/\" + "\"" + @":\;\'\<\>?\,.]).{4,}$", ErrorMessageResourceName = "PasswordIsWeak", ErrorMessageResourceType = typeof(ErrorRes))]
         [ContainSpaces(ErrorMessageResourceName = "FieldContainSpaces", ErrorMessageResourceType = typeof(ErrorRes))]
         [DataType(DataType.Password)]
+        [DataMemberAttribute()]
         public global::System.String Password
         {
             get
@@ -1641,6 +1631,7 @@ namespace OrderSystem.Models
         private global::System.String _Password;
         partial void OnPasswordChanging(global::System.String value);
         partial void OnPasswordChanged();
+
 
         /// <summary>
         /// For validating only
@@ -1927,7 +1918,6 @@ namespace OrderSystem.Models
     }
 
     #endregion
-
     public class OrderedItemsInfo
     {
         public int ItemNumber { get; set; }
@@ -1962,6 +1952,43 @@ namespace OrderSystem.Models
 
         public DateTime? PreferableDeliveryDate { get; set; }
 
+    }
+
+    public class CustomerOrderInfo
+    {
+        public string Command { get; set; }
+
+        public global::System.Collections.Generic.List<global::System.String> Merchandisers { get; set; }
+
+        public string OrderNumber { get; set; }
+
+        public string Status { get; set; }
+
+        public decimal TotalPrice { get; set; }
+
+        public int ItemsCount { get; set; }
+
+        public DateTime OrderingDate { get; set; }
+
+        public DateTime? PreferableDeliveryDate { get; set; }
+
+        public DateTime? DeliveryDate { get; set; }
+
+        public string Assignee { get; set; }
+
+        public string CardType { get; set; }
+
+        public string CardNumber { get; set; }
+
+        public string CVV2Code { get; set; }
+
+        public DateTime? ExpiredDate { get; set; }
+
+        public DateTime? MakeDate { get; set; }
+
+        public string IssueNumber { get; set; }
+
+        public global::System.Collections.Generic.List<ItemsOrder> ItemsOrder { get; set; }
     }
 
     public class Logon
