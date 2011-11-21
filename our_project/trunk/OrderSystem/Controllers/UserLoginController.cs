@@ -64,7 +64,7 @@ namespace OrderSystem.Controllers
                             case "Administrator": return RedirectToAction("Index", "OrderSystemUser");
                             case "Merchandiser": return RedirectToAction("AnalyzeOrders", "DisplayOrder");
                             case "Supervisor": /* Add link */ break;
-                            case "Customer": return RedirectToAction("Index", "CustomerOrdering");
+                            case "Customer": return RedirectToAction("OrderList", "CustomerOrdering");
                         }
                     }
                     ModelState.AddModelError("Login", @"Such user does not exist in the system - please try again");
