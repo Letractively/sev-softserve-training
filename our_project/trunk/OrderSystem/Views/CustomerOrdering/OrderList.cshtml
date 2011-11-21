@@ -1,0 +1,110 @@
+﻿@model IEnumerable<OrderSystem.Models.Orders>
+@{
+
+    List<SelectListItem> filterType = new List<SelectListItem>();
+    
+    SelectListItem statusFilter = new SelectListItem();
+    statusFilter.Text = "Status";
+    filterType.Add(statusFilter);
+    SelectListItem roleFilter = new SelectListItem();
+    roleFilter.Text = "Role";
+    filterType.Add(roleFilter);
+
+
+    List<SelectListItem> statusFilterValue = new List<SelectListItem>();
+
+    SelectListItem noneVal = new SelectListItem();
+    noneVal.Text = "None";
+    statusFilterValue.Add(noneVal);
+    SelectListItem orderedVal = new SelectListItem();
+    orderedVal.Text = "Ordered";
+    statusFilterValue.Add(orderedVal);
+    SelectListItem pendingVal = new SelectListItem();
+    pendingVal.Text = "Assignee";
+    statusFilterValue.Add(pendingVal);
+    SelectListItem delieveredVAl = new SelectListItem();
+    delieveredVAl.Text = "Delievered";
+    statusFilterValue.Add(delieveredVAl);
+
+
+    List<SelectListItem> roleFilterValue = new List<SelectListItem>();
+
+    SelectListItem noneVal2 = new SelectListItem();
+    noneVal2.Text = "None";
+    roleFilterValue.Add(noneVal2);
+    SelectListItem adminVal = new SelectListItem();
+    adminVal.Text = "Administrator";
+    roleFilterValue.Add(adminVal);
+    SelectListItem merchVal = new SelectListItem();
+    merchVal.Text = "Merchandiser";
+    roleFilterValue.Add(merchVal);
+    SelectListItem superVal = new SelectListItem();
+    superVal.Text = "Supervisor";
+    roleFilterValue.Add(superVal);
+
+    List<SelectListItem> searchByList = new List<SelectListItem>();
+
+    SelectListItem byNumber = new SelectListItem();
+    byNumber.Text = "Order Number";
+    searchByList.Add(byNumber);
+    SelectListItem byStatus = new SelectListItem();
+    byStatus.Text = "Status";
+    searchByList.Add(byStatus);
+    SelectListItem byAssignee = new SelectListItem();
+    byAssignee.Text = "Assignee";
+    searchByList.Add(byAssignee);
+
+    WebGrid ordersGrid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 10);
+}
+
+<h4>@Html.ActionLink("Create New Order","Create")</h4>
+
+<fieldset>
+<table>
+    <tr>
+        <td>
+            @Html.DropDownList("showLines", filterType)
+        </td>
+        <td>
+            @Html.DropDownList("showLines", statusFilterValue)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DropDownList("showLines", searchByList)
+        </td>
+        <td>
+           <input id="SearchInput" name="" type="text" />
+        </td>
+        <td>
+            <input type="submit" value="Apply" />
+        </td>
+    </tr>
+</table>
+</fieldset>
+
+<div class="items-grid">
+    @ordersGrid.GetHtml(tableStyle: "webgrid",
+                        headerStyle: "webgrid-header",
+                        footerStyle: "webgrid-footer",
+                        alternatingRowStyle: "webgrid-alternating-row",
+                        selectedRowStyle: "webgrid-selected-row",
+                        rowStyle: "webgrid-row-style",
+                        mode: WebGridPagerModes.All,
+                        firstText: "First",
+                        lastText: "Last",
+                        previousText: "Backward",
+                        nextText: "Forward",
+                        numericLinksCount: 5,
+                        columns:
+                        ordersGrid.Columns(
+                            ordersGrid.Column("OrderNumber", "Order Number" ),
+                            ordersGrid.Column("TotalPrice","Total Price"),
+                            ordersGrid.Column("Discount", "Max Discount"),
+                            ordersGrid.Column("DeliveryDate", "Delivery Date"),
+                            ordersGrid.Column("Status", "Status"),
+                            ordersGrid.Column("Assignee", "Assignee"),
+                            ordersGrid.Column("Role"),
+                            ordersGrid.Column("Edit", canSort:false),
+                            ordersGrid.Column("Delete", canSort: false)))
+</div>
