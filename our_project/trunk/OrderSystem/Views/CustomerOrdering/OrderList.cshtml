@@ -1,80 +1,55 @@
-﻿@model IEnumerable<OrderSystem.Models.Orders>
+﻿<!-- TODO:
+        Script, changing droplist "filterOptions" dropDownList, depending on selected "FilterType" -->
+@model IEnumerable<OrderSystem.Models.Orders>
 @{
-
-    List<SelectListItem> filterType = new List<SelectListItem>();
-    
-    SelectListItem statusFilter = new SelectListItem();
-    statusFilter.Text = "Status";
-    filterType.Add(statusFilter);
-    SelectListItem roleFilter = new SelectListItem();
-    roleFilter.Text = "Role";
-    filterType.Add(roleFilter);
-
-
-    List<SelectListItem> statusFilterValue = new List<SelectListItem>();
-
-    SelectListItem noneVal = new SelectListItem();
-    noneVal.Text = "None";
-    statusFilterValue.Add(noneVal);
-    SelectListItem orderedVal = new SelectListItem();
-    orderedVal.Text = "Ordered";
-    statusFilterValue.Add(orderedVal);
-    SelectListItem pendingVal = new SelectListItem();
-    pendingVal.Text = "Assignee";
-    statusFilterValue.Add(pendingVal);
-    SelectListItem delieveredVAl = new SelectListItem();
-    delieveredVAl.Text = "Delievered";
-    statusFilterValue.Add(delieveredVAl);
-
-
-    List<SelectListItem> roleFilterValue = new List<SelectListItem>();
-
-    SelectListItem noneVal2 = new SelectListItem();
-    noneVal2.Text = "None";
-    roleFilterValue.Add(noneVal2);
-    SelectListItem adminVal = new SelectListItem();
-    adminVal.Text = "Administrator";
-    roleFilterValue.Add(adminVal);
-    SelectListItem merchVal = new SelectListItem();
-    merchVal.Text = "Merchandiser";
-    roleFilterValue.Add(merchVal);
-    SelectListItem superVal = new SelectListItem();
-    superVal.Text = "Supervisor";
-    roleFilterValue.Add(superVal);
-
-    List<SelectListItem> searchByList = new List<SelectListItem>();
-
-    SelectListItem byNumber = new SelectListItem();
-    byNumber.Text = "Order Number";
-    searchByList.Add(byNumber);
-    SelectListItem byStatus = new SelectListItem();
-    byStatus.Text = "Status";
-    searchByList.Add(byStatus);
-    SelectListItem byAssignee = new SelectListItem();
-    byAssignee.Text = "Assignee";
-    searchByList.Add(byAssignee);
-
     WebGrid ordersGrid = new WebGrid(Model, canPage: true, canSort: true, rowsPerPage: 10);
 }
 
 <h4>@Html.ActionLink("Create New Order","Create")</h4>
 
+@using (Html.BeginForm())
+{
 <fieldset>
 <table>
     <tr>
         <td>
-            @Html.DropDownList("showLines", filterType)
+            <p>Filter Orders By:</p>
         </td>
         <td>
-            @Html.DropDownList("showLines", statusFilterValue)
+            <select id="FilterType" name="FilterType">
+                <option>Status</option>
+                <option>Role</option>
+            </select>
+        </td>
+        <td>
+            <select id="StatusOptions" name="StatusOptions">
+                <option>None</option>
+                <option>Ordered</option>
+                <option>Pending</option>
+                <option>Delivered</option>
+            </select>
+        </td>
+        <td>
+            <select id="RoleOptions" name="RoleOptions">
+                <option>Merchandiser</option>
+                <option>Administrator</option>
+                <option>Supervisor</option>
+            </select>
         </td>
     </tr>
     <tr>
         <td>
-            @Html.DropDownList("showLines", searchByList)
+            <p>Search for Orders By:</p>
         </td>
         <td>
-           <input id="SearchInput" name="" type="text" />
+            <select id="SearchType" name="SearchType">
+                <option>Order Name</option>
+                <option>Status</option>
+                <option>Assignee</option>
+            </select>
+        </td>
+        <td>
+           <input id="SearchText" name="SearchText" type="text" />
         </td>
         <td>
             <input type="submit" value="Apply" />
@@ -82,7 +57,7 @@
     </tr>
 </table>
 </fieldset>
-
+}
 <div class="items-grid">
     @ordersGrid.GetHtml(tableStyle: "webgrid",
                         headerStyle: "webgrid-header",
@@ -105,6 +80,6 @@
                             ordersGrid.Column("Status", "Status"),
                             ordersGrid.Column("Assignee", "Assignee"),
                             ordersGrid.Column("Role"),
-                            ordersGrid.Column("Edit", canSort:false),
-                            ordersGrid.Column("Delete", canSort: false)))
+                            ordersGrid.Column("Edit", canSort: false, format: (item) => Html.ActionLink("Edit", "Edit", new { id = item.OrderID }, new { @class = "webridUserEdit" })),
+                            ordersGrid.Column("Delete", canSort: false, format: (item) => Html.ActionLink("Delete", "Delete", new { id = item.OrderID }, new { @class = "webridUserRemove" }))))
 </div>
