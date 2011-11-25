@@ -11,12 +11,73 @@ namespace OrderSystem.Controllers
     public class CustomerOrderingController : Controller
     {
         OrderSystemEntities database = new OrderSystemEntities();
-        //
-        // GET: /CustomerOrdering/
 
-        public ActionResult Index()
+        // GET: /CustomerOrdering/OrderList.cshtml
+        public ActionResult OrderList()
         {
+            foreach (Users user in database.Users)
+            {
+                if (user.Login == (string)Session["User"])
+                {
+                    return View(user.Orders.ToList());
+                }
+            }
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult OrderList(string filterType, string statusOptions, string roleOptions, string searchType, string searchText)
+        {
+            List<Orders> filterList = null;
+            foreach (Users user in database.Users)
+            {
+                if (user.Login == (string)Session["User"])
+                {
+                    filterList = user.Orders.ToList();
+                }
+            }
+            if (filterList == null)
+                return this.View();
+
+            #region FilterOrders
+            if (filterType == "Status")
+            {
+                if( statusOptions != "None" )
+                {
+                        filterList = filterList.Where(u => u.Status.Equals(statusOptions)).ToList();
+                }
+            }
+            else
+            {
+                if(filterType == "Role") 
+                {
+                    if( roleOptions != "None" )
+                        {
+                           filterList = filterList.Where(u => u.Status.Equals(roleOptions)).ToList();
+                        }
+                }
+            }
+
+            if (searchType == "Order Name")
+            {
+                filterList = filterList.Where(u => u.OrderNumber.Equals(searchText)).ToList();
+            }
+            else
+            {
+                if(searchType == "Status")
+                {
+                    filterList = filterList.Where(u => u.Status.Equals(searchText)).ToList();
+                }
+                else
+                {
+                    if(searchType == "Assignee")
+                    {
+                        filterList = filterList.Where(u => u.Assignee.Equals(searchText)).ToList();
+                    }
+                }
+            }
+            #endregion
+            return View(filterList);
         }
 
         // GET: /CustomerOrdering/Create.cshtml
@@ -29,7 +90,7 @@ namespace OrderSystem.Controllers
                 assignies.Add(user.Login);
             }
             
-            newOrder.Merchandisers = new List<string>(assignies);
+           newOrder.Merchandisers = new List<string>(assignies);
             newOrder.OrderingDate = DateTime.Today;
             newOrder.Status = "Created";
             List<string> orderNumbers = database.Orders.Select<Orders, string>(order => order.OrderNumber).ToList<string>();
