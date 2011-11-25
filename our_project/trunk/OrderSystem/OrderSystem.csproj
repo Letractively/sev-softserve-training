@@ -98,8 +98,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\DBCreationScript.sql" />
+    <Content Include="App_Data\OrderSystem.LDF">
+      <DependentUpon>OrderSystem.MDF</DependentUpon>
+    </Content>
     <Content Include="App_Data\OrderSystem.MDF" />
-    <Content Include="App_Data\OrderSystem_log.LDF">
+    <Content Include="App_Data\OrderSystem_log.ldf">
       <DependentUpon>OrderSystem.MDF</DependentUpon>
     </Content>
     <Content Include="Content\Images\duplicate.png" />
@@ -136,6 +139,7 @@
     <Content Include="Content\themes\base\jquery.ui.theme.css" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Models\DatabaseModel.edmx.sql" />
     <Content Include="Scripts\jquery-1.5.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.5.1.js" />
     <Content Include="Scripts\jquery-1.5.1.min.js" />
@@ -195,12 +199,11 @@
     <Content Include="Views\UserLogin\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\CustomerOrdering\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\CustomerOrdering\Create.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Views\CustomerOrdering\OrderList.cshtml" />
+  </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="Models\DatabaseModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
