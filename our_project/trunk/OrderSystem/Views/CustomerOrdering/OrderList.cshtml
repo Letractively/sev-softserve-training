@@ -79,7 +79,7 @@
                             ordersGrid.Column("DeliveryDate", "Delivery Date"),
                             ordersGrid.Column("Status", "Status"),
                             ordersGrid.Column("Assignee", "Assignee"),
-                            ordersGrid.Column("Role"),
+                           // ordersGrid.Column("Role"),
                             ordersGrid.Column("Edit", canSort: false, format: (item) => Html.ActionLink("Edit", "Edit", new { id = item.OrderID }, new { @class = "webridUserEdit" })),
                             ordersGrid.Column("Delete", canSort: false, format: (item) => Html.ActionLink("Delete", "Delete", new { id = item.OrderID }, new { @class = "webridUserRemove" }))))
 </div>
