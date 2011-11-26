@@ -11,20 +11,20 @@
     {
         if (option.toString() != 'All') {
 
-            document.getElementById('PriceSearchText').removeAttribute('readonly');
+            document.getElementById('PriceSearchText').removeAttribute('disabled');
         }
         else {
-            document.getElementById('PriceSearchText').setAttribute('readonly', 'readonly');
+            document.getElementById('PriceSearchText').setAttribute('disabled', 'disabled');
         }
 
     }
     function CheckQuantityFiltration(option) {
         if (option.toString() != 'All') {
 
-            document.getElementById('QuantitySearchText').removeAttribute('readonly');
+            document.getElementById('QuantitySearchText').removeAttribute('disabled');
         }
         else {
-            document.getElementById('QuantitySearchText').setAttribute('readonly', 'readonly');
+            document.getElementById('QuantitySearchText').setAttribute('disabled', 'disabled');
         }
     }
 
@@ -58,25 +58,24 @@
 </select>
 <input type=text id="FiltrationText" name="FiltrationText" style="position:absolute;left:20%" />
 <p>Price(only numbers):
-<select id="Price" name="Price" onchange="CheckPriceFiltration(this.options[this.selectedIndex].value)">
+<select id="priceFiltrationOption" name="priceFiltrationOption" onchange="CheckPriceFiltration(this.options[this.selectedIndex].value)">
 <option>All</option>
 <option><text>></text></option>
 <option><text><</text></option>
 <option><text>=</text></option>
 <option><text>!=</text></option>
 </select>
-
-<input type=text name="PriceSearchText" id="PriceSearchText"   onkeyup="return CheckOnlyFloat(this);" onchange="return CheckOnlyFloat(this);"  readonly="readonly" style="position:absolute;left:20%" />
+<input type=text name="PriceSearchText" id="PriceSearchText"   onkeyup="return CheckOnlyFloat(this);" onchange="return CheckOnlyFloat(this);"  disabled="disabled" style="position:absolute;left:20%" />
 </p>
 <p>Quantity(only numbers):
-<select id="Quantity" name="Quantity" onchange="CheckQuantityFiltration(this.options[this.selectedIndex].value) ">
+<select id="quantityFiltrationOption" name="quantityFiltrationOption" onchange="CheckQuantityFiltration(this.options[this.selectedIndex].value) ">
 <option>All</option>
 <option><text>></text></option>
 <option><text><</text></option>
 <option><text>=</text></option>
 <option><text>!=</text></option>
 </select>
-<input type=text name="QuantitySearchText" id="QuantitySearchText" onkeyup="return CheckOnlyNumbers(this);" onchange="return CheckOnlyNumbers(this);"  readonly="readonly" style="position:absolute;left:20%" />
+<input type=text name="QuantitySearchText" id="QuantitySearchText" onkeyup="return CheckOnlyNumbers(this);" onchange="return CheckOnlyNumbers(this);"  disabled="disabled" style="position:absolute;left:20%" />
 </p>
 <input type=submit value="Search" />
 <button type=reset value="reset" onclick="Reset()">Reset</button>
@@ -85,7 +84,6 @@
 
 <div>
 @{
-    //TODO Get Users List From Model And Render Grid
     WebGrid usersGrid = new WebGrid(Model,canPage:true,canSort: true, rowsPerPage: 10);
     
  }
