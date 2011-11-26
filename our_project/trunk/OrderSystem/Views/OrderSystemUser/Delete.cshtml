@@ -6,19 +6,20 @@
 
 <h2>Delete</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Are you sure you want to delete tdis?</h3>
 <fieldset>
     <legend>User</legend>
-    
-    <div style=" font-size:x-large;">@Html.ValidationMessage("Online","User is online!")</div>
-    <div class="display-label">Login:@Html.DisplayFor(model => model.Login)</div>
-    <div class="display-label">UserFName:@Html.DisplayFor(model => model.UserFName)</div>
-    <div class="display-label">UserLName:@Html.DisplayFor(model => model.UserLName)</div>
-    <div class="display-label">Mail: @Html.DisplayFor(model => model.Mail)</div>
-    <div class="display-label">Region:@Html.DisplayFor(model => model.Region)</div>
-    <div class="display-label">Role:@Html.DisplayFor(model => model.Role)</div>
-    <div class="display-label">Rank:@Html.DisplayFor(model => model.Rank)</div>
-    <div class="display-label">Balance:@Html.DisplayFor(model => model.Balance)</div>
+    <div style=" font-size:medium;">@Html.ValidationMessage("Online","User is online!")</div> 
+    <table>
+    <tr><td>Login</td><td>@Html.DisplayFor(model => model.Login)</td></tr>
+    <tr><td>User FirstName:</td><td>@Html.DisplayFor(model => model.UserFName)</td></tr>
+    <tr><td>User LastName:</td><td>@Html.DisplayFor(model => model.UserLName)</td></tr>
+    <tr><td>Mail:</td><td> @Html.DisplayFor(model => model.Mail)</td></tr>
+    <tr><td>Region:</td><td>@Html.DisplayFor(model => model.Region)</td></tr>
+    <tr><td>Role:</td><td>@Html.DisplayFor(model => model.Role)</td></tr>
+    <tr><td>Rank:</td><td>@Html.DisplayFor(model => model.Rank)</td></tr>
+    <tr><td>Balance:</td><td>@Html.DisplayFor(model => model.Balance)</td></tr>
+    </table>
 </fieldset>
 @using (Html.BeginForm()) {
     <p>
