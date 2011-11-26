@@ -1,0 +1,113 @@
+﻿@model IEnumerable<OrderSystem.Models.Items>
+
+@{
+    ViewBag.Title = "Items List";
+}
+<script language="javascript" type="text/javascript">
+    function Reset() {
+        document.location.href = '@Url.Action("Index", "Items")';
+    }
+    function CheckPriceFiltration(option)
+    {
+        if (option.toString() != 'All') {
+
+            document.getElementById('PriceSearchText').removeAttribute('readonly');
+        }
+        else {
+            document.getElementById('PriceSearchText').setAttribute('readonly', 'readonly');
+        }
+
+    }
+    function CheckQuantityFiltration(option) {
+        if (option.toString() != 'All') {
+
+            document.getElementById('QuantitySearchText').removeAttribute('readonly');
+        }
+        else {
+            document.getElementById('QuantitySearchText').setAttribute('readonly', 'readonly');
+        }
+    }
+
+    function CheckOnlyFloat(input) {
+        input.value = input.value.replace(/[^\d.]/g, '');
+    }
+    function CheckOnlyNumbers(input) {
+        input.value = input.value.replace(/[^\d]/g, '');
+    } 
+
+</script>
+
+<p>This page is apained for creating new and managing existing items</p>
+<h2>@Html.ActionLink("Create New", "Create")</h2>
+<p></p>
+<p>Number of Found Items: @ViewData["CountOfItems"].ToString()</p>
+
+@using (Html.BeginForm())
+{
+<fieldset>
+<legend>Search by</legend>
+<p>Field Filter</p>
+<select id="ItemInfo" name="ItemInfo">
+  <option>Item Name</option>
+  <option>Item Description</option>
+</select>
+<select id="FiltrationOption" name="FiltrationOption">
+<option>Contain's</option>
+<option>Start's with</option>
+<option>End's with</option>
+</select>
+<input type=text id="FiltrationText" name="FiltrationText" style="position:absolute;left:20%" />
+<p>Price(only numbers):
+<select id="Price" name="Price" onchange="CheckPriceFiltration(this.options[this.selectedIndex].value)">
+<option>All</option>
+<option><text>></text></option>
+<option><text><</text></option>
+<option><text>=</text></option>
+<option><text>!=</text></option>
+</select>
+
+<input type=text name="PriceSearchText" id="PriceSearchText"   onkeyup="return CheckOnlyFloat(this);" onchange="return CheckOnlyFloat(this);"  readonly="readonly" style="position:absolute;left:20%" />
+</p>
+<p>Quantity(only numbers):
+<select id="Quantity" name="Quantity" onchange="CheckQuantityFiltration(this.options[this.selectedIndex].value) ">
+<option>All</option>
+<option><text>></text></option>
+<option><text><</text></option>
+<option><text>=</text></option>
+<option><text>!=</text></option>
+</select>
+<input type=text name="QuantitySearchText" id="QuantitySearchText" onkeyup="return CheckOnlyNumbers(this);" onchange="return CheckOnlyNumbers(this);"  readonly="readonly" style="position:absolute;left:20%" />
+</p>
+<input type=submit value="Search" />
+<button type=reset value="reset" onclick="Reset()">Reset</button>
+</fieldset>
+}
+
+<div>
+@{
+    //TODO Get Users List From Model And Render Grid
+    WebGrid usersGrid = new WebGrid(Model,canPage:true,canSort: true, rowsPerPage: 10);
+    
+ }
+@usersGrid.GetHtml(tableStyle: "webgrid",
+                              headerStyle: "webgrid-header",
+                              footerStyle: "webgrid-footer",
+                              alternatingRowStyle: "webgrid-alternating-row",
+                              selectedRowStyle: "webgrid-selected-row",
+                              rowStyle: "webgrid-row-style",
+                              mode: WebGridPagerModes.All, 
+                              firstText: "First", 
+                              lastText: "Last", 
+                              previousText: "Previous", 
+                              nextText: "Next", 
+                              numericLinksCount: 5,
+                              columns: 
+                              usersGrid.Columns(usersGrid.Column("ItemName", "Item Name"),
+                              usersGrid.Column("ItemDescriprion", "Item Description"), 
+                              usersGrid.Column("Price", "Price"), 
+                              usersGrid.Column("Quantity"), 
+                              usersGrid.Column("Edit", canSort: false, format: (item) => Html.ActionLink("Edit", "Edit", new { id = item.ItemID }, new { @class = "webridUserEdit" })),
+                              usersGrid.Column("Remove", canSort: false, format: (item) => Html.ActionLink("Delete", "Delete", new { id = item.ItemID }, new { @class = "webridUserRemove" })),
+                              usersGrid.Column("Duplicate", canSort: false, format: (item) => Html.ActionLink("Duplicate", "Duplicate", new { id = item.ItemID }, new { @class = "webridUserDuplicate" }))))
+
+</div>
