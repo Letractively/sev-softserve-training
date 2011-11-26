@@ -25,12 +25,12 @@ namespace OrderSystem.Controllers
 
         //Search items
         [HttpPost]
-        public ViewResult Index(string itemInfo,string filtrationOption,string filtrationText,string priceFiltrationOption,string priceFiltrationText,
-                                string quantityFiltrationOption,string quantityFiltrationText)
+        public ViewResult Index(string itemInfo,string filtrationOption,string filtrationText,string priceFiltrationOption,string priceSearchText,
+                                string quantityFiltrationOption,string quantitySearchText)
         {
-            Debug.WriteLine(quantityFiltrationText);
+            Debug.WriteLine(quantitySearchText);
             var filteredItems = SearhItems(itemInfo, filtrationOption, filtrationText, priceFiltrationOption,
-                                           priceFiltrationText, quantityFiltrationOption, quantityFiltrationText);
+                                           priceSearchText, quantityFiltrationOption, quantitySearchText);
             ViewData["CountOfItems"] = filteredItems.Count;
             return View(filteredItems);
         }
@@ -113,8 +113,8 @@ namespace OrderSystem.Controllers
         }
 
 
-        private List<Items> SearhItems(string itemInfo, string filtrationOption, string filtrationText, string priceFiltrationOption, string priceFiltrationText,
-                                string quantityFiltrationOption, string quantityFiltrationText)
+        private List<Items> SearhItems(string itemInfo, string filtrationOption, string filtrationText, string priceFiltrationOption, string priceSearchText,
+                                string quantityFiltrationOption, string quantitySearchText)
         {
             var items = db.Items.ToList();
             //Фитрация по тексту
@@ -149,16 +149,16 @@ namespace OrderSystem.Controllers
                 switch (priceFiltrationOption)
                 {
                     case ">":
-                        items = items.Where(x =>x.Price > Convert.ToDecimal(priceFiltrationText)).ToList();
+                        items = items.Where(x =>x.Price > Convert.ToDecimal(priceSearchText)).ToList();
                         break;
                     case "<":
-                        items = items.Where(x => x.Price < Convert.ToDecimal(priceFiltrationText)).ToList();
+                        items = items.Where(x => x.Price < Convert.ToDecimal(priceSearchText)).ToList();
                         break;
                     case "!=":
-                        items = items.Where(x => x.Price != Convert.ToDecimal(priceFiltrationText)).ToList();
+                        items = items.Where(x => x.Price != Convert.ToDecimal(priceSearchText)).ToList();
                         break;
                     case "=":
-                        items = items.Where(x => x.Price==Convert.ToDecimal(priceFiltrationText)).ToList();
+                        items = items.Where(x => x.Price==Convert.ToDecimal(priceSearchText)).ToList();
                         break;
                 }
             }
@@ -168,16 +168,16 @@ namespace OrderSystem.Controllers
                 switch (quantityFiltrationOption)
                 {
                     case ">":
-                        items = items.Where(x => x.Quantity > int.Parse(quantityFiltrationText)).ToList();
+                        items = items.Where(x => x.Quantity > int.Parse(quantitySearchText)).ToList();
                         break;
                     case "<":
-                        items = items.Where(x => x.Quantity < int.Parse(quantityFiltrationText)).ToList();
+                        items = items.Where(x => x.Quantity < int.Parse(quantitySearchText)).ToList();
                         break;
                     case "!=":
-                        items = items.Where(x => x.Quantity != int.Parse(quantityFiltrationText)).ToList();
+                        items = items.Where(x => x.Quantity != int.Parse(quantitySearchText)).ToList();
                         break;
                     case "=":
-                        items = items.Where(x => x.Quantity == int.Parse(quantityFiltrationText)).ToList();
+                        items = items.Where(x => x.Quantity == int.Parse(quantitySearchText)).ToList();
                         break;
                 }
             }
