@@ -28,7 +28,6 @@ namespace OrderSystem.Controllers
         public ViewResult Index(string itemInfo,string filtrationOption,string filtrationText,string priceFiltrationOption,string priceSearchText,
                                 string quantityFiltrationOption,string quantitySearchText)
         {
-            Debug.WriteLine(quantitySearchText);
             var filteredItems = SearhItems(itemInfo, filtrationOption, filtrationText, priceFiltrationOption,
                                            priceSearchText, quantityFiltrationOption, quantitySearchText);
             ViewData["CountOfItems"] = filteredItems.Count;
@@ -144,42 +143,49 @@ namespace OrderSystem.Controllers
             #endregion
             //Фильтрация по цене и количевству
             #region PriceAndQuantityFiltration);)
-            if(priceFiltrationOption!="All")
+            try
             {
-                switch (priceFiltrationOption)
+                if (priceFiltrationOption != "All")
                 {
-                    case ">":
-                        items = items.Where(x =>x.Price > Convert.ToDecimal(priceSearchText)).ToList();
-                        break;
-                    case "<":
-                        items = items.Where(x => x.Price < Convert.ToDecimal(priceSearchText)).ToList();
-                        break;
-                    case "!=":
-                        items = items.Where(x => x.Price != Convert.ToDecimal(priceSearchText)).ToList();
-                        break;
-                    case "=":
-                        items = items.Where(x => x.Price==Convert.ToDecimal(priceSearchText)).ToList();
-                        break;
+                    switch (priceFiltrationOption)
+                    {
+                        case ">":
+                            items = items.Where(x => x.Price > Convert.ToDecimal(priceSearchText)).ToList();
+                            break;
+                        case "<":
+                            items = items.Where(x => x.Price < Convert.ToDecimal(priceSearchText)).ToList();
+                            break;
+                        case "!=":
+                            items = items.Where(x => x.Price != Convert.ToDecimal(priceSearchText)).ToList();
+                            break;
+                        case "=":
+                            items = items.Where(x => x.Price == Convert.ToDecimal(priceSearchText)).ToList();
+                            break;
+                    }
+                }
+
+                if (quantityFiltrationOption != "All")
+                {
+                    switch (quantityFiltrationOption)
+                    {
+                        case ">":
+                            items = items.Where(x => x.Quantity > int.Parse(quantitySearchText)).ToList();
+                            break;
+                        case "<":
+                            items = items.Where(x => x.Quantity < int.Parse(quantitySearchText)).ToList();
+                            break;
+                        case "!=":
+                            items = items.Where(x => x.Quantity != int.Parse(quantitySearchText)).ToList();
+                            break;
+                        case "=":
+                            items = items.Where(x => x.Quantity == int.Parse(quantitySearchText)).ToList();
+                            break;
+                    }
                 }
             }
-            
-            if(quantityFiltrationOption!="All")
+            catch (Exception)
             {
-                switch (quantityFiltrationOption)
-                {
-                    case ">":
-                        items = items.Where(x => x.Quantity > int.Parse(quantitySearchText)).ToList();
-                        break;
-                    case "<":
-                        items = items.Where(x => x.Quantity < int.Parse(quantitySearchText)).ToList();
-                        break;
-                    case "!=":
-                        items = items.Where(x => x.Quantity != int.Parse(quantitySearchText)).ToList();
-                        break;
-                    case "=":
-                        items = items.Where(x => x.Quantity == int.Parse(quantitySearchText)).ToList();
-                        break;
-                }
+                return items;
             }
             #endregion
 

@@ -9,10 +9,12 @@
 <h3>Are you sure you want to delete this?</h3>
 <fieldset>
     <legend>Item</legend>
-    <div class="display-label">Item Name:@Html.DisplayFor(model => model.ItemName)</div>
-    <div class="display-label">Item Descriprion:@Html.DisplayFor(model => model.ItemDescriprion)</div>
-    <div class="display-label">Price:@Html.DisplayFor(model => model.Price)</div>
-    <div class="display-label">Quantity:@Html.DisplayFor(model => model.Quantity)</div>
+    <table>
+    <tr><td>Item Name:</td><td>@Html.DisplayFor(model => model.ItemName)</td></tr>
+    <tr><td>Item Description:</td><td>@Html.DisplayFor(model => model.ItemDescriprion)</td></tr>
+    <tr><td>Price:</td><td>@Html.DisplayFor(model => model.Price)</td></tr>
+    <tr><td>Quantity:</td><td>@Html.DisplayFor(model => model.Quantity)</td></tr>
+    </table>
 </fieldset>
 @using (Html.BeginForm()) {
     <p>
