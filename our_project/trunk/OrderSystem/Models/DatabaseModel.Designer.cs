@@ -590,6 +590,7 @@ namespace OrderSystem.Models
             }
             set
             {
+                
                 OnPriceChanging(value);
                 ReportPropertyChanging("Price");
                 _Price = StructuralObject.SetValidValue(value);
