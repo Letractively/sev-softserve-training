@@ -1,49 +1,60 @@
-﻿@model OrderSystem.Controllers.ViewModel 
+﻿@model OrderSystem.Controllers.ViewModel
 @{
     ViewBag.Title = "Analysing orders";
 
-    bool empty = Model.OrderInfo == null ? true : false;
+    string preferableDeliveryDate = "";
+    if (Model.OrderInfo.PreferableDeliveryDate != null)
+    {
+        preferableDeliveryDate = ((DateTime)Model.OrderInfo.PreferableDeliveryDate).ToShortDateString();
+    }
+    string orderingDate = Model.OrderInfo.DateOfOrdering.ToShortDateString();
+    
+    string disabled = ViewBag.OrderDisabled ? "disabled=\"disabled\"" : "";
+    
+    var displayLines = new List<SelectListItem>(new [] {
+    new SelectListItem { Text = @"show 10 lines", Value="10" },
+    new SelectListItem { Text = @"show 15 lines", Value="15" }, 
+    new SelectListItem { Text = @"show 20 lines", Value="20" }, 
+    new SelectListItem { Text = @"show 25 lines", Value="25" } });
 
     WebGrid itemsGrid = new WebGrid
-    (
-       Model.OrderedItems,
-       canPage: true,
-       canSort: true,
-       rowsPerPage: 5
-    );
+        (
+           Model.OrderedItems,
+           canPage: true,
+           canSort: true,
+           rowsPerPage: 5
+        );
+        
 }
+
 @using (Html.BeginForm())
 {
     <p>
         This page is appointed for analysing costumer orders and perform ordering
     </p>
     <fieldset>
-        <legend align="left" style="font-weight: bold">Items Selection </legend>
+        <legend align="left" style="font-weight: bold"> Items Selection </legend>
         <div align="right">
-            <select id="RowsPerPage">
-                <option>show 5 lines </option>
-                <option>show 10 lines </option>
-                <option>show 20 lines</option>
-            </select>
+        @Html.DropDownList("showLines", displayLines, new { onchange = "@s=this.value" })
         </div>
         <div align="center">
             <p>
-                @itemsGrid.GetHtml(columns: itemsGrid.Columns(
-                                itemsGrid.Column("ItemNumber", "Item Number"),
-                                itemsGrid.Column("ItemName", "Item Name"),
-                                itemsGrid.Column("ItemDescription", "Item Description"),
-                                itemsGrid.Column("Dimension"),
-                                itemsGrid.Column("Price"),
-                                itemsGrid.Column("Quantity"),
-                                itemsGrid.Column("PricePerLine", "Price per Line")
-                              ),
-                              tableStyle: "webgrid",
-                              headerStyle: "webgrid-header",
-                              footerStyle: "webgrid-footer",
-                              alternatingRowStyle: "webgrid-alternating-row",
-                              selectedRowStyle: "webgrid-selected-row",
-                              rowStyle: "webgrid-row-style"
-                             )
+        @itemsGrid.GetHtml(columns: itemsGrid.Columns(
+        itemsGrid.Column("ItemNumber", "Item Number"),
+        itemsGrid.Column("ItemName", "Item Name"),
+        itemsGrid.Column("ItemDescription", "Item Description"),
+        itemsGrid.Column("Dimension"),
+        itemsGrid.Column("Price"),
+        itemsGrid.Column("Quantity"),
+        itemsGrid.Column("PricePerLine", "Price per Line")
+                                 ),
+                             tableStyle: "webgrid",
+                             headerStyle: "webgrid-header",
+                             footerStyle: "webgrid-footer",
+                             alternatingRowStyle: "webgrid-alternating-row",
+                             selectedRowStyle: "webgrid-selected-row",
+                             rowStyle: "webgrid-row-style"
+               )
             </p>
         </div>
     </fieldset>
@@ -52,106 +63,120 @@
         <table cellspacing="20" align="left">
             <tr>
                 <td>
-                    Costumer Name:
+                    @Html.Label("Costumer Name:")
                 </td>
                 <td>
-                    @Html.Label(empty ? "" : Model.OrderInfo.CustomerName)
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Costumer Type:
-                </td>
-                <td>
-                    @Html.Label(empty ? "" : Model.OrderInfo.CustomerType)
+                    @Html.DisplayTextFor(m => m.OrderInfo.CustomerName)
                 </td>
             </tr>
             <tr>
                 <td>
-                    Order Number:
+                    @Html.Label("Costumer Type:")
                 </td>
                 <td>
-                    @Html.Label(empty ? "" : Model.OrderInfo.OrderNumber.ToString())
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Total Price:
-                </td>
-                <td>
-                    @Html.Label(empty ? "" : Model.OrderInfo.TotalPrice.ToString())
+                    @Html.DisplayTextFor(m => m.OrderInfo.CustomerType)
                 </td>
             </tr>
             <tr>
                 <td>
-                    Total Number of Items:
+                    @Html.Label("Order Number:")
+                </td>
+                <td>
+                    @Html.DisplayTextFor(m => m.OrderInfo.OrderNumber)
                 </td>
             </tr>
             <tr>
                 <td>
-                    Assignee:
+                    @Html.Label("Total Price:")
                 </td>
                 <td>
-                    @Html.Label(empty ? "" : Model.OrderInfo.Assignee)
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Date of Ordering:
-                </td>
-                <td>
-                    @Html.Label(empty ? "" : Model.OrderInfo.DateOfOrdering.ToShortDateString())
+                    @Html.DisplayTextFor(m => m.OrderInfo.TotalPrice)
                 </td>
             </tr>
             <tr>
                 <td>
-                    Preferable Delivery Date:
+                    @Html.Label("Total Number of Items:")
                 </td>
                 <td>
-                    @Html.Label(empty ? "" : Model.OrderInfo.PreferableDeliveryDate.ToString())
+                    @Html.DisplayTextFor(m => m.OrderInfo.TotalNumberOfItems)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.Label("Assignee:")
+                </td>
+                <td>
+                    @Html.DisplayTextFor(m => m.OrderInfo.Assignee)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.Label("Date of Ordering:")
+                </td>
+                <td>
+                    @orderingDate
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.Label("Preferable Delivery Date:")
+                </td>
+                <td>
+                    @preferableDeliveryDate
                 </td>
             </tr>
         </table>
         <table cellspacing="20" align="right">
             <tr>
                 <td>
-                    <u>Status: </u>
+                    @Html.Label("Status: ")
                 </td>
                 <td>
-                    <input id="Ordered" name="Ordered" value="true" type="checkbox" />
-                    Ordered
-                    <input id="Delivered" name="Delivered" value="true" type="checkbox" />
-                    Delivered
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <u>Delivery Date: </u>
-                </td>
-                <td>
-                    <input id="Date" name="DeliveryDate" type="text" value="@DateTime.Today.ToShortDateString()" />
+                    @Html.CheckBoxFor(m => m.OrderInfo.IsOrdered, new { onchange = "disable()" })
+                    @Html.Label("Ordered")
+                    @Html.CheckBoxFor(m => m.OrderInfo.IsDelivered, new { onchange = "disable()" })
+                    @Html.Label("Delivered")
                 </td>
             </tr>
             <tr>
                 <td>
+                    @Html.Label("Delivery Date: ")
                 </td>
                 <td>
-                    <input id="Gift" name="Gift" value="true" type="checkbox" />
-                    Gift
+                    @Html.TextBoxFor(m => m.OrderInfo.DeliveryDate, new { id = "Date", onchange = "disable()" })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    @Html.CheckBoxFor(m => m.OrderInfo.IsGift, new { onchange = "disable()" })
+                    @Html.Label("Gift")
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    @Html.ValidationMessage("IncorrectDate", @"Delivery Date is incorrect !!! Please try again !")
+                    @Html.ValidationMessage("NullDate", @"Delivery Date field is empty !!! Please select date !")
                 </td>
             </tr>
         </table>
     </fieldset>
-    <div align="right">
-        <input id="Save" type="submit" value="Save" onclick="checkEnableSubmit(@ViewBag.Bool)" />
-        <input id="Order" type="submit" value="Order" />
-        <input id="Cancel" type="submit" value="Cancel" />
-    </div>
     
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#Date').datepicker({ firstDay: 1, dateFormat: 'dd.mm.yy' });
-            $('.datePicker').datepicker({ firstDay: 1, dateFormat: 'dd.mm.yy' });
-        });
-    </script>
+    <div align="right">
+        <input type="submit" value="Save" name="Action" />
+        <input type="submit" value="Order" name="Action" id="order" @disabled />
+        <input type="submit" value="Cancel" name="Action" />
+    </div>
 }
+<script type="text/javascript">
+
+    function disable() {
+        document.getElementById("order").disabled = true;
+    }
+    $(document).ready(function () {
+        $('#Date').datepicker({ firstDay: 1, dateFormat: 'dd.mm.yy' });
+        $('.datePicker').datepicker({ firstDay: 1, dateFormat: 'dd.mm.yy' });
+    });
+        
+</script>
