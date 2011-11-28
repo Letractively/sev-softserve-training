@@ -62,7 +62,7 @@ namespace OrderSystem.Controllers
                         switch (currentUser.Role)
                         {
                             case "Administrator": return RedirectToAction("Index", "OrderSystemUser");
-                            case "Merchandiser": return RedirectToAction("AnalyzeOrders", "DisplayOrder");
+                            case "Merchandiser": return RedirectToAction("AnalyzeOrders", "DisplayOrder", new { orderNumber = 1 });
                             case "Supervisor": /* Add link */ break;
                             case "Customer": return RedirectToAction("OrderList", "CustomerOrdering");
                         }
