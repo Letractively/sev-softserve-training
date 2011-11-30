@@ -2099,6 +2099,8 @@ namespace OrderSystem.Models
 
     public class CustomerOrderInfo
     {
+        public int OrderID { get; set; }
+
         public string Command { get; set; }
 
         public global::System.Collections.Generic.List<global::System.String> Merchandisers { get; set; }
@@ -2115,6 +2117,7 @@ namespace OrderSystem.Models
 
         public DateTime? PreferableDeliveryDate { get; set; }
 
+        [DisplayFormat(NullDisplayText = "Not deliveried.")]
         public DateTime? DeliveryDate { get; set; }
 
         public string Assignee { get; set; }
