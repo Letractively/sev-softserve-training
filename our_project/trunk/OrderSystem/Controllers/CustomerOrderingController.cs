@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using OrderSystem.Models;
-
+using System.Collections;
 namespace OrderSystem.Controllers
 {
 
@@ -79,6 +79,24 @@ namespace OrderSystem.Controllers
             #endregion
             return View(filterList);
         }
+
+        public ActionResult Delete(int id)
+        {
+            Orders order = database.Orders.Single(o => o.OrderID == id);
+            return View(order);
+        }
+
+        //
+        // POST: /Default1/Delete/5
+        [HttpPost, ActionName("Delete")]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Orders order = database.Orders.Single(o => o.OrderID == id);
+            database.Orders.DeleteObject(order);
+            database.SaveChanges();
+            return RedirectToAction("OrderList");
+        }
+
         // GET: /CustomerOrdering/Create.cshtml
         public ActionResult Create()
         {
