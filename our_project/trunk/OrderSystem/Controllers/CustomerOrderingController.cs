@@ -189,12 +189,15 @@ namespace OrderSystem.Controllers
             order.DeliveryDate = dbOrder.DeliveryDate;
             order.ItemsCount = dbOrder.ItemsOrder.Count;
             order.ItemsOrder = dbOrder.ItemsOrder.ToList();
+            // TODO: Delete when items search will be done
+            order.ItemsOrder = new List<ItemsOrder>();
             order.OrderNumber = dbOrder.OrderNumber;
             List<string> assignies = new List<string>();
             foreach (Users user in database.Users.Where(user => user.Role == "Merchandiser"))
             {
                 assignies.Add(user.Login);
             }
+            order.OrderID = dbOrder.OrderID;
             order.Merchandisers = assignies;
             order.OrderingDate = dbOrder.OrderingDate;
             order.PreferableDeliveryDate = dbOrder.PreferableDeliveryDate;
@@ -217,8 +220,15 @@ namespace OrderSystem.Controllers
         [HttpPost]
         public ActionResult Edit(CustomerOrderInfo order)
         {
+            List<string> assignies = new List<string>();
+            foreach (Users user in database.Users.Where(user => user.Role == "Merchandiser"))
+            {
+                assignies.Add(user.Login);
+            }
+            order.Merchandisers = assignies;
             List<string> orderNumbers = database.Orders.Select<Orders, string>(order1 => order1.OrderNumber).ToList<string>();
-            if (orderNumbers.Contains(order.OrderNumber))
+            if (orderNumbers.Contains(order.OrderNumber) && 
+                order.OrderNumber != database.Orders.FirstOrDefault(ord => ord.OrderID == order.OrderID).OrderNumber)
             {
                 ModelState.AddModelError("OrderNumber", "Order Number already exists in the system./nPlease re-type it or just leave it blank");
             }
@@ -247,17 +257,18 @@ namespace OrderSystem.Controllers
                     dbOrder.UserID = database.Users.Single(user => user.Login.ToLower() == curUserLogin.ToLower()).UserID;
                     dbOrder.CardID = null;
                     dbOrder.OrderNumber = order.OrderNumber;
+                    dbOrder.OrderID = order.OrderID;
                     dbOrder.Status = "Created";
-                    dbOrder.OrderingDate = DateTime.Today;
+                    dbOrder.OrderingDate = order.OrderingDate;
                     dbOrder.PreferableDeliveryDate = order.PreferableDeliveryDate;
                     dbOrder.Assignee = order.Assignee;
                     dbOrder.TotalPrice = order.TotalPrice;
                     dbOrder.Discount = 0;
                     dbOrder.IsGift = false;
-                    database.Orders.Attach(database.Orders.Single(ord => ord.OrderNumber == dbOrder.OrderNumber));
+                    database.Orders.Attach(database.Orders.Single(ord => ord.OrderID == dbOrder.OrderID));
                     database.ApplyCurrentValues("Orders", dbOrder);
                     database.SaveChanges();
-                    int editedOrderID = database.Orders.FirstOrDefault(ord => ord.OrderNumber == order.OrderNumber).OrderID;
+                    int editedOrderID = dbOrder.OrderID;
                     return View(new { orderID = editedOrderID });
                 }
                 else
@@ -267,7 +278,10 @@ namespace OrderSystem.Controllers
             }
             else if (order.Command == "Order")
             {
-                if (order.ExpiredDate > DateTime.Today.AddDays(3))
+                // TODO: Delete, whent items search will be done
+                ModelState.Values.ElementAt(16).Errors.Clear();
+
+                if (order.ExpiredDate < DateTime.Today.AddDays(3))
                 {
                     ModelState.AddModelError("ExpiredDate", "Order Number already exists in the system./nPlease re-type it or just leave it blank");
                 }
@@ -282,18 +296,19 @@ namespace OrderSystem.Controllers
                     string curUserLogin = (string)Session["User"];
                     dbOrder.UserID = database.Users.Single(user => user.Login.ToLower() == curUserLogin.ToLower()).UserID;
                     dbOrder.CardID = null;
+                    dbOrder.OrderID = order.OrderID;
                     dbOrder.OrderNumber = order.OrderNumber;
-                    dbOrder.Status = "Created";
+                    dbOrder.Status = "Ordered";
                     dbOrder.OrderingDate = DateTime.Today;
                     dbOrder.PreferableDeliveryDate = order.PreferableDeliveryDate;
                     dbOrder.Assignee = order.Assignee;
                     dbOrder.TotalPrice = order.TotalPrice;
                     dbOrder.Discount = 0;
                     dbOrder.IsGift = false;
-                    database.Orders.Attach(database.Orders.Single(ord => ord.OrderNumber == dbOrder.OrderNumber));
+                    database.Orders.Attach(database.Orders.Single(ord => ord.OrderID == dbOrder.OrderID));
                     database.ApplyCurrentValues("Orders", dbOrder);
                     database.SaveChanges();
-                    int editedOrderID = database.Orders.FirstOrDefault(ord => ord.OrderNumber == order.OrderNumber).OrderID;
+                    int editedOrderID = dbOrder.OrderID;
                     return View(new { orderID = editedOrderID });
 
                 }

@@ -88,6 +88,13 @@ textarea
     padding-bottom: 3.8em;
 }
 
+.card1
+{
+    width: 50%;
+    float: right;
+    padding-bottom: 3.5em;
+}
+
 .mandatory-message
 {
     float: right;
