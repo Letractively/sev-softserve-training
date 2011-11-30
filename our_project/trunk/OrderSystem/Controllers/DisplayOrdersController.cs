@@ -12,6 +12,61 @@ namespace OrderSystem.Controllers
         private OrderSystemEntities database = new OrderSystemEntities();
         private static int OrderID;
 
+        // GET: /CustomerOrdering/OrderList.cshtml
+        public ActionResult MerchandiserOrderList()
+        {
+            return View(database.Orders.ToList());
+        }
+
+        [HttpPost]
+        public ActionResult MerchandiserOrderList(string filterType, string statusOptions, string roleOptions, string searchType, string searchText)
+        {
+            List<Orders> filterList = database.Orders.ToList();
+
+            if (filterList == null)
+                return this.View();
+
+            #region FilterOrders
+            if (filterType == "Status")
+            {
+                if (statusOptions != "None")
+                {
+                    filterList = filterList.Where(u => u.Status.Equals(statusOptions)).ToList();
+                }
+            }
+            else
+            {
+                if (filterType == "Role")
+                {
+                    if (roleOptions != "None")
+                    {
+                        filterList = filterList.Where(u => u.Status.Equals(roleOptions)).ToList();
+                    }
+                }
+            }
+
+            if (searchType == "Order Name")
+            {
+                filterList = filterList.Where(u => u.OrderNumber.Equals(searchText)).ToList();
+            }
+            else
+            {
+                if (searchType == "Status")
+                {
+                    filterList = filterList.Where(u => u.Status.Equals(searchText)).ToList();
+                }
+                else
+                {
+                    if (searchType == "Assignee")
+                    {
+                        filterList = filterList.Where(u => u.Assignee.Equals(searchText)).ToList();
+                    }
+                }
+            }
+            #endregion
+            return View(filterList);
+        }
+
         private void InitializeViewModel(int id, ViewModel model)
         {
             var query1 = (from item in database.Items
