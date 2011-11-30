@@ -74,7 +74,7 @@ namespace OrderSystem.Controllers
                     switch (_db.Users.Single(m => m.Login == user.UserLogin).Role)
                     {
                         case "Administrator": return RedirectToAction("Index", "OrderSystemUser");
-                        case "Merchandiser": return RedirectToAction("AnalyzeOrders", "DisplayOrder", new {orderNumber = 1});
+                        case "Merchandiser": return RedirectToAction("MerchandiserOrderList", "DisplayOrders");
                         case "Supervisor": return RedirectToAction("Index", "Items");
                         case "Customer": return RedirectToAction("OrderList", "CustomerOrdering");
                     }
