@@ -343,7 +343,7 @@ namespace OrderSystem.Controllers
             {
                 
                 ModelState.AddModelError("Online",@"User is online!");
-                return this.View();
+                return this.View(user);
             }
             database.Users.DeleteObject(user);
             database.SaveChanges();
