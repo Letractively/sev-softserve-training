@@ -30,9 +30,9 @@
                     <li><a href="index.html" class="current">HOME </a></li>
                     <li><a href="about.html">ABOUT US </a></li>
                     <li><a href="" onclick="openUserInfo()">USER INFO </a></li>
-                    <li><a href="@Url.Action("Login", "UserLogin")">LOGOUT </a></li>
+                    <li><a href="@Url.Action("Logout", "UserLogin")">LOGOUT </a></li>
                     <li style="color: Yellow; padding-left: 30px; padding-right: 10px"><b>Logged user: &nbsp;
-                        < @Session["User"] > &nbsp; </b></li>
+                        < @HttpContext.Current.User.Identity.Name > &nbsp; </b></li>
                 </ul>
             </div>
             <div class="cleaner">
@@ -49,11 +49,9 @@
                             <div class="cs_article">
                                 <div class="article">
                                     <div class="left">
-                                        <h2>
-                                            @lst.ElementAt(i).ItemName</h2>
-                                        <p>
-                                            <h3>@lst.ElementAt(i).Price</h3>
-                                        </p>
+                                        <h2 style="color: red"> NEW !!! </h2>
+                                        <h2> @lst.ElementAt(i).ItemName</h2>
+                                        <h3>Only @Convert.ToInt32(lst.ElementAt(i).Price) $</h3>
                                         <div class="button">
                                             <a href="#">More</a></div>
                                     </div>
