@@ -89,8 +89,8 @@ namespace OrderSystem.Controllers
  
         public ActionResult Delete(int id)
         {
-            Items items = db.Items.Single(i => i.ItemID == id);
-            return View(items);
+            Items item = db.Items.Single(i => i.ItemID == id);
+            return View(item);
         }
 
         //
@@ -105,11 +105,34 @@ namespace OrderSystem.Controllers
             return RedirectToAction("Index");
         }
 
+
+        public ActionResult Duplicate(int id)
+        {
+            var item = db.Items.Single(i => i.ItemID == id);
+            return View(item);
+        }
+        
+        [HttpPost, ActionName("Duplicate")]
+        public ActionResult Duplicate(Items item)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Items.AddObject(item);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(item);
+        }
+
         protected override void Dispose(bool disposing)
         {
             db.Dispose();
             base.Dispose(disposing);
         }
+
+
+
+
 
 
         private List<Items> SearhItems(string itemInfo, string filtrationOption, string filtrationText, string priceFiltrationOption, string priceSearchText,

@@ -206,7 +206,9 @@
     <Content Include="Views\Items\Edit.cshtml" />
     <Content Include="Views\Items\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Views\Items\Duplicate.cshtml" />
+  </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="Models\DatabaseModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
