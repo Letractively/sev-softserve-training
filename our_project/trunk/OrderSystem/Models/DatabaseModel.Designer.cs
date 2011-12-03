@@ -748,6 +748,30 @@ namespace OrderSystem.Models
         private global::System.Int32 _Quantity;
         partial void OnQuantityChanging(global::System.Int32 value);
         partial void OnQuantityChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Image
+        {
+            get
+            {
+                return _Image;
+            }
+            set
+            {
+                OnImageChanging(value);
+                ReportPropertyChanging("Image");
+                _Image = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Image");
+                OnImageChanged();
+            }
+        }
+        private global::System.String _Image;
+        partial void OnImageChanging(global::System.String value);
+        partial void OnImageChanged();
 
         #endregion
     
@@ -1639,9 +1663,9 @@ namespace OrderSystem.Models
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName = "OrderSystemModel", Name = "Users")]
+    [EdmEntityTypeAttribute(NamespaceName="OrderSystemModel", Name="Users")]
     [Serializable()]
-    [DataContractAttribute(IsReference = true)]
+    [DataContractAttribute(IsReference=true)]
     public partial class Users : EntityObject
     {
         #region Фабричный метод
@@ -2043,8 +2067,9 @@ namespace OrderSystem.Models
 
         #endregion
     }
-    #endregion
 
+    #endregion
+    
     public class OrderedItemsInfo
     {
         public int ItemNumber { get; set; }

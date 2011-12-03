@@ -63,6 +63,7 @@
           <Property Name="ItemDescriprion" Type="varchar" Nullable="false" MaxLength="100" />
           <Property Name="Price" Type="smallmoney" Nullable="false" />
           <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="Image" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="ItemsOrder">
           <Key>
@@ -241,6 +242,7 @@
           <Property Name="ItemDescriprion" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
           <Property Name="Price" Type="Decimal" Nullable="false" Precision="10" Scale="4" />
           <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Image" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
           <NavigationProperty Name="ItemsOrder" Relationship="OrderSystemModel.FK_ItemsOrder_Items" FromRole="Items" ToRole="ItemsOrder" />
         </EntityType>
         <EntityType Name="ItemsOrder">
@@ -390,6 +392,7 @@
             <ScalarProperty Name="ItemDescriprion" ColumnName="ItemDescriprion" />
             <ScalarProperty Name="Price" ColumnName="Price" />
             <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+            <ScalarProperty Name="Image" ColumnName="Image" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="ItemsOrder"><EntityTypeMapping TypeName="OrderSystemModel.ItemsOrder"><MappingFragment StoreEntitySet="ItemsOrder">
             <ScalarProperty Name="ItemID" ColumnName="ItemID" />
@@ -455,7 +458,7 @@
       <Diagram Name="DatabaseModel">
         <EntityTypeShape EntityType="OrderSystemModel.Ban" Width="1.5" PointX="7.75" PointY="4.75" Height="1.4279589843749996" IsExpanded="true" />
         <EntityTypeShape EntityType="OrderSystemModel.Card" Width="1.5" PointX="3" PointY="5.625" Height="2.2496956380208335" IsExpanded="true" />
-        <EntityTypeShape EntityType="OrderSystemModel.Items" Width="1.5" PointX="5.25" PointY="5.75" Height="1.9210009765624996" IsExpanded="true" />
+        <EntityTypeShape EntityType="OrderSystemModel.Items" Width="1.5" PointX="5.25" PointY="5.625" Height="2.0853483072916656" IsExpanded="true" />
         <EntityTypeShape EntityType="OrderSystemModel.ItemsOrder" Width="1.5" PointX="7.5" PointY="1.625" Height="2.0853483072916656" IsExpanded="true" />
         <EntityTypeShape EntityType="OrderSystemModel.Orders" Width="1.5" PointX="5.25" PointY="1" Height="3.4001269531249996" IsExpanded="true" />
         <EntityTypeShape EntityType="OrderSystemModel.Rank" Width="1.5" PointX="0.75" PointY="1.75" Height="1.9210009765624996" IsExpanded="true" />
@@ -467,8 +470,8 @@
           <ConnectorPoint PointX="5.25" PointY="2.7000634765625" />
         </AssociationConnector>
         <AssociationConnector Association="OrderSystemModel.FK_ItemsOrder_Items" ManuallyRouted="false">
-          <ConnectorPoint PointX="6.75" PointY="6.95572998046875" />
-          <ConnectorPoint PointX="7.59375" PointY="6.95572998046875" />
+          <ConnectorPoint PointX="6.75" PointY="6.9754036458333326" />
+          <ConnectorPoint PointX="7.59375" PointY="6.9754036458333326" />
           <ConnectorPoint PointX="7.59375" PointY="3.7103483072916656" />
         </AssociationConnector>
         <AssociationConnector Association="OrderSystemModel.FK_ItemsOrder_Order" ManuallyRouted="false">

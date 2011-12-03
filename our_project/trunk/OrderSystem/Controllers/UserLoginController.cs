@@ -103,7 +103,7 @@ namespace OrderSystem.Controllers
                     currentUser.Password.Equals(password))
                     return true;
             }
-            /*var ban = _db.Ban.SingleOrDefault(u => u.ip == ipAddress);
+            var ban = _db.Ban.SingleOrDefault(u => u.ip == ipAddress);
             if (ban == null)
             {
                 var b = new Ban { ip = ipAddress, attempt = 1, bantime = null };
@@ -123,7 +123,7 @@ namespace OrderSystem.Controllers
                         ViewBag.Error = 3;
                     }
                     else ban.attempt = ban.attempt + 1;
-            }*/
+            }
             _db.SaveChanges();
             return false;
         }
@@ -152,7 +152,7 @@ namespace OrderSystem.Controllers
         /// <returns> Результат проверки </returns>
         public bool BanCheck(string ip)
         {
-            /*foreach (Ban b in _db.Ban)
+            foreach (Ban b in _db.Ban)
             {
                 if (b.bantime != null && b.ip == ip)
                 {
@@ -162,7 +162,7 @@ namespace OrderSystem.Controllers
                     break;
                 }
             }
-            _db.SaveChanges();*/
+            _db.SaveChanges();
             return false;
         }
     }
