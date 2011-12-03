@@ -21,7 +21,7 @@
             @Html.LabelFor(model => model.ItemName)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.ItemName)
+            @Html.TextBoxFor(model => model.ItemName, new { @class = "textboxwidth" })
             @Html.ValidationMessageFor(model => model.ItemName)
         </div>
 
@@ -29,7 +29,7 @@
             @Html.LabelFor(model => model.ItemDescriprion)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.ItemDescriprion)
+            @Html.TextBoxFor(model => model.ItemDescriprion, new { @class = "textboxwidth" })
             @Html.ValidationMessageFor(model => model.ItemDescriprion)
         </div>
 
@@ -37,7 +37,7 @@
             @Html.LabelFor(model => model.Price)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => model.Price, new { onkeyup = "return ReplaceCommaByDot(this)" })
+            @Html.TextBoxFor(model => model.Price, new { onkeyup = "return ReplaceCommaByDot(this)", @class = "textboxwidth" })
             @Html.ValidationMessageFor(model => model.Price)
         </div>
 
@@ -45,7 +45,7 @@
             @Html.LabelFor(model => model.Quantity)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Quantity)
+            @Html.TextBoxFor(model => model.Quantity, new { @class = "textboxwidth" })
             @Html.ValidationMessageFor(model => model.Quantity)
         </div>
 
