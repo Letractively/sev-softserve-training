@@ -15,6 +15,13 @@
     @{
         var _db = new OrderSystemEntities();
         List<Items> lst = _db.Items.ToList();
+        string page = HttpContext.Current.User.Identity.Name;
+        switch (_db.Users.Single(u => u.Login == page).Role)
+        {
+            case "Administrator": page = "ADMINISTRATION"; break;
+            case "Supervisor": page ="ITEMS MANAGEMENT"; break;
+            default: page = "ORDERING"; break;
+        }
     }
 </head>
 <body>
@@ -28,10 +35,10 @@
             </div>
             <div id="templatemo_menu">
                 <ul>
-                    <li><a href="index.html" class="current">HOME </a></li>
-                    <li><a href="about.html">ABOUT US </a></li>
-                    <li><a href="" onclick="openUserInfo()">USER INFO </a></li>
-                    <li><a href="@Url.Action("Logout", "UserLogin")">LOGOUT </a></li>
+                    <li><a href="@FormsAuthentication.LoginUrl" class="current"> @page </a></li>
+                    <li><a href="#"> ABOUT US </a></li>
+                    <li><a href="" onclick="openUserInfo()"> USER INFO </a></li>
+                    <li><a href="@Url.Action("Logout", "UserLogin")"> LOGOUT </a></li>
                     <li style="color: Yellow; padding-left: 30px; padding-right: 10px"><b>Logged user: &nbsp;
                         < @HttpContext.Current.User.Identity.Name > &nbsp; </b></li>
                 </ul>
@@ -74,6 +81,7 @@
     }
     <div id="templatemo_content_wrapper">
         @RenderBody()
+        <br/>
     </div>
     <div id="templatemo_copyright_wrapper">
         <div id="templatemo_copyright">
