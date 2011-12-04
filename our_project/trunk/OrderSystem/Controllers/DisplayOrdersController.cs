@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 namespace OrderSystem.Controllers
 {
+    [Authorize(Roles = "Merchandiser")]
     public class DisplayOrderController : Controller
     {
         private OrderSystemEntities database = new OrderSystemEntities();

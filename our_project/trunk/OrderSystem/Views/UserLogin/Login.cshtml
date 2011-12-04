@@ -11,9 +11,9 @@
     @Html.ValidationSummary(true)
 
     <fieldset style="position: absolute; left: 30%; top: 30%;">
-        @if (ViewBag.Error == 0 && (int) Session["LoginCounter"] < 5)
+        @if (ViewBag.Error == 0)
         {
-            <legend align="left" style="font-weight: bold;">Order Management System </legend>
+            <legend align="left" style="font-weight: bold;"> Order Management System </legend>
             <p>
                 <table>
                     <tr>

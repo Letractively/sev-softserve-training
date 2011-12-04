@@ -131,6 +131,7 @@
     <Content Include="Content\Images\Template\templatemo_content.jpg" />
     <Content Include="Content\Images\Template\templatemo_header.jpg" />
     <Content Include="Content\Images\Template\templatemo_slider.jpg" />
+    <Content Include="Content\Template.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />

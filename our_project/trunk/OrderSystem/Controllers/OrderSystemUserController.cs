@@ -13,13 +13,13 @@ namespace OrderSystem.Controllers
         // GET: /OrderSystemUser/
         //TODO Implement OrderSystemUserController
         OrderSystemEntities database=new OrderSystemEntities();
-
+        [Authorize(Roles = "Administrator")]
         public ActionResult Index()
         {
             ViewData["CountOfUsers"] = database.Users.Count();
             return View(database.Users.ToList());
         }
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "Administrator")]
         public ActionResult Index(string userInfo,string filtrationOption,string filtrationText)
         {
             List<Users> filterList = database.Users.ToList();
@@ -136,6 +136,7 @@ namespace OrderSystem.Controllers
         }
 
         // GET: /OrderSystemUser/UserDetails.cshtml
+        [Authorize]
         public ActionResult UserDetails()
         {
             foreach (Users user in database.Users)
@@ -170,15 +171,15 @@ namespace OrderSystem.Controllers
 
         }
 
-
         // GET: /OrderSystemUser/Register.cshtml
+        [Authorize(Roles = "Administrator")]
         public ActionResult Register()
         {
             return this.View();
         }
 
         // POST: /OrderSystemUser/Register.cshtml
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "Administrator")]
         public ActionResult Register(Users user)
         {
             if (user.UserFName != null)
@@ -220,6 +221,7 @@ namespace OrderSystem.Controllers
         }
 
         // GET: /OrderSystemUser/Edit.cshtml
+        [Authorize(Roles = "Administrator")]
         public ActionResult Edit( int id )
         {
             Users user = database.Users.Single(u => u.UserID == id);
@@ -228,7 +230,7 @@ namespace OrderSystem.Controllers
         }
 
         // POST: /OrderSystemUser/Edit.cshtml
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "Administrator")]
         public ActionResult Edit(Users user)
         {
             if (user.UserFName != null)
@@ -276,6 +278,7 @@ namespace OrderSystem.Controllers
         }
 
         // GET: /OrderSystemUser/Duplicate.cshtml
+        [Authorize(Roles = "Administrator")]
         public ActionResult Duplicate(int id)
         {
             Users user = database.Users.Single(u => u.UserID == id);
@@ -285,7 +288,7 @@ namespace OrderSystem.Controllers
         }
 
         // POST: /OrderSystemUser/Duplicate.cshtml
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "Administrator")]
         public ActionResult Duplicate(Users user)
         {
             if (user.UserFName != null)
@@ -325,7 +328,7 @@ namespace OrderSystem.Controllers
 
             return this.View();
         }
-
+        [Authorize(Roles = "Administrator")]
         public ActionResult Delete(int id)
         {
             Users user = database.Users.Single(u => u.UserID == id);
@@ -334,7 +337,7 @@ namespace OrderSystem.Controllers
 
         //
         // POST: /Default1/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("Delete"), Authorize(Roles = "Administrator")]
         public ActionResult DeleteConfirmed(int id)
         {
             Users user = database.Users.Single(u => u.UserID == id);
