@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace OrderSystem.Controllers
 {
-    [Authorize(Roles = "Merchandiser")]
+   [Authorize(Roles = "Merchandiser")]
     public class DisplayOrderController : Controller
     {
         private OrderSystemEntities database = new OrderSystemEntities();
@@ -121,7 +121,7 @@ namespace OrderSystem.Controllers
             model.OrderInfo = query2.First();
         }
 
-        public ActionResult AnalyzeOrders(int orderNumber)
+        public ActionResult AnalyzeOrders(int orderNumber=1)
         {
             ViewBag.OrderDisabled = true;
             OrderID = orderNumber;
@@ -138,15 +138,20 @@ namespace OrderSystem.Controllers
 
             if (model.Action.Equals("Save"))
             {
+                if (!model.OrderInfo.IsOrdered && model.OrderInfo.IsDelivered)
+                {
+                    ModelState.AddModelError("CheckBoxError", @"Unsupport CheckBox selection !!! Please try again !");
+                    ViewBag.OrderDisabled = true;
+                }
                 if (model.OrderInfo.DeliveryDate == null)
                 {
-                    ModelState.AddModelError("NullDate", @"Delivery Date field is empty !!! Please select date !");
+                    ModelState.AddModelError("NullDate", @"Delivery Date field is empty or incorrect !!! Please select date !");
                     ViewBag.OrderDisabled = true;
                 }
                 else
                 {
                     DateTime dt1 = database.Orders.Single(m => m.OrderID == OrderID).OrderingDate;
-                    DateTime dt2 = (DateTime)model.OrderInfo.DeliveryDate;
+                    var dt2 = (DateTime)model.OrderInfo.DeliveryDate;
                     if (DateTime.Compare(dt2, dt1) < 0)
                     {
                         ModelState.AddModelError("IncorrectDate", @"Delivery Date is incorrect !!! Please try again !");

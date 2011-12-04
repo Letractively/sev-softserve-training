@@ -2102,16 +2102,10 @@ namespace OrderSystem.Models
 
         public string Assignee { get; set; }
 
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd.mm.yyyy}", HtmlEncode = false)]
         public DateTime DateOfOrdering { get; set; }
 
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd.mm.yyyy}", HtmlEncode = false)]
         public DateTime? PreferableDeliveryDate { get; set; }
 
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd.mm.yyyy}", HtmlEncode = false)]
         public DateTime? DeliveryDate { get; set; }
 
         public bool IsGift { get; set; }

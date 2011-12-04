@@ -7,10 +7,11 @@
     {
         preferableDeliveryDate = ((DateTime)Model.OrderInfo.PreferableDeliveryDate).ToShortDateString();
     }
+
     string orderingDate = Model.OrderInfo.DateOfOrdering.ToShortDateString();
-    
+
     string disabled = ViewBag.OrderDisabled ? "disabled=\"disabled\"" : "";
-    
+        
     var displayLines = new List<SelectListItem>(new [] {
     new SelectListItem { Text = @"show 10 lines", Value="10" },
     new SelectListItem { Text = @"show 15 lines", Value="15" }, 
@@ -143,7 +144,7 @@
                     @Html.Label("Delivery Date: ")
                 </td>
                 <td>
-                    @Html.TextBoxFor(m => m.OrderInfo.DeliveryDate, new { id = "Date", onchange = "disable()" })
+                    @Html.TextBoxFor(m => m.OrderInfo.DeliveryDate, new { onchange = "disable()", id="Date", style = "width:65px; text-align:right" })
                 </td>
             </tr>
             <tr>
@@ -156,8 +157,9 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    @Html.ValidationMessage("IncorrectDate", @"Delivery Date is incorrect !!! Please try again !")
-                    @Html.ValidationMessage("NullDate", @"Delivery Date field is empty !!! Please select date !")
+                    <p> @Html.ValidationMessage("CheckBoxError", @"Unsupport CheckBox selection !!! Please try again !")</p>
+                     <p>@Html.ValidationMessage("IncorrectDate", @"Delivery Date is incorrect !!! Please try again !")</p>
+                     <p>@Html.ValidationMessage("NullDate", @"Delivery Date field is empty or incorrect !!! Please select date !")</p>
                 </td>
             </tr>
         </table>

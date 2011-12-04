@@ -27,7 +27,7 @@ namespace OrderSystem.Controllers
             {
                IPrincipal princ = HttpContext.User;
                if (princ.IsInRole("Administrator")) return Redirect("~/OrderSystemUser/Index");
-               if (princ.IsInRole("Merchandiser")) return Redirect("~/DisplayOrders/MerchandiserOrderList");
+               if (princ.IsInRole("Merchandiser")) return Redirect("~/DisplayOrder/MerchandiserOrderList");
                if (princ.IsInRole("Supervisor")) return Redirect("~/Items/Index");
                if (princ.IsInRole("Customer")) return Redirect("~/CustomerOrdering/OrderList");
             }
@@ -108,7 +108,7 @@ namespace OrderSystem.Controllers
                     switch (_db.Users.Single(m => m.Login == user.UserLogin).Role)
                     {
                         case "Administrator": return Redirect("~/OrderSystemUser/Index");
-                        case "Merchandiser": return Redirect("~/DisplayOrders/MerchandiserOrderList");
+                        case "Merchandiser": return Redirect("~/DisplayOrder/MerchandiserOrderList");
                         case "Supervisor": return Redirect("~/Items/Index");
                         case "Customer": return Redirect("~/CustomerOrdering/OrderList");
                     }
