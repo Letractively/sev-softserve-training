@@ -7,7 +7,7 @@ using OrderSystem.Models;
 using System.Collections;
 namespace OrderSystem.Controllers
 {
-
+    [Authorize(Roles = "Customer")]
     public class CustomerOrderingController : Controller
     {
         OrderSystemEntities database = new OrderSystemEntities();
@@ -17,7 +17,7 @@ namespace OrderSystem.Controllers
         {
             foreach (Users user in database.Users)
             {
-                if (user.Login == (string)Session["User"])
+                if (user.Login == HttpContext.User.Identity.Name)
                 {
                     return View(user.Orders.ToList());
                 }

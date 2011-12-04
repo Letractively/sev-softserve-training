@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections;
+using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.Security;
+using System.Windows.Forms;
 
 namespace OrderSystem
 {
@@ -26,6 +29,7 @@ namespace OrderSystem
                 new {controller = "UserLogin", action = "Login", id = UrlParameter.Optional} // Parameter defaults
                 );
         }
+
 
         protected void Application_Start()
         {
@@ -56,6 +60,24 @@ namespace OrderSystem
                 ((Hashtable) Application["OnlineUsers"]).Remove(Session.SessionID);
             }
             Application.UnLock();
+        }
+
+        protected void Application_AuthenticateRequest(Object sender, EventArgs e)
+        {
+            if (HttpContext.Current.User != null)
+            {
+                if (HttpContext.Current.User.Identity.IsAuthenticated)
+                {
+                    if (HttpContext.Current.User.Identity is FormsIdentity)
+                    {
+                        var id = (FormsIdentity) HttpContext.Current.User.Identity;
+                        FormsAuthenticationTicket ticket = id.Ticket;
+                        string userData = ticket.UserData;
+                        string[] roles = userData.Split(',');
+                        HttpContext.Current.User = new GenericPrincipal(id, roles);
+                    }
+                }
+            }
         }
     }
 }

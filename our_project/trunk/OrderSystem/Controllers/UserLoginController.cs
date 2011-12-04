@@ -2,9 +2,11 @@
 using System.Collections;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Security.Principal;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using OrderSystem.Models;
 
 namespace OrderSystem.Controllers
@@ -21,11 +23,25 @@ namespace OrderSystem.Controllers
                 ViewBag.Error = 3;
                 return View();
             }
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+               IPrincipal princ = HttpContext.User;
+               if (princ.IsInRole("Administrator")) return Redirect("~/OrderSystemUser/Index");
+               if (princ.IsInRole("Merchandiser")) return Redirect("~/DisplayOrders/MerchandiserOrderList");
+               if (princ.IsInRole("Supervisor")) return Redirect("~/Items/Index");
+               if (princ.IsInRole("Customer")) return Redirect("~/CustomerOrdering/OrderList");
+            }
             var httpCookie = Request.Cookies["Login"];
             if (httpCookie != null) ViewBag.Name = httpCookie.Value;
-            GetOnlineUsers().Remove(Session.SessionID);
-            ViewBag.Error = 0;
+            ViewBag.Error = 0; 
             return View();
+        }
+
+        public void Logout()
+        {
+            GetOnlineUsers().Remove(Session.SessionID);
+            FormsAuthentication.SignOut();
+            FormsAuthentication.RedirectToLoginPage();
         }
 
         // POST: /OrderSystemUser/Login.cshtml
@@ -41,15 +57,13 @@ namespace OrderSystem.Controllers
                     ViewBag.Error = 3;
                     return View();
                 }
-                if (UserValidation (user.UserLogin, user.UserPassword))
+                if (UserValidation(user.UserLogin, user.UserPassword))
                 {
-                    Session["User"] = user.UserLogin;
-
                     if (user.RememberMe)
                     {
                         var cookie = new HttpCookie("Login", user.UserLogin);
                         DateTime dateTime = DateTime.Now;
-                        TimeSpan span = new TimeSpan(24, 0, 0);
+                        var span = new TimeSpan(24, 0, 0);
                         cookie.Expires = dateTime.Add(span);
                         Response.AppendCookie(cookie);
                     }
@@ -71,13 +85,34 @@ namespace OrderSystem.Controllers
                         //Добавляем Юзера в список онлайн
                         GetOnlineUsers().Add(Session.SessionID, user.UserLogin);
                     }
+
+                    string role = _db.Users.Single(m => m.Login == user.UserLogin).Role;
+
+                    var ticket = new FormsAuthenticationTicket
+                    (1, // Ticket version
+                     user.UserLogin, // Username associated with ticket 
+                     DateTime.Now,
+                     DateTime.Now.AddMinutes(30),
+                     true, // "true" for a persistent user cookie
+                     role, // User-data
+                     FormsAuthentication.FormsCookiePath);// Path cookie valid for
+                    string hash = FormsAuthentication.Encrypt(ticket);
+                    var myCookie = new HttpCookie(FormsAuthentication.FormsCookieName, hash);
+
+                    // Set the cookie's expiration time to the tickets expiration time
+                    if (ticket.IsPersistent) myCookie.Expires = ticket.Expiration;
+
+                    // Add the cookie to the list for outgoing response
+                    Response.Cookies.Add(myCookie);
+
                     switch (_db.Users.Single(m => m.Login == user.UserLogin).Role)
                     {
-                        case "Administrator": return RedirectToAction("Index", "OrderSystemUser");
-                        case "Merchandiser": return RedirectToAction("MerchandiserOrderList", "DisplayOrders");
-                        case "Supervisor": return RedirectToAction("Index", "Items");
-                        case "Customer": return RedirectToAction("OrderList", "CustomerOrdering");
+                        case "Administrator": return Redirect("~/OrderSystemUser/Index");
+                        case "Merchandiser": return Redirect("~/DisplayOrders/MerchandiserOrderList");
+                        case "Supervisor": return Redirect("~/Items/Index");
+                        case "Customer": return Redirect("~/CustomerOrdering/OrderList");
                     }
+
                 }
                 ModelState.AddModelError("Login", @"Such user does not exist in the system - please try again");
                 ModelState.AddModelError("Password", @"Password is incorrect - please try again");
@@ -91,41 +126,41 @@ namespace OrderSystem.Controllers
         /// <returns>Юзверы</returns>
         public Hashtable GetOnlineUsers()
         {
-            return (Hashtable) HttpContext.Application["OnlineUsers"];
+            return (Hashtable)HttpContext.Application["OnlineUsers"];
         }
 
-        public bool UserValidation (string login, string password)
+        public bool UserValidation(string login, string password)
         {
+            bool isUserExists = false;
             string ipAddress = HttpContext.Request.UserHostAddress;
+            var ban = _db.Ban.SingleOrDefault(u => u.ip == ipAddress);
             foreach (Users currentUser in _db.Users)
             {
                 if (currentUser.Login.Equals(login) &&
                     currentUser.Password.Equals(password))
-                    return true;
-            }
-            var ban = _db.Ban.SingleOrDefault(u => u.ip == ipAddress);
-            if (ban == null)
-            {
-                var b = new Ban { ip = ipAddress, attempt = 1, bantime = null };
-                _db.Ban.AddObject(b);
-            }
-            else
-            {
-                if (ban.bantime != null && DateTime.Compare((DateTime)ban.bantime, DateTime.Now) < 0)
                 {
-                    ban.attempt = 1;
-                    ban.bantime = null;
+                    isUserExists = true;
+                    if (ban != null) _db.Ban.DeleteObject(ban);
+                    break;
+                }
+            }
+            if (!isUserExists)
+            {
+                if (ban == null)
+                {
+                    var b = new Ban {ip = ipAddress, attempt = 1, bantime = null};
+                    _db.Ban.AddObject(b);
                 }
                 else // Баним на 10 минут.
-                    if (ban.attempt == 4)
-                    { 
-                        ban.bantime = DateTime.Now.AddMinutes(10);
-                        ViewBag.Error = 3;
-                    }
-                    else ban.attempt = ban.attempt + 1;
+                if (ban.attempt == 5)
+                {
+                    ban.bantime = DateTime.Now.AddMinutes(10);
+                    ViewBag.Error = 3;
+                }
+                else ban.attempt = ban.attempt + 1;
             }
             _db.SaveChanges();
-            return false;
+            return isUserExists;
         }
 
         /// <summary>

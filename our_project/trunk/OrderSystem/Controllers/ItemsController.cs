@@ -9,7 +9,8 @@ using System.Web.Mvc;
 using OrderSystem.Models;
 
 namespace OrderSystem.Controllers
-{ 
+{
+    [Authorize(Roles = "Supervisor")]
     public class ItemsController : Controller
     {
         private OrderSystemEntities db = new OrderSystemEntities();
