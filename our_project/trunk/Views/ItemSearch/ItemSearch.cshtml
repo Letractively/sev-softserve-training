@@ -1,0 +1,100 @@
+﻿@model List<ItemSearcher.Models.Items>
+
+
+@{
+    
+    Layout = null;
+}
+
+<!DOCTYPE html />
+
+<html>
+<head>
+    <title>Item Search</title>
+    <style type="text/css">
+        .grid {margin:4px; border-collapse:collapse; width:630px;}
+        .gridhead {background-color:#E0E0E0; font-weight:bold; color:#FFF; text-align:center; font-size:12;}
+        .gridfoot {}
+        .grid th, .grid td {border: 1px solid #C0C0C0; padding: 5px; font-size:11;}
+        .gridrow {background-color:#F2F2F2; font-style:normal;}
+        .gridalt {background-color:#FBFBFB; font-style:normal;}
+        .gridselect {background-color:#E6E6FA;font-style:normal;}
+    </style>
+</head>
+<body>
+    <div>
+    @using (Html.BeginForm("ItemSearch", "ItemSearch", FormMethod.Post))
+    {
+    
+        <fieldset style="width:640px;">
+           <h3>Search item</h3>
+           <hr />
+           <br />
+        Search for item by: &emsp;
+        @Html.DropDownList("ddl1")
+        &emsp;
+        @Html.TextBox("SubstringFind")
+        &emsp;
+        <input type="submit", name="button", value=" Search ", size="15" />
+        &emsp;
+        <br />
+        <br />
+        </fieldset>
+    }
+
+        <fieldset style="width:640px;">
+        @using (Html.BeginForm("ItemSearch", "ItemSearch")) 
+        {
+        <div>
+
+        @{
+            WebGrid grid = new WebGrid(Model, rowsPerPage: 15, canPage: false, canSort: true);
+            }
+
+            @grid.GetHtml(tableStyle: "grid",
+                     headerStyle:"gridhead",
+                     footerStyle:"gridfoot",
+                     alternatingRowStyle: "gridalt",
+                     selectedRowStyle:"gridselect",
+                     rowStyle: "gridrow",
+                     mode:WebGridPagerModes.All,                     
+                     previousText:"Previous",
+                     nextText:"Next", 
+                     fillEmptyRows:false,
+                     columns:
+                     grid.Columns(grid.Column("ItemName", header:"Item name", style:"width:230px",format:@<text>@item.GetSelectLink(item.ItemName)</text>),
+            grid.Column("ItemDescriprion", header: "Item description", format:@<text>@item.GetSelectLink(item.ItemDescriprion)</text>)))
+            @Html.Hidden("selecteditem", grid.SelectedIndex)
+              
+        </div>
+        
+        <p style="text-align:right"><input type="submit", name="button", value="   Add  " /></p>
+            
+        }
+        </fieldset>    
+        
+        <form id="ItemSearch", action="ItemSearch", method="post" >
+        <fieldset style="width:640px; left:20%; right:20%; line-height:180%">
+        Item:&emsp; &emsp; @ViewData["i-name"]
+        <br />
+        Price: &emsp; &emsp; @ViewData["i-price"]
+        <br />
+        Quantity &emsp; &emsp;
+        <input type="text", name="quantity", size="11", value="1", style="text-align:right", maxlength="10", onkeyup="this.value = this.value.replace(/\D/, '')", onkeydown="this.value = this.value.replace(/\D/, '')" />
+        <br />
+        Dimension &emsp; &nbsp;
+        @Html.DropDownList("ddl2")
+        <hr />
+        <p style="text-align:right">
+        <input type="submit", name="button", value="  Done  " />
+        &emsp;
+        <input type="reset", value="  Reset " />
+        &emsp;
+        <input type="button", name="ButClose", value="  Close " />
+        &emsp;
+        </p>
+        </fieldset>
+        </form>
+     </div>
+</body>
+</html>
