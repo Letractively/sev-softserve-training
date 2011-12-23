@@ -114,7 +114,7 @@ namespace OrderSystem.Controllers
             newOrder.ExpiredDate = (DateTime)DateTime.Today;
             newOrder.MakeDate = (DateTime)DateTime.Today;
             newOrder.Status = "Created";
-            newOrder.ItemsOrder = new List<ItemsOrder>();
+            newOrder.ItemsOrder = new List<CustomerItemsInfo>();
             List<string> orderNumbers = database.Orders.Select<Orders, string>(order => order.OrderNumber).ToList<string>();
             newOrder.OrderNumber = getNewOrderNumber(orderNumbers);
             return View(newOrder);
@@ -175,7 +175,7 @@ namespace OrderSystem.Controllers
                     assignies.Add(user.Login);
                 }
                 order.Merchandisers = new List<string>(assignies);
-                order.ItemsOrder = new List<ItemsOrder>();
+                order.ItemsOrder = new List<CustomerItemsInfo>();
                 return View(order);
             }
         }
@@ -193,7 +193,8 @@ namespace OrderSystem.Controllers
             }
 
             // Checks is order belongs to user
-            string curUserLogin = (string)Session["User"];
+            string curUserLogin = HttpContext.User.Identity.Name;
+            
             int curUserId = database.Users.Single(user => user.Login.ToLower() == curUserLogin.ToLower()).UserID;
             if (dbOrder.UserID != curUserId)
             {
@@ -206,9 +207,7 @@ namespace OrderSystem.Controllers
             order.Assignee = dbOrder.Assignee;
             order.DeliveryDate = dbOrder.DeliveryDate;
             order.ItemsCount = dbOrder.ItemsOrder.Count;
-            order.ItemsOrder = dbOrder.ItemsOrder.ToList();
-            // TODO: Delete when items search will be done
-            order.ItemsOrder = new List<ItemsOrder>();
+
             order.OrderNumber = dbOrder.OrderNumber;
             List<string> assignies = new List<string>();
             foreach (Users user in database.Users.Where(user => user.Role == "Merchandiser"))
@@ -216,6 +215,9 @@ namespace OrderSystem.Controllers
                 assignies.Add(user.Login);
             }
             order.OrderID = dbOrder.OrderID;
+            // TODO: Delete when items search will be done
+            order.ItemsOrder = new List<CustomerItemsInfo>();
+            initItems(order);
             order.Merchandisers = assignies;
             order.OrderingDate = dbOrder.OrderingDate;
             order.PreferableDeliveryDate = dbOrder.PreferableDeliveryDate;
@@ -231,8 +233,42 @@ namespace OrderSystem.Controllers
                 order.IssueNumber = dbCard.IssueNumber;
                 order.MakeDate = dbCard.MakeDate;
             }
+
             return View(order);
         }
+
+        private void initItems(CustomerOrderInfo order)
+        {
+            foreach (ItemsOrder item in database.ItemsOrder.Where(it => it.OrderID == order.OrderID))
+            {
+                CustomerItemsInfo ordItem = new CustomerItemsInfo();
+                ordItem.Dimension = item.Dimension;
+                ordItem.ItemNumber = database.Items.SingleOrDefault(it1 => it1.ItemID == item.ItemInfoID).ItemID.ToString();
+                ordItem.Price = database.Items.SingleOrDefault(it1 => it1.ItemID == item.ItemInfoID).Price;
+                ordItem.Quantity = item.Quantity;
+                ordItem.ItemName = database.Items.SingleOrDefault(it1 => it1.ItemID == item.ItemInfoID).ItemName;
+                ordItem.ItemDescription = database.Items.SingleOrDefault(it1 => it1.ItemID == item.ItemInfoID).ItemDescriprion;
+                switch (ordItem.Dimension)
+                {
+                    case "Box":
+                        ordItem.PricePerLine = ordItem.Price * ordItem.Quantity * 5;
+                        break;
+                    case "Item":
+                        ordItem.PricePerLine = ordItem.Price * ordItem.Quantity;
+                        break;
+
+                    case "Package":
+                        ordItem.PricePerLine = ordItem.Price * ordItem.Quantity * 10;
+                        break;
+                    default:
+                        ordItem.PricePerLine = ordItem.Price * ordItem.Quantity;
+                        break;
+                }
+                order.ItemsOrder.Add(ordItem);
+            }
+
+        }
+
 
         // POST: /CustomerOrdering/Create.cshtml
         [HttpPost]

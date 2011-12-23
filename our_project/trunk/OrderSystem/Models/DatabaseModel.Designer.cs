@@ -1079,7 +1079,8 @@ namespace OrderSystem.Models
 
         #endregion
         #region Primitive Properties
-    
+
+
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
@@ -1760,7 +1761,8 @@ namespace OrderSystem.Models
         [Display(Name = "Password", ResourceType = typeof(OrderSystemUserRes))]
         [Required(ErrorMessageResourceName = "FieldIsRequired", ErrorMessageResourceType = typeof(ErrorRes))]
         [StringLength(10, MinimumLength = 4, ErrorMessageResourceName = "FieldIsLimited", ErrorMessageResourceType = typeof(ErrorRes))]
-        [RegularExpression(@"^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+|\~\-\=\\/\" + "\"" + @":\;\'\<\>?\,.]).{4,}$", ErrorMessageResourceName = "PasswordIsWeak", ErrorMessageResourceType = typeof(ErrorRes))]
+        [RegularExpression(@"^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+|\~\-\=\\/\" + "\"" + @":\;\'\<\>?\,.]).{4,}$", 
+            ErrorMessageResourceName = "PasswordIsWeak", ErrorMessageResourceType = typeof(ErrorRes))]
         [ContainSpaces(ErrorMessageResourceName = "FieldContainSpaces", ErrorMessageResourceType = typeof(ErrorRes))]
         [DataType(DataType.Password)]
         [DataMemberAttribute()]
@@ -2153,7 +2155,18 @@ namespace OrderSystem.Models
 
         public string IssueNumber { get; set; }
 
-        public global::System.Collections.Generic.List<ItemsOrder> ItemsOrder { get; set; }
+        public global::System.Collections.Generic.List<CustomerItemsInfo> ItemsOrder { get; set; }
+    }
+
+    public class CustomerItemsInfo
+    {
+        public string ItemNumber { get; set; }
+        public string ItemName { get; set; }
+        public string ItemDescription { get; set; }
+        public string Dimension { get; set; }
+        public decimal Price { get; set; }
+        public int Quantity { get; set; }
+        public decimal PricePerLine { get; set; }
     }
 
     public class Logon
