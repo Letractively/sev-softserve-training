@@ -1,10 +1,11 @@
 @using OrderSystem.Models
 @model OrderSystem.Models.Users
 @{
+    Layout = null;
     ViewBag.Title = "User Info";
     NextRankInfo info = new NextRankInfo();
     info = ViewBag.NextRankInfo;
-    string isVisible = Model.Role == "Customer" ? "visible" : "hidden";
+    string isVisible = Model.Balance == null ? "hidden" : "visible";
 }
 
 <h2>@ViewBag.Title</h2>
