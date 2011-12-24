@@ -135,7 +135,7 @@ namespace OrderSystem.Controllers
             return View(filterList);
         }
 
-        // GET: /OrderSystemUser/UserDetails.cshtml
+// GET: /OrderSystemUser/UserDetails.cshtml
         [Authorize]
         public ActionResult UserDetails()
         {
@@ -143,26 +143,35 @@ namespace OrderSystem.Controllers
             {
                 if (user.Login == HttpContext.User.Identity.Name)
                 {
-                    var maxTresholdRank = (from r in database.Rank
-                                           orderby r.RankTreshold descending
-                                           select r).First();
-                    Decimal moneyToNextRank = Decimal.Parse(maxTresholdRank.RankTreshold.ToString()) - (Decimal)user.Balance;
-                    string nextRankName = maxTresholdRank.RankName;
-                    foreach (Rank rank in database.Rank)
+                    if (user.Balance != null)
                     {
-                        decimal curTreshold = Decimal.Parse(rank.RankTreshold.ToString());
-                        if (curTreshold > user.Balance && curTreshold < moneyToNextRank)
+                        var maxTresholdRank = (from r in database.Rank
+                                               orderby r.RankTreshold descending
+                                               select r).First();
+                        Decimal moneyToNextRank = Decimal.Parse(maxTresholdRank.RankTreshold.ToString()) - (Decimal)user.Balance;
+                        string nextRankName = maxTresholdRank.RankName;
+                        foreach (Rank rank in database.Rank)
                         {
-                            moneyToNextRank = curTreshold;
-                            nextRankName = rank.RankName;
+                            decimal curTreshold = Decimal.Parse(rank.RankTreshold.ToString());
+                            if (curTreshold > user.Balance && curTreshold < moneyToNextRank)
+                            {
+                                moneyToNextRank = curTreshold;
+                                nextRankName = rank.RankName;
+                            }
                         }
+
+                        NextRankInfo rankInfo = new NextRankInfo();
+                        rankInfo.MoneyToNextRank = (double)moneyToNextRank;
+                        rankInfo.NextRankName = nextRankName;
+                        ViewBag.NextRankInfo = rankInfo;
                     }
-
-                    NextRankInfo rankInfo = new NextRankInfo();
-                    rankInfo.MoneyToNextRank = (double)moneyToNextRank;
-                    rankInfo.NextRankName = nextRankName;
-                    ViewBag.NextRankInfo = rankInfo;
-
+                    else
+                    {
+                        NextRankInfo rankInfo = new NextRankInfo();
+                        rankInfo.MoneyToNextRank = 0;
+                        rankInfo.NextRankName = null;
+                        ViewBag.NextRankInfo = rankInfo;
+                    }
                     return this.View(user);
                 }
             }
