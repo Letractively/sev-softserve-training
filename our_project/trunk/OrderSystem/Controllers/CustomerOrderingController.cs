@@ -31,7 +31,7 @@ namespace OrderSystem.Controllers
             List<Orders> filterList = null;
             foreach (Users user in database.Users)
             {
-                if (user.Login == (string)Session["User"])
+                if (user.Login == HttpContext.User.Identity.Name)
                 {
                     filterList = user.Orders.ToList();
                 }
@@ -124,6 +124,26 @@ namespace OrderSystem.Controllers
         [HttpPost]
         public ActionResult Create(CustomerOrderInfo order)
         {
+            if (order.Command == "Add Item")
+            {
+                Orders dbOrder = new Orders();
+                string curUserLogin = HttpContext.User.Identity.Name;
+
+                dbOrder.UserID = database.Users.Single(user => user.Login.ToLower() == curUserLogin.ToLower()).UserID;
+                dbOrder.CardID = null;
+                dbOrder.OrderNumber = order.OrderNumber;
+                dbOrder.Status = "Created";
+                dbOrder.OrderingDate = DateTime.Today;
+                dbOrder.PreferableDeliveryDate = order.PreferableDeliveryDate;
+                dbOrder.Assignee = order.Assignee;
+                dbOrder.TotalPrice = order.TotalPrice;
+                dbOrder.Discount = 0;
+                dbOrder.IsGift = false;
+                database.Orders.AddObject(dbOrder);
+                database.SaveChanges();
+                int addedOrderID = database.Orders.FirstOrDefault(ord => ord.OrderNumber == order.OrderNumber).OrderID;
+                return RedirectToAction("AddItem", new { orderID = addedOrderID });
+            }
             // TODO: When items search will be ready add validation for items
             List<string> orderNumbers = database.Orders.Select<Orders, string>(order1 => order1.OrderNumber).ToList<string>();
             if (orderNumbers.Contains(order.OrderNumber))
@@ -150,7 +170,7 @@ namespace OrderSystem.Controllers
             if (ModelState.IsValid)
             {
                 Orders dbOrder = new Orders();
-                string curUserLogin = (string)Session["User"];
+                string curUserLogin = HttpContext.User.Identity.Name;
 
                 dbOrder.UserID = database.Users.Single(user => user.Login.ToLower() == curUserLogin.ToLower()).UserID;
                 dbOrder.CardID = null;
@@ -181,7 +201,7 @@ namespace OrderSystem.Controllers
         }
 
 
-        // GET: /CustomerOrdering/Create.cshtml
+        // GET: /CustomerOrdering/Edit.cshtml
         public ActionResult Edit(int orderID)
         {
             Orders dbOrder = database.Orders.FirstOrDefault(ord => ord.OrderID == orderID);
@@ -274,6 +294,11 @@ namespace OrderSystem.Controllers
         [HttpPost]
         public ActionResult Edit(CustomerOrderInfo order)
         {
+            if (order.Command == "Add Item")
+            {
+                return RedirectToAction("AddItem", new { orderID = order.OrderID });
+            }
+
             List<string> assignies = new List<string>();
             foreach (Users user in database.Users.Where(user => user.Role == "Merchandiser"))
             {
@@ -307,7 +332,7 @@ namespace OrderSystem.Controllers
                 if (ModelState.IsValid)
                 {
                     Orders dbOrder = new Orders();
-                    string curUserLogin = (string)Session["User"];
+                    string curUserLogin = HttpContext.User.Identity.Name;
                     dbOrder.UserID = database.Users.Single(user => user.Login.ToLower() == curUserLogin.ToLower()).UserID;
                     dbOrder.CardID = null;
                     dbOrder.OrderNumber = order.OrderNumber;
@@ -323,7 +348,7 @@ namespace OrderSystem.Controllers
                     database.ApplyCurrentValues("Orders", dbOrder);
                     database.SaveChanges();
                     int editedOrderID = dbOrder.OrderID;
-                    return View(new { orderID = editedOrderID });
+                    return View(order);
                 }
                 else
                 {
@@ -347,7 +372,7 @@ namespace OrderSystem.Controllers
                 if (ModelState.IsValid)
                 {
                     Orders dbOrder = new Orders();
-                    string curUserLogin = (string)Session["User"];
+                    string curUserLogin = HttpContext.User.Identity.Name;
                     dbOrder.UserID = database.Users.Single(user => user.Login.ToLower() == curUserLogin.ToLower()).UserID;
                     dbOrder.CardID = null;
                     dbOrder.OrderID = order.OrderID;
@@ -363,7 +388,7 @@ namespace OrderSystem.Controllers
                     database.ApplyCurrentValues("Orders", dbOrder);
                     database.SaveChanges();
                     int editedOrderID = dbOrder.OrderID;
-                    return View(new { orderID = editedOrderID });
+                    return View(order);
 
                 }
                 else
@@ -403,5 +428,10 @@ namespace OrderSystem.Controllers
             return orderNumber;
         }
 
+        // GET: /CustomerOrdering/AddItem.cshtml
+        public ActionResult AddItem(int orderID)
+        {
+            return View();
+        }
     }
 }

@@ -141,7 +141,7 @@ namespace OrderSystem.Controllers
         {
             foreach (Users user in database.Users)
             {
-                if (user.Login == (string)Session["User"])
+                if (user.Login == HttpContext.User.Identity.Name)
                 {
                     var maxTresholdRank = (from r in database.Rank
                                            orderby r.RankTreshold descending
