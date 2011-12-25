@@ -371,10 +371,24 @@ namespace OrderSystem.Controllers
                 }
                 if (ModelState.IsValid)
                 {
+                    Card dbCard;
                     Orders dbOrder = new Orders();
                     string curUserLogin = HttpContext.User.Identity.Name;
                     dbOrder.UserID = database.Users.Single(user => user.Login.ToLower() == curUserLogin.ToLower()).UserID;
-                    dbOrder.CardID = null;
+                    dbCard = database.Card.SingleOrDefault(card => card.CardNumber == order.CardNumber);
+                    if (dbCard == null)
+                    {
+                        dbCard = new Card();
+                        dbCard.CardNumber = order.CardNumber;
+                        dbCard.CardType = order.CardType;
+                        dbCard.CVV2Code = order.CVV2Code;
+                        dbCard.ExpiredDate = (DateTime)order.ExpiredDate;
+                        dbCard.IssueNumber = order.IssueNumber;
+                        dbCard.MakeDate = order.MakeDate;
+                        database.Card.AddObject(dbCard);
+                        database.SaveChanges();
+                    }
+                    dbOrder.CardID = database.Card.FirstOrDefault(card => card.CardNumber == dbCard.CardNumber).CardID;
                     dbOrder.OrderID = order.OrderID;
                     dbOrder.OrderNumber = order.OrderNumber;
                     dbOrder.Status = "Ordered";
@@ -431,6 +445,7 @@ namespace OrderSystem.Controllers
         // GET: /CustomerOrdering/AddItem.cshtml
         public ActionResult AddItem(int orderID)
         {
+            ViewData["OrderID"] = orderID;
             return View();
         }
     }
