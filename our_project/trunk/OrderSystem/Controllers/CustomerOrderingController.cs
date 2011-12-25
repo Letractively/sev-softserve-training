@@ -142,7 +142,7 @@ namespace OrderSystem.Controllers
                 database.Orders.AddObject(dbOrder);
                 database.SaveChanges();
                 int addedOrderID = database.Orders.FirstOrDefault(ord => ord.OrderNumber == order.OrderNumber).OrderID;
-                return RedirectToAction("AddItem", new { orderID = addedOrderID });
+                return RedirectToAction("../ItemSearch/ItemSearch", new { orderID = order.OrderID });
             }
             // TODO: When items search will be ready add validation for items
             List<string> orderNumbers = database.Orders.Select<Orders, string>(order1 => order1.OrderNumber).ToList<string>();
@@ -296,7 +296,7 @@ namespace OrderSystem.Controllers
         {
             if (order.Command == "Add Item")
             {
-                return RedirectToAction("AddItem", new { orderID = order.OrderID });
+                return RedirectToAction("../ItemSearch/ItemSearch", new { orderID = order.OrderID });
             }
 
             List<string> assignies = new List<string>();
@@ -440,13 +440,6 @@ namespace OrderSystem.Controllers
                 }
             }
             return orderNumber;
-        }
-
-        // GET: /CustomerOrdering/AddItem.cshtml
-        public ActionResult AddItem(int orderID)
-        {
-            ViewData["OrderID"] = orderID;
-            return View();
         }
     }
 }
