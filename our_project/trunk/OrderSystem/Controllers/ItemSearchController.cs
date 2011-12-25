@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Security;
 using System.Web.Mvc;
 using ItemSearcher.Models;
-
+using OrderSystem.Models;
 namespace ItemSearcher.Controllers
 {
 
@@ -34,7 +34,11 @@ namespace ItemSearcher.Controllers
             {
                 ismodel = RestoreState();
             }
+            ismodel.OnInit();
+            ismodel.ResetSelectedItem();
+            SaveState(ismodel);
             WriteView();
+           
             List<Items> tmpview = ReadList(ismodel.sortmode, ismodel.SubstringFind);
             if (Session["err"] != "")
             {
