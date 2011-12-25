@@ -1,7 +1,8 @@
-﻿@using OrderSystem.Models
-@model ItemsOrder
+﻿@model List<OrderSystem.Models.Items>
+
 
 @{
+    
     Layout = null;
 }
 
@@ -15,10 +16,18 @@
         .grid th, .grid td {border: 1px solid #C0C0C0; padding: 5px; font-size:11;}
         .gridrow {background-color:#F2F2F2; font-style:normal;}
         .gridalt {background-color:#FBFBFB; font-style:normal;}
-        .gridselect {background-color:#E6E6FA;font-style:normal;}
+        .gridselect {background-color:#00FFFF;font-style:normal;}
     </style>
 </head>
-<body>
+<body vlink="#0066ff"  link="#0066ff">
+    
+    @{if (ViewData.ContainsKey("OrderID"))
+      {
+          Html.Hidden("order", ViewData["OrderID"]);
+      }
+      
+    }
+
     <div>
     @using (Html.BeginForm("ItemSearch", "ItemSearch", FormMethod.Post))
     {
@@ -65,7 +74,7 @@
               
         </div>
         
-        <p style="text-align:right"><input type="submit" name="button" value="   Add  " /></p>
+        <p style="text-align:right"><input type="submit", name="button", value="   Add  " /></p>
             
         }
         </fieldset>    

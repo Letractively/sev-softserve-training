@@ -6,6 +6,7 @@ using System.Web.Security;
 using System.Web.Mvc;
 using ItemSearcher.Models;
 using OrderSystem.Models;
+
 namespace ItemSearcher.Controllers
 {
 
@@ -16,31 +17,32 @@ namespace ItemSearcher.Controllers
 
         // Обработка стартового запроса и запросов вебгрида
         [HttpGet]
-        public ActionResult ItemSearch()
+        public ActionResult ItemSearch(string order)
         {
+
             if (HttpContext.User.Identity.IsAuthenticated == false)
             {
                 FormsAuthentication.RedirectToLoginPage();
             }
-            // Если сессия начата - первый запрос - то инициализация
-            if (Session.IsNewSession)
+            // Если нет в сессии значения - то инициализация
+            if ((Session["ismodel"] == null) || (Session["ismodel"].ToString() == ""))
             {
                 Session["err"] = "";
                 ismodel.OnInit();
                 ismodel.ResetSelectedItem();
                 SaveState(ismodel);
+                if ((order != null) && (order != ""))
+                {
+                    ismodel.order = int.Parse(order);
+                }
             }
             else
             {
                 ismodel = RestoreState();
             }
-            ismodel.OnInit();
-            ismodel.ResetSelectedItem();
-            SaveState(ismodel);
             WriteView();
-           
             List<Items> tmpview = ReadList(ismodel.sortmode, ismodel.SubstringFind);
-            if (Session["err"] != "")
+            if (Session["err"].ToString() != "")
             {
                 return RedirectToAction("Errored", "ItemSearch");
             }
@@ -57,7 +59,14 @@ namespace ItemSearcher.Controllers
             {
                 case " Search ":
                     {
-                        ismodel.SetFilterOption(ddl1, SubstringFind);
+                        if (SubstringFind == "")
+                        {
+                            ismodel.SetFilterOption(ddl1, "");
+                        }
+                        else
+                        {
+                            ismodel.SetFilterOption(ddl1, SubstringFind);
+                        }
                         break;
                     }
                 case "   Add  ":
@@ -70,7 +79,7 @@ namespace ItemSearcher.Controllers
                         {
                             return RedirectToAction("Errored", "ItemSearch");
                         }
-                        if(i>=0)
+                        if (i >= 0)
                         {
                             ismodel.SelectedItem = tmp.ItemID;
                             ismodel.CopyItem(tmp);
@@ -79,6 +88,10 @@ namespace ItemSearcher.Controllers
                     }
                 case "  Done  ":
                     {
+                        if (ismodel.SelectedItem == -1)
+                        {
+                            break;
+                        }
                         int qu;
                         ismodel.Dimension = ddl2;
                         ItemsOrder rw = new ItemsOrder();
@@ -86,7 +99,7 @@ namespace ItemSearcher.Controllers
                         {
                             ismodel.Quantity = qu;
                             ismodel.order = 123;
-                            rw=ismodel.WriteToOrder();
+                            rw = ismodel.WriteToOrder();
                             OutRecord(rw);
                             if (Session["err"] != "")
                             {
@@ -94,6 +107,7 @@ namespace ItemSearcher.Controllers
                             }
                             else
                             {
+                                Session["ismodel"] = "";
                                 return RedirectToAction("~/CustomerOrdering/OrderList.cshtml");
                             }
                         }
@@ -101,10 +115,12 @@ namespace ItemSearcher.Controllers
                         {
                             ismodel.Quantity = 1;
                         }
+
                         break;
                     }
                 case "  Close ":
                     {
+                        Session["ismodel"] = "";
                         return RedirectToAction("~/CustomerOrdering/OrderList.cshtml");
                     }
 
@@ -122,7 +138,7 @@ namespace ItemSearcher.Controllers
         // Запись выходных данных в бд
         [NonAction]
         public void OutRecord(ItemsOrder tmp)
-        {            
+        {
             try
             {
 
@@ -131,7 +147,7 @@ namespace ItemSearcher.Controllers
                 int t = database.SaveChanges();
                 if (t <= 0)
                 {
-//                    ErroredSoft();
+                    //                    ErroredSoft();
                 }
                 database.Dispose();
             }
@@ -139,7 +155,7 @@ namespace ItemSearcher.Controllers
             {
                 Session["err"] = ex.Message.ToString();
 
-//                Errored();
+                //                Errored();
             }
 
         }
@@ -148,8 +164,8 @@ namespace ItemSearcher.Controllers
         [NonAction]
         public ISModelState RestoreState()
         {
-            ISModelState tmp =new ISModelState();
-            tmp = (ISModelState) Session["isdata"];
+            ISModelState tmp = new ISModelState();
+            tmp = (ISModelState)Session["isdata"];
             return tmp;
         }
 
@@ -171,14 +187,14 @@ namespace ItemSearcher.Controllers
 
                 if (filter == "")
                 {
-                    tmp = database.Items.Where<Items>(rec => rec.Quantity>0).ToList<Items>();
+                    tmp = database.Items.Where<Items>(rec => rec.Quantity > 0).ToList<Items>();
                 }
                 else
                     switch (sortmode)
                     {
                         case "name":
                             {
-                                tmp = database.Items.Where<Items>(rec => rec.ItemName.ToLower().Contains(filter.ToLower()) && rec.Quantity>0).ToList<Items>();
+                                tmp = database.Items.Where<Items>(rec => rec.ItemName.ToLower().Contains(filter.ToLower()) && rec.Quantity > 0).ToList<Items>();
                                 break;
                             }
                         case "description":
@@ -192,7 +208,7 @@ namespace ItemSearcher.Controllers
             catch (Exception ex)
             {
                 Session["err"] = ex.Message.ToString();
-             }
+            }
             return tmp;
         }
 
@@ -210,7 +226,7 @@ namespace ItemSearcher.Controllers
             {
                 ddlist2.Add(tmp);
             }
-                        ViewData["ddl1"] = new SelectList(ddlist1, ismodel.sortmode);
+            ViewData["ddl1"] = new SelectList(ddlist1, ismodel.sortmode);
             ViewData["ddl2"] = new SelectList(ddlist2);
             ViewData["SubstringFind"] = ismodel.SubstringFind;
             if (ismodel.SelectedItem >= 0)
@@ -227,5 +243,5 @@ namespace ItemSearcher.Controllers
             return View(Session["err"]);
         }
 
-    }     
+    }
 }
