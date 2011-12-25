@@ -121,7 +121,7 @@ namespace OrderSystem.Controllers
             model.OrderInfo = query2.First();
         }
 
-        public ActionResult AnalyzeOrders(int orderNumber=1)
+        public ActionResult AnalyzeOrders(int orderNumber)
         {
             ViewBag.OrderDisabled = true;
             OrderID = orderNumber;
