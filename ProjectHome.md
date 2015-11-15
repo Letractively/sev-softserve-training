@@ -1,0 +1,1 @@
+This project is created for training courses of the SoftServe IT Academy.
